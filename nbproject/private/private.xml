@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
+        <activeConfTypeElem>3</activeConfTypeElem>
+        <activeConfIndexElem>2</activeConfIndexElem>
+    </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group name="export">
+            <file>file:/home/brian/git_work/export/export/libglitch/Boundary.cpp</file>
+            <file>file:/home/brian/git_work/export/export/libglitch/Moments.h</file>
+            <file>file:/home/brian/git_work/export/export/libglitch/AString.cpp</file>
+        </group>
+        <group name="wtmmanalysis_clone">
+            <file>file:/home/brian/glados-git/libglitch/LinearModel.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/main.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/FileStrings.h</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/FileStrings.cpp</file>
+        </group>
+        <group name="NetworkingProject">
+            <file>file:/home/brian/glados-git/libglitch/LinearModel.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/LinearModel.h</file>
+            <file>file:/home/brian/glados-git/libglitch/AString.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/AString.h</file>
+            <file>file:/home/brian/glados-git/libglitch/StatsF.h</file>
+            <file>file:/home/brian/glados-git/libglitch/FileLoad.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/FileStrings.h</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/AStringFunctions.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/Moments.h</file>
+            <file>file:/home/brian/glados-git/libglitch/FileStrings.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/PolyT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.h</file>
+            <file>file:/home/brian/glados-git/libglitch/random.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/StringAddress.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/Boundary.h</file>
+            <file>file:/home/brian/glados-git/libglitch/SRAL.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/SRAL.h</file>
+            <file>file:/home/brian/glados-git/libglitch/main.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/RectListT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/libglitch.h</file>
+            <file>file:/home/brian/glados-git/libglitch/MatT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/Boundary.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/ScalarT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/AStringFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/FileLoad.h</file>
+            <file>file:/home/brian/glados-git/libglitch/PolygonFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/StatsF.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/RectT.h</file>
+        </group>
+        <group name="BaseBallSim">
+            <file>file:/home/brian/glados-git/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/LinearModel.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/LinearModel.h</file>
+            <file>file:/home/brian/glados-git/libglitch/AString.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/AString.h</file>
+            <file>file:/home/brian/glados-git/libglitch/StatsF.h</file>
+            <file>file:/home/brian/glados-git/libglitch/FileLoad.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/FileStrings.h</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/AStringFunctions.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/Moments.h</file>
+            <file>file:/home/brian/glados-git/libglitch/FileStrings.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/DirectoryFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/random.h</file>
+            <file>file:/home/brian/glados-git/libglitch/PolyT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.h</file>
+            <file>file:/home/brian/glados-git/libglitch/random.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/StringAddress.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/Boundary.h</file>
+            <file>file:/home/brian/glados-git/libglitch/SRAL.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/SRAL.h</file>
+            <file>file:/home/brian/glados-git/libglitch/DirectoryFunctions.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/main.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/RectListT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/libglitch.h</file>
+            <file>file:/home/brian/glados-git/libglitch/MatT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/Boundary.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/ScalarT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/AStringFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/FileLoad.h</file>
+            <file>file:/home/brian/glados-git/libglitch/PolygonFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/StatsF.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/RectT.h</file>
+        </group>
+        <group name="bbsim">
+            <file>file:/home/brian/ownCloud/projects/bbsim/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/ownCloud/projects/bbsim/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/ownCloud/projects/bbsim/libglitch/AString.h</file>
+            <file>file:/home/brian/ownCloud/projects/bbsim/libglitch/AString.cpp</file>
+            <file>file:/home/brian/ownCloud/projects/bbsim/libglitch/main.cpp</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/MatTFunctions.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/miscfunctions.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/MatT.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/ShapeProperties.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/DirectoryFunctions.cpp</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/PolygonFunctions.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/miscfunctions.cpp</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/VectorFunctions.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/stringconversion.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/StringAddress.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/StringAddress.cpp</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/AString.h</file>
+        </group>
+        <group name="bbsim-update">
+            <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/AString.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/AString.cpp</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/FileLoad.h</file>
+            <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/FileLoad.cpp</file>
+        </group>
+    </open-files>
+</project-private>

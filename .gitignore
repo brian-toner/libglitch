@@ -1,0 +1,7 @@
+*.o
+*.a
+*.o.d
+*~
+build/
+dist/
+*.csv
