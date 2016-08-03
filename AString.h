@@ -292,7 +292,7 @@ namespace glch{
              * @return The string converted into a double.  
              * NaN if string is not a number.
              */
-            operator double();
+            operator double();            
             
             /**
              * Increment operator.  The string is converted to a double and
@@ -365,6 +365,11 @@ namespace glch{
                 return lRet;
             }
             
+            template <class T>
+            operator std::vector<T>(){
+                return to_vector<T>();
+            }
+            
             /**
              * Not equal operator.  The string and input value are converted
              * and compared using the not equal operator.  T is required to have
@@ -402,19 +407,52 @@ namespace glch{
              */
             std::vector<AString> cron(long aMin = 0, long aMax = 100);
             
+            size_t find_nth(std::string aValue, size_t aCount, size_t aPos, std::string aTolkenStart, std::string aTolkenEnd);
             size_t find_nth(std::string aValue, size_t aCount, size_t aPos);
+            size_t find_ignore_tolkens(std::string aValue, size_t aIndex, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd);
             
-            AString csv(size_t aRow, size_t aCol);
-            void csv_replace(std::string aValue, size_t aRow, size_t aCol);
-            size_t csv_row_count();
-            size_t csv_col_count(size_t aRow);
+            AString csv(size_t aPage, size_t aRow, size_t aCol, std::string aTextDelim = "\"");
+            AString csvi(size_t aPage, size_t aRow, std::string aCol, std::string aTextDelim = "\"");
+            AString& csv_replace(std::string aValue, size_t aPage, size_t aRow, size_t aCol, std::string aTextDelim = "\"");
+            size_t csv_row_count(size_t aPage, std::string aTextDelim = "\"");
+            size_t csv_col_count(size_t aPage, size_t aRow, std::string aTextDelim = "\"");            
+            size_t csv_page_count(std::string aTextDelim = "\"");
+            size_t csv_col_index(std::string aColName, size_t aPage, std::string aTextDelim = "\"");
+            size_t csv_row_index(std::string aRowName, size_t aPage, std::string aTextDelim = "\"");
             
-            AString table(size_t aRow, size_t aCol, std::string aDelimCol = ",", std::string aDelimRow = "\n");
-            void table_replace(std::string aValue, size_t aRow, size_t aCol, std::string aDelimCol, std::string aDelimRow);
-            AString table_row(size_t aRow, std::string aDelimRow);
-            size_t table_row_count(std::string aDelimRow);
-            size_t table_col_count(size_t aRow, std::string aDelimCol, std::string aDelimRow);
+            AString csvi(size_t aRow, std::string aCol, std::string aTextDelim = "\"");
+            AString csv(size_t aRow, size_t aCol, std::string aTextDelim = "\"");
+            AString& csv_replace(std::string aValue, size_t aRow, size_t aCol, std::string aTextDelim = "\"");
+            size_t csv_row_count(std::string aTextDelim = "\"");
+            size_t csv_col_count(size_t aRow, std::string aTextDelim = "\"");
+            size_t csv_col_index(std::string aColName, std::string aTextDelim = "\"");
+            size_t csv_row_index(std::string aRowName, std::string aTextDelim = "\"");
             
+            void find_bounds(size_t aIndex, size_t aStartPos, size_t aEndPos, std::string aDelim, size_t &lStart, size_t &lEnd, std::string aTextDelim = "\"");
+            size_t count_between(std::string aDelim, size_t aStartPos, size_t aEndPos, std::string aTextDelim = "\"");
+            
+            AString& table_replace(std::string aValue, size_t aPlane, size_t aRow, size_t aCol, std::string aDelimPlane, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
+            AString& table_replace(std::string aValue, vector<size_t> aIndex, std::vector<std::string> aDelims, std::string aTextDelim);
+            AString table(vector<size_t> aIndex, std::vector<std::string> aDelims, std::string aTextDelim = "\"");
+            AString table(size_t aPlane, std::string aDelimPlane, std::string aTextDelim = "\"");
+            size_t table_dim_count(size_t aDimension, vector<size_t> aIndex, std::vector<std::string> aDelims, std::string aTextDelim = "\"");
+            //size_t table_dim_index(std::string aDimName, size_t aDimension, std::vector<size_t> aIndex, std::vector<std::string> aDelim, std::string aTextDelim = "\"");
+            
+            AString table(size_t aPlane, size_t aRow, size_t aCol, std::string aDelimPlane, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
+            AString table(size_t aRow, size_t aCol, std::string aDelimRow = "\n", std::string aDelimCol = ",", std::string aTextDelim = "\"");
+            AString& table_replace(std::string aValue, size_t aRow, size_t aCol, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
+            AString table_row(size_t aRow, std::string aDelimRow, std::string aTextDelim = "\"");
+            
+            size_t table_page_count(std::string aDelimPage, std::string aTextDelim = "\"");
+            size_t table_row_count(std::string aDelimRow, std::string aTextDelim = "\"");
+            size_t table_row_count(size_t aPage, std::string aDelimPage, std::string aDelimRow, std::string aTextDelim = "\"");
+            size_t table_col_count(size_t aRow, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
+            size_t table_col_count(size_t aPage, size_t aRow, std::string aDelimPage, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
+            
+            size_t table_row_index(std::string aRowName, size_t aPage, std::string aDelimPage, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
+            size_t table_row_index(std::string aRowName, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
+            size_t table_col_index(std::string aColName, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
+            size_t table_col_index(std::string aColName, size_t aPage, std::string aDelimPage, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim = "\"");
             template<class T>
             AString& push_vector(std::vector<T> aValues);
             

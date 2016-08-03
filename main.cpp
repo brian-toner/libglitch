@@ -10,6 +10,7 @@
 #include <map>
 
 #include "libglitch.h"
+#include "AString.h"
 
 using namespace std;
 using namespace glch;
@@ -159,6 +160,187 @@ private:
 };
 
 int main(){
+
+    std::vector<std::string> lDelim = glch::AString("///;\n;,").to_vector<std::string>(";");
+        
+    //glch::AString lTable = "hello,world,test,new\n\"abcd,efgh\",\"1234,3456\",\"111,222\",aaa,bbb\n\"ghijklm\",333,444,\"555,666\"\n///\ntest,test2,test3\nabc,def,ghi\njkl,mno,pqr";
+    glch::AString lTable = "1,2,3,4\n5,6,7,8,9\n10,11\n///\n12,13\n14,15,16\n///\n17\n18,19,20,21,22,23";
+    //lTable.print();
+    size_t aDimension = 0;
+    
+    
+//    for(size_t i = 0; i < lTable.table_dim_count(aDimension,aIndex,aDelim,aTextDelim); i++){
+//        aIndex.at(aDimension) = i;
+//        glch::AString lColName = table(aIndex,aDelim,aTextDelim);
+//
+//        std::cout << aDimName << " : " << lColName << std::endl;
+//
+//        if(lColName == aDimName){
+//            lRet = i;
+//            break;
+//        }
+//
+//    }
+    
+    lTable.print();
+    
+//    std::cout << lTable.table_dim_index("hello",2,glch::AString("0,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("world",2,glch::AString("0,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("test",2,glch::AString("0,0,0"),lDelim) << std::endl;
+//    std::cout << std::endl; 
+//    std::cout << lTable.table_dim_index("test",2,glch::AString("1,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("test2",2,glch::AString("1,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("test3",2,glch::AString("1,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("test4",2,glch::AString("1,0,0"),lDelim) << std::endl;
+//    std::cout << std::endl; 
+//    
+//    std::cout << lTable.table_dim_index("abc",1,glch::AString("1,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("jkl",1,glch::AString("1,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("test",1,glch::AString("1,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("none",1,glch::AString("1,0,0"),lDelim) << std::endl;
+//    std::cout << std::endl;
+//    
+//    std::cout << lTable.table_dim_index("hello",1,glch::AString("0,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("jkl",1,glch::AString("0,0,0"),lDelim) << std::endl;
+//    std::cout << lTable.table_dim_index("test",1,glch::AString("0,0,0"),lDelim) << std::endl;
+//        
+    
+    
+    
+    
+}
+
+int main_test_table(){
+    
+    glch::AString lTable = "\"a-,-de-,-ghi\"-,-jkl:::::::a-,-de-,-ghi-,-jkl:::::::a-,-de-,-ghi-,-jkl:::::::123-,-4567-,-891011:::::::12-,-1314-,-151617:::::::///////////18-,-1920-,-212123:::::::242526-,-27282930-,-3132333435:::::::12-,-1314-,-151617:::::::///////////ababa-,-de-,-ghi:::::::123-,-4567-,-891011:::::::12-,-1314-,-151617:::::::";
+    
+    std::cout << lTable.table(0, 0, 0, "///////////", ":::::::", "-,-") << std::endl;
+    std::cout << lTable.table(1, 0, 0, "///////////", ":::::::", "-,-") << std::endl;
+    std::cout << lTable.table(2, 0, 0, "///////////", ":::::::", "-,-") << std::endl;
+    
+    std::vector<size_t> lIndex = glch::AString("2,0,0").to_vector<size_t>();
+    std::vector<std::string> lDelim = glch::AString("///////////;:::::::;-,-").to_vector<std::string>(";");
+    
+    std::cout << lTable.table(lIndex,lDelim) << std::endl;
+    
+    std::cout << lTable.count_between("-,-",9,-1) << std::endl;
+    
+    std::cout << lTable.table_dim_count(0,glch::AString("0,0,0"),lDelim) << std::endl;
+    std::cout << lTable.table_dim_count(1,glch::AString("0,0,0"),lDelim) << std::endl;
+    std::cout << lTable.table_dim_count(2,glch::AString("0,0,0"),lDelim) << std::endl;
+    
+    for(size_t i = 0; i < lTable.table_dim_count(0,glch::AString(""),lDelim); i++){
+        for(size_t j = 0; j < lTable.table_dim_count(1,glch::AString("%1").arg(i),lDelim); j++){
+            for(size_t k = 0; k < lTable.table_dim_count(2,glch::AString("%1,%2").arg(i).arg(j),lDelim); k++){
+                //std::cout << i << " : " << j << " : " << k << std::endl;
+                std::cout << lTable.table(glch::AString("%1,%2,%3").arg(i).arg(j).arg(k),lDelim) << " ";
+            }
+            std::cout << std::endl;
+        } 
+        std::cout << "///\n";
+    }
+    
+//    for(size_t i = 0; i < lTable.table_row_count("///////////"); i++){
+//        
+//    }
+    
+    //lTable.table_replace("Testing",2,1,"-,-",":::::::");
+    //lTable.print();
+    
+}
+
+int main_csv_stuff(){
+    //glch::AString lTable = "'abcd,efgh',1234,3456\n\n,'111,222\n,aaa,bbb\n'ghijklm',333,444,555";
+
+    glch::AString lTable = "hello,world,test,new\n\"abcd,efgh\",\"1234,3456\",\"111,222\",aaa,bbb\n\"ghijklm\",333,444,\"555,666\"\n///\ntest,test2,test3\nabc,def,ghi\njkl,mno,pqr";
+
+    std::cout << lTable.table(0, 0, "\n///\n", "\n//////\n") << std::endl << std::endl;
+    std::cout << lTable.table(1, 0, "\n///\n", "\n//////\n") << std::endl;
+    
+    std::cout << lTable.csv_col_index("hello",0) << std::endl;
+    std::cout << lTable.csv_col_index("world",0) << std::endl;
+    std::cout << lTable.csv_col_index("new",0) << std::endl;
+    std::cout << lTable.csv_col_index("new1",0) << std::endl;
+
+    std::cout << lTable.csv_col_index("test",1) << std::endl;
+    std::cout << lTable.csv_col_index("test2",1) << std::endl;
+    std::cout << lTable.csv_col_index("test3",1) << std::endl;
+    std::cout << lTable.csv_col_index("test4",1) << std::endl;
+    
+    std::cout << lTable.csv_row_index("hello",0) << std::endl;
+    std::cout << lTable.csv_row_index("\"abcd,efgh\"",0) << std::endl;
+    std::cout << lTable.csv_row_index("\"ghijklm\"",0) << std::endl;
+    std::cout << lTable.csv_row_index("new1",0) << std::endl;
+
+    std::cout << lTable.csv_row_index("test",1) << std::endl;
+    std::cout << lTable.csv_row_index("abc",1) << std::endl;
+    std::cout << lTable.csv_row_index("jkl",1) << std::endl;
+    std::cout << lTable.csv_row_index("test4",1) << std::endl;    
+    
+    //    std::cout << lTable.table(0,0,"'","\n") << std::endl;
+//    std::cout << lTable.table(0,1,"'","\n") << std::endl;
+//    std::cout << lTable.table(0,2,"'","\n") << std::endl;
+//    std::cout << lTable.table(0,3,"'","\n") << std::endl;
+
+    //std::cout << lTable.table(0,1,"\n","///").csv(0,0) << std::endl;
+    
+    //lTable.table(1,0,"\n","///").csv_replace("Testing",0,0);
+//    lTable.csv_replace("Testing",1,0,0);
+//    
+//    std::cout << lTable << std::endl;
+//    
+    
+    for(size_t i = 0; i < lTable.csv_page_count();i++){
+        for(size_t j = 0; j < lTable.csv_row_count(i); j++){
+            for(size_t k = 0; k < lTable.csv_col_count(i,j); k++){
+                glch::AString lVal = glch::AString("\"%1-%2-%3\"").arg(i).arg(j).arg(k);
+                //lTable.csv_replace(lVal,i,j,k);
+                std::cout << lTable.csv(i,j,k) << " | ";
+                //std::cout << i << " : " << j << " : " << k << std::endl;
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl << "|||" << std::endl << std::endl;
+    }
+    
+    
+//    for(size_t i = 0; i < lTable.csv_row_count(); i++){
+//        //std::cout << lTable.csv_col_count(i) << " : " << lTable.csv_row_count() << std::endl;
+//        for(size_t j = 0; j < lTable.csv_col_count(i); j++){
+//            glch::AString lVal = glch::AString("\"%1-%2\"").arg(i).arg(j);
+//            lTable.csv_replace(lVal,i,j);
+//            std::cout << lTable.csv(i,j) << " | ";
+//        }
+//        std::cout << std::endl;
+//    }
+    
+    std::cout << lTable << std::endl;
+    
+//    std::cout << lTable.table(0,0,",","\n") << std::endl;
+//    //std::cout << lTable.table(0,0,",","\n","") << std::endl;
+//    std::cout << lTable.table(0,1,",","\n") << std::endl;
+//    //std::cout << lTable.table(0,1,",","\n","") << std::endl;
+//    std::cout << lTable.table(0,2,",","\n") << std::endl;
+//    //std::cout << lTable.table(0,2,",","\n","") << std::endl;
+//    std::cout << lTable.table(0,3,",","\n") << std::endl;
+//    //std::cout << lTable.table(0,3,",","\n","") << std::endl;
+//    std::cout << lTable.table(0,4,",","\n") << std::endl;
+//    std::cout << lTable.table(1,0,",","\n") << std::endl;
+//    std::cout << lTable.table(1,1,",","\n") << std::endl;
+//    std::cout << lTable.table(1,2,",","\n") << std::endl;
+//    std::cout << lTable.table(1,3,",","\n") << std::endl;
+    //std::cout << lTable.find_ignore_tolkens(",",0,"'","'") << std::endl;
+//std::cout << lTable.find(",",0,"'","'") << std::endl;
+    
+//    std::cout << lTable.find_nth(",",1,0,"'") << std::endl;
+//    std::cout << lTable.find_nth(",",1,0) << std::endl;
+//    std::cout << lTable.find_nth(",",2,0,"'") << std::endl;
+//    std::cout << lTable.find_nth(",",2,0) << std::endl;
+//    std::cout << lTable.find_nth(",",3,0,"'") << std::endl;
+//    std::cout << lTable.find_nth(",",3,0) << std::endl;
+}
+
+int main_dirparse(){
     
     std::string lDelta = "S1\nS1\n\t,0,1\nS1,S2,S1\nS2,S1,S2";
     DFA lDFA(lDelta);

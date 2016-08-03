@@ -619,6 +619,67 @@ namespace glch{
         return lRet;
     }
     
+    size_t AString::find_ignore_tolkens(std::string aValue, size_t aIndex, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd){
+        
+        size_t lIgnoreCount = 0;
+        bool lSameTolken = false;
+        bool lIgnoreStart = false;
+        
+        if(aIgnoreTolkenStart.compare(aIgnoreTolkenEnd) == 0){
+            lSameTolken = true;
+        }
+
+        for(size_t i = aIndex; i < length(); i++){
+
+            if(lSameTolken && lIgnoreCount > 0){
+                lIgnoreStart = true;
+            } else {
+                lIgnoreStart = false;
+            }
+
+            if(!lIgnoreStart && substr(i,aIgnoreTolkenStart.length()).compare(aIgnoreTolkenStart) == 0){
+                lIgnoreCount ++;
+                i += aIgnoreTolkenStart.length();
+            }
+            
+            if(substr(i,aIgnoreTolkenEnd.length()).compare(aIgnoreTolkenEnd) == 0){
+                lIgnoreCount --;
+                i += aIgnoreTolkenEnd.length();
+            }            
+            
+            if(lIgnoreCount == 0){
+                if(substr(i,aValue.length()).compare(aValue) == 0){
+                    return i;
+                }
+            }
+
+        }
+        
+        return std::string::npos;
+        
+    }
+    
+    
+    size_t AString::find_nth(std::string aValue, size_t aCount, size_t aPos, std::string aTolkenStart, std::string aTolkenEnd){
+        
+        size_type lIndex = aPos;
+        size_t lCount = 0;
+        size_t lRet = 0;
+        
+        //std::cout << "Length: " << aValue.length() << " : " << aPos << std::endl;
+        
+        do{
+            lRet = find_ignore_tolkens(aValue,lIndex,aTolkenStart,aTolkenEnd);
+            if(lRet == std::string::npos){
+                return std::string::npos;
+            }
+            //std::cout << "Find: " << lRet << " : " << lCount << " : " << aCount << " : " << lIndex << std::endl;
+            lIndex = lRet+aValue.length();
+            lCount ++;
+        } while (lCount < aCount+1);
+        
+        return lRet;
+    }
     
     size_t AString::find_nth(std::string aValue, size_t aCount, size_t aPos){
         
@@ -640,184 +701,392 @@ namespace glch{
         
         return lRet;
     }
-    
-    AString AString::csv(size_t aRow, size_t aCol){
-        return table(aRow,aCol,",","\n");
-    }
-    
-    void AString::csv_replace(std::string aValue, size_t aRow, size_t aCol){
-        table_replace(aValue,aRow,aCol,",","\n");
-    }
-    
-    size_t AString::csv_row_count(){
-        return table_row_count("\n");
-    }
-    
-    size_t AString::csv_col_count(size_t aRow){
-        return table_col_count(aRow,",","\n");
-    }
-    
-    AString AString::table_row(size_t aRow, std::string aDelimRow){
-        
-        size_t lStartRow = 0;
-        size_t lEndRow = 0;
-        
-        AString lRet = "";
-        size_t lOffset = 0;
-        
-        if(aRow != 0){
-            lStartRow = find_nth(aDelimRow,aRow-1,0);
-            lEndRow = find_nth(aDelimRow,aRow,0);
-            lOffset = 1;
+
+    AString AString::csvi(size_t aRow, std::string aCol, std::string aTextDelim){
+        size_t lCol = csv_col_index(aCol,aTextDelim);
+        if(lCol == std::string::npos){
+            return "";
         } else {
-            lEndRow = find_nth(aDelimRow,aRow,0);
+            return csv(aRow, lCol, aTextDelim);
+        }
+ 
+    }
+    
+    AString AString::csv(size_t aRow, size_t aCol, std::string aTextDelim){
+        return table(aRow, aCol, "\n", ",", aTextDelim);
+    }
+    
+    AString AString::csv(size_t aPage, size_t aRow, size_t aCol, std::string aTextDelim){
+        return table(aPage, aRow, aCol, "\n///\n", "\n", ",");
+    }
+    AString AString::csvi(size_t aPage, size_t aRow, std::string aCol, std::string aTextDelim){
+        size_t lCol = csv_col_index(aCol,aPage,aTextDelim);
+        if(lCol == std::string::npos){
+            return "";
+        } else {
+            return csv(aPage, aRow, lCol, aTextDelim);
+        }
+    }
+    
+    AString& AString::csv_replace(std::string aValue, size_t aRow, size_t aCol, std::string aTextDelim){
+        return table_replace(aValue, aRow, aCol, "\n", ",", aTextDelim);
+    }    
+    
+    AString& AString::csv_replace(std::string aValue, size_t aPage, size_t aRow, size_t aCol, std::string aTextDelim){
+        return table_replace(aValue, aPage, aRow, aCol, "\n///\n", "\n", ",", aTextDelim);
+    }
+
+    size_t AString::csv_page_count(std::string aTextDelim){
+        return table_page_count("\n///\n",aTextDelim);
+    }
+    
+    size_t AString::csv_row_count(size_t aPage, std::string aTextDelim){
+        return table_row_count(aPage, "\n///\n", "\n", aTextDelim);
+    }
+
+    size_t AString::csv_row_count(std::string aTextDelim){
+        return table_row_count("\n",aTextDelim);
+        
+    }
+
+    size_t AString::csv_col_count(size_t aRow, std::string aTextDelim){
+        return table_col_count(aRow, "\n", ",", aTextDelim);
+    }   
+    
+    size_t AString::csv_col_count(size_t aPage, size_t aRow, std::string aTextDelim){
+        return table_col_count(aPage,aRow, "\n///\n", "\n", ",", aTextDelim);
+
+    }
+   
+
+
+    size_t AString::csv_row_index(std::string aRowName, size_t aPage, std::string aTextDelim){
+        return table(aPage, 0, "\n///\n", "\n///\n", aTextDelim).csv_row_index(aRowName,aTextDelim);
+    }
+    
+    size_t AString::csv_col_index(std::string aColName, size_t aPage, std::string aTextDelim){
+        return table(aPage, 0, "\n///\n", "\n", aTextDelim).csv_col_index(aColName,aTextDelim);;
+    }
+    
+
+    
+    size_t AString::csv_col_index(std::string aColName, std::string aTextDelim){
+        return table_col_index(aColName, "\n", ",", aTextDelim);
+    }
+
+    size_t AString::csv_row_index(std::string aRowName, std::string aTextDelim){
+        return table_row_index(aRowName, "\n", ",", aTextDelim);
+    }
+
+    size_t AString::table_page_count(std::string aDelimPage, std::string aTextDelim){
+
+        std::vector<std::string> lDelim(1);
+        lDelim.at(0) = aDelimPage;
+        
+        return table_dim_count(0,glch::AString(""),lDelim);
+    }
+    
+    size_t AString::table_row_count(std::string aDelimRow, std::string aTextDelim){
+
+        return table_page_count(aDelimRow,aTextDelim);
+    }
+
+    size_t AString::table_row_count(size_t aPage, std::string aDelimPage, std::string aDelimRow, std::string aTextDelim){
+
+        std::vector<std::string> lDelim(2);
+        lDelim.at(0) = aDelimPage;
+        lDelim.at(1) = aDelimRow;
+        
+        return table_dim_count(1,glch::AString("%1").arg(aPage),lDelim,aTextDelim);
+    }    
+    
+    size_t AString::table_col_count(size_t aRow, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+        
+        return table_row_count(aRow,aDelimRow,aDelimCol,aTextDelim);   
+    }    
+
+    size_t AString::table_col_count(size_t aPage, size_t aRow, std::string aDelimPage, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+
+        std::vector<std::string> lDelim(3);
+        lDelim.at(0) = aDelimPage;
+        lDelim.at(1) = aDelimRow;
+        lDelim.at(2) = aDelimCol;
+        
+        return table_dim_count(2,glch::AString("%1,%2").arg(aPage).arg(aRow),lDelim,aTextDelim);
+        
+    }   
+    
+    size_t AString::table_row_index(std::string aRowName, size_t aPage, std::string aDelimPage, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+        
+        size_t lRet = std::string::npos;
+        
+        
+        for(size_t i = 0; i < table_row_count(aPage,aDelimPage,aDelimRow,aTextDelim); i++){
+            
+            glch::AString lRowName = table(aPage, i, 0, aDelimPage, aDelimRow, aDelimCol, aTextDelim);
+
+            if(lRowName.compare(aRowName) == 0 ){
+                return i;
+            }
+            
         }
         
-        if(lStartRow == std::string::npos){
-            lRet = "";
-        } else {
-            lRet = substr(lStartRow+lOffset,lEndRow-lStartRow-lOffset);
+        return lRet;
+        
+    }
+    
+    size_t AString::table_row_index(std::string aRowName, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+        
+        size_t lRet = std::string::npos;
+        
+        for(size_t i = 0; i < table_row_count(aDelimRow,aTextDelim); i++){
+            
+            glch::AString lRowName = table(i, 0, aDelimRow, aDelimCol, aTextDelim);
+
+            if(lRowName.compare(aRowName) == 0 ){
+                return i;
+            }
+            
+        }
+        
+        return lRet;
+        
+    }
+    
+    size_t AString::table_col_index(std::string aColName, size_t aPage, std::string aDelimPage, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+        size_t lRet = std::string::npos;
+        
+        for(size_t i = 0; i < table_col_count(aPage, 0, aDelimPage, aDelimRow, aDelimCol, aTextDelim); i++){
+            
+            glch::AString lColName = table(aPage, 0, i, aDelimPage, aDelimRow, aDelimCol, aTextDelim);
+            
+            if(lColName == aColName){
+                lRet = i;
+                break;
+            }
+            
         }
         
         return lRet;
     }
     
-    size_t AString::table_row_count(std::string aDelimRow){
+    size_t AString::table_col_index(std::string aColName, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+        size_t lRet = std::string::npos;
         
-        size_type lIndex = 0;
-        size_t lCount = 0;
-        size_t lRet = 0;
-        
-        do{
-            lRet = find(aDelimRow,lIndex);
-            lIndex = lRet+aDelimRow.length();
-            lCount ++;
+        for(size_t i = 0; i < table_col_count(0, aDelimRow, aDelimCol, aTextDelim); i++){
             
-        } while (lRet != std::string::npos || lRet == length()-1);
+            glch::AString lColName = table(0, i, aDelimRow, aDelimCol, aTextDelim);
             
-      
-        return lCount;
-        
-    }
-    
-    size_t AString::table_col_count(size_t aRow, std::string aDelimCol, std::string aDelimRow){
-
-        size_t lOffset = 0;
-        size_t lStartRow = 0;
-        size_t lEndRow = 0;
-        size_t lIndex = 0;
-        size_t lCount = 0;
-        size_t lRet = 0;
-        
-        if(aRow != 0){
-            lStartRow = find_nth(aDelimRow,aRow-1,0);
-            lEndRow = find_nth(aDelimRow,aRow,0);
-            lOffset = 1;
-        } else {
-            lEndRow = find_nth(aDelimRow,aRow,0);
-        }
-     
-        lIndex = lStartRow+lOffset;
-
-        while (lRet != std::string::npos && lRet < lEndRow) {
-            lRet = find(aDelimCol,lIndex);
-            lIndex = lRet+aDelimCol.length();
-
-            lCount ++;
-        }
-        
-        return lCount;
-    }
-    
-    void AString::table_replace(std::string aValue, size_t aRow, size_t aCol, std::string aDelimCol, std::string aDelimRow){
-        
-        size_t lStart = 0;
-        size_t lEnd = 0;
-        size_t lStartRow = 0;
-        size_t lEndRow = 0;
-        
-        AString lRet = "";
-        
-        size_t lOffset = 0;
-        if(aRow != 0){
-            lStartRow = find_nth(aDelimRow,aRow-1,0);
-            lEndRow = find_nth(aDelimRow,aRow,0);
-        } else {
-            lEndRow = find_nth(aDelimRow,aRow,0);
-        }
-        
-        
-        if(aCol == 0){
-            //lStart = 0;
-            lStart = lStartRow;
-            lEnd = find_nth(aDelimCol,aCol,lStartRow);
-            
-            if(aRow != 0){
-                lOffset = aDelimCol.length();
+            if(lColName == aColName){
+                lRet = i;
+                break;
             }
             
-        } else {
-            lStart = find_nth(aDelimCol,aCol-1,lStartRow);
-            lEnd = find_nth(aDelimCol,aCol,lStartRow);
-            lOffset = aDelimCol.length();
         }
-        
-        if(lEnd > lEndRow){
-            lEnd = lEndRow;
-        }
-        
-        this->replace(lStart+lOffset,lEnd-lStart-lOffset,aValue);
-        
-        
-    }
-    
-    AString AString::table(size_t aRow, size_t aCol, std::string aDelimCol, std::string aDelimRow){
-
-        size_t lStart = 0;
-        size_t lEnd = 0;
-        size_t lStartRow = 0;
-        size_t lEndRow = 0;
-        
-        AString lRet = "";
-        
-        size_t lOffset = 0;
-        if(aRow != 0){
-            lStartRow = find_nth(aDelimRow,aRow-1,0);
-            lEndRow = find_nth(aDelimRow,aRow,0);
-        } else {
-            lEndRow = find_nth(aDelimRow,aRow,0);
-        }
-        
-        
-        if(aCol == 0){
-            //lStart = 0;
-            lStart = lStartRow;
-            lEnd = find_nth(aDelimCol,aCol,lStartRow);
-            
-            if(aRow != 0){
-                lOffset = aDelimCol.length();
-            }
-            
-        } else {
-            lStart = find_nth(aDelimCol,aCol-1,lStartRow);
-            lEnd = find_nth(aDelimCol,aCol,lStartRow);
-            lOffset = aDelimCol.length();
-        }
-        
-        if(lEnd > lEndRow){
-            lEnd = lEndRow;
-        }
-        
-        if(lStart == std::string::npos){
-            lRet = "";
-        } else {
-            lRet = substr(lStart+lOffset,lEnd-lStart-lOffset);
-        }
-        
-        //std::cout << "CSV-Data: " << lIndex << " : " << lStart << " : " << lEnd << std::endl;
         
         return lRet;
     }
+ 
+    AString AString::table_row(size_t aRow, std::string aDelimRow, std::string aTextDelim){
+        
+        std::vector<std::string> lDelim(1);
+        lDelim.at(0) = aDelimRow;
+
+        return table_dim_count(0,glch::AString("%1").arg(aRow),lDelim);
+        
+    }
+    
+    void AString::find_bounds(size_t aIndex, size_t aStartPos, size_t aEndPos, std::string aDelim, size_t &lStart, size_t &lEnd, std::string aTextDelim){
+
+        if(aIndex > 0){
+            lStart = find_nth(aDelim,aIndex-1,aStartPos,aTextDelim,aTextDelim)+aDelim.length();
+        } else {
+            lStart = aStartPos;
+        }
+        lEnd = find_nth(aDelim,aIndex,aStartPos,aTextDelim,aTextDelim);
+
+        if(lEnd > aEndPos){
+            lEnd = aEndPos;
+        }
+        
+    }
+    
+    /**
+     * Counts the number of occurrences of aDelim between start position and end position. 
+     * @param aDelim The string to find
+     * @param aStartPos The start position for the search.
+     * @param aEndPos The end position for the search.
+     * @param aTextDelim The text delim to search past.
+     * @return The number of counts of the search string.
+     */
+    size_t AString::count_between(std::string aDelim, size_t aStartPos, size_t aEndPos, std::string aTextDelim){
+
+        size_t lIndex = aStartPos;
+        size_t lCount = 0;
+        
+        while (lIndex != std::string::npos && lIndex < aEndPos) {
+            
+            lIndex = find_ignore_tolkens(aDelim,lIndex,aTextDelim,aTextDelim);
+            if(lIndex != std::string::npos){
+                lIndex += aDelim.length();
+            }
+            lCount ++;
+        }
+        
+        return lCount;
+    }
+    
+    AString& AString::table_replace(std::string aValue, vector<size_t> aIndex, std::vector<std::string> aDelims, std::string aTextDelim){
+        
+        std::vector<size_t> lStart(aIndex.size()+1,0);
+        std::vector<size_t> lEnd(aIndex.size()+1,0);
+        lEnd.at(0) = -1;
+        AString lRet = "";
+        
+        for(size_t i = 1; i < aIndex.size()+1; i++){
+            //std::cout << i << " : " << aIndex.at(i-1) << " : " << lStart.at(i-1) << " : " << lEnd.at(i-1) << " : " << aDelims.at(i-1) << " : " << lStart.at(i) << " : " << lEnd.at(i) << std::endl;
+            find_bounds(aIndex.at(i-1),lStart.at(i-1),lEnd.at(i-1),aDelims.at(i-1),lStart.at(i),lEnd.at(i),aTextDelim);
+        }
+        
+        replace(lStart.back(),lEnd.back()-lStart.back(),aValue);
+        
+        return *this;
+    }    
+    
+    AString& AString::table_replace(std::string aValue, size_t aPlane, size_t aRow, size_t aCol, std::string aDelimPlane, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+        
+        std::vector<std::string> lDelim(3);
+        lDelim.at(0) = aDelimPlane;
+        lDelim.at(1) = aDelimRow;
+        lDelim.at(2) = aDelimCol;
+        
+        std::vector<size_t> lIndex = glch::AString("%1,%2,%3").arg(aPlane).arg(aRow).arg(aCol);
+        table_replace(aValue,lIndex,lDelim,aTextDelim);
+        
+        return *this;
+
+    }    
+
+    AString& AString::table_replace(std::string aValue, size_t aRow, size_t aCol, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+        
+        std::vector<std::string> lDelim(2);
+        lDelim.at(0) = aDelimRow;
+        lDelim.at(1) = aDelimCol;
+        
+        std::vector<size_t> lIndex = glch::AString("%1,%2").arg(aRow).arg(aCol);
+        table_replace(aValue,lIndex,lDelim,aTextDelim);
+        
+        return *this;
+
+    }    
+    
+    size_t AString::table_dim_count(size_t aDimension, vector<size_t> aIndex, std::vector<std::string> aDelims, std::string aTextDelim){
+        
+        std::vector<size_t> lStart(aDimension+1,0);
+        std::vector<size_t> lEnd(aDimension+1,0);
+        lEnd.at(0) = -1;
+
+        for(size_t i = 1; i < aDimension+1; i++){
+            find_bounds(aIndex.at(i-1),lStart.at(i-1),lEnd.at(i-1),aDelims.at(i-1),lStart.at(i),lEnd.at(i),aTextDelim);
+            //std::cout << i << " : " << aIndex.at(i-1) << " : " << lStart.at(i-1) << " : " << lEnd.at(i-1) << " : " << aDelims.at(i-1) << " : " << lStart.at(i) << " : " << lEnd.at(i) << std::endl;
+        }
+
+        return count_between(aDelims.at(aDimension),lStart.at(aDimension),lEnd.at(aDimension),aTextDelim);
+        
+        
+    }
+//
+//    size_t AString::table_dim_index(std::string aDimName, size_t aDimension, size_t &aCount, std::vector<size_t> aIndex, std::vector<std::string> aDelim, std::string aTextDelim){
+//        
+//        size_t lRet = std::string::npos;
+//        
+//        if(aDimension < aCount){
+//            
+//            for(size_t i = 0; i < table_dim_count(aDimension,aIndex,aDelim,aTextDelim); i++){
+//                return table_dim_index(aDimName,aDimension,aCount++,aIndex,aDelim,aTextDelim);
+//            }
+//        } else {
+//            glch::AString lColName = table(aIndex,aDelim,aTextDelim);
+//            
+//            if(lColName == aDimName){
+//                return aIndex.at(aDimension);
+//            }
+//        }
+//        
+//    }
+//    
+//
+//    size_t AString::table_dim_index(std::string aDimName, size_t aDimension, std::vector<size_t> aIndex, std::vector<std::string> aDelim, std::string aTextDelim){
+//        size_t lRet = std::string::npos;
+//        
+//        for(size_t i = 0; i < table_dim_count(aDimension,aIndex,aDelim,aTextDelim); i++){
+//            aIndex.at(aDimension) = i;
+//            glch::AString lColName = table(aIndex,aDelim,aTextDelim);
+//            
+//            //std::cout << aDimName << " : " << lColName << std::endl;
+//            
+//            
+//            
+//            if(lColName == aDimName){
+//                lRet = i;
+//                break;
+//            }
+//            
+//        }
+//        
+//        return lRet;
+//    }    
+    
+    AString AString::table(vector<size_t> aIndex, std::vector<std::string> aDelims, std::string aTextDelim){
+        
+        std::vector<size_t> lStart(aIndex.size()+1,0);
+        std::vector<size_t> lEnd(aIndex.size()+1,0);
+        lEnd.at(0) = -1;
+        AString lRet = "";
+        
+        for(size_t i = 1; i < aIndex.size()+1; i++){
+            //std::cout << i << " : " << aIndex.at(i-1) << " : " << lStart.at(i-1) << " : " << lEnd.at(i-1) << " : " << aDelims.at(i-1) << " : " << lStart.at(i) << " : " << lEnd.at(i) << std::endl;
+            find_bounds(aIndex.at(i-1),lStart.at(i-1),lEnd.at(i-1),aDelims.at(i-1),lStart.at(i),lEnd.at(i),aTextDelim);
+        }
+
+        if(lStart.back() == std::string::npos){
+            lRet = "";
+        } else {
+            lRet = substr(lStart.back(),lEnd.back()-lStart.back());
+        }
+        
+        return lRet;
+    }
+    
+    AString AString::table(size_t aPlane, std::string aDelimPlane, std::string aTextDelim){
+
+        std::vector<std::string> lDelim(1);
+        lDelim.at(0) = aDelimPlane;
+        
+        return table(glch::AString("%1").arg(aPlane),lDelim,aTextDelim);
+        
+    }
+    
+    AString AString::table(size_t aPlane, size_t aRow, size_t aCol, std::string aDelimPlane, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+
+        std::vector<std::string> lDelim(3);
+        lDelim.at(0) = aDelimPlane;
+        lDelim.at(1) = aDelimRow;
+        lDelim.at(2) = aDelimCol;
+        
+        return table(glch::AString("%1,%2,%3").arg(aPlane).arg(aRow).arg(aCol),lDelim,aTextDelim);
+
+    }    
+    
+    AString AString::table(size_t aRow, size_t aCol, std::string aDelimRow, std::string aDelimCol, std::string aTextDelim){
+
+        std::vector<std::string> lDelim(2);
+        lDelim.at(0) = aDelimRow;
+        lDelim.at(1) = aDelimCol;
+        
+        return table(glch::AString("%1,%2").arg(aRow).arg(aCol),lDelim,aTextDelim);
+
+    }    
     
     /**
      * Prints the contents of the AString.
