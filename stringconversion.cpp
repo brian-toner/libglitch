@@ -109,6 +109,73 @@ namespace glch{
 
     }
 
+    bool in_str(std::string aInput, std::vector<size_t> &aPositions, std::string aStringToFind, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd){
+
+        bool lReturn = false;
+        size_t lFind = 0;
+
+        if(aStringToFind.length() == 0){
+            return false;
+        }
+        
+        lFind = find_ignore_tolkens(aInput,aStringToFind,lFind,aIgnoreTolkenStart,aIgnoreTolkenEnd);
+        
+        while(lFind != std::string::npos){
+
+            if(lFind != std::string::npos){
+                aPositions.push_back(lFind);
+                lReturn = true;
+            }
+            
+            lFind = find_ignore_tolkens(aInput,aStringToFind,aStringToFind.size()+lFind,aIgnoreTolkenStart,aIgnoreTolkenEnd);
+            
+        }
+
+        return lReturn;    
+    }    
+    
+    
+    size_t find_ignore_tolkens(std::string aString, std::string aFindValue, size_t aPosition, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd){
+        
+        size_t lIgnoreCount = 0;
+        bool lSameTolken = false;
+        bool lIgnoreStart = false;
+        
+        if(aIgnoreTolkenStart.compare(aIgnoreTolkenEnd) == 0){
+            lSameTolken = true;
+        }
+
+        for(size_t i = aPosition; i < aString.length(); i++){
+
+            if(lSameTolken && lIgnoreCount > 0){
+                lIgnoreStart = true;
+            } else {
+                lIgnoreStart = false;
+            }
+
+            if(!lIgnoreStart && aString.substr(i,aIgnoreTolkenStart.length()).compare(aIgnoreTolkenStart) == 0){
+                lIgnoreCount ++;
+                i += aIgnoreTolkenStart.length();
+            }
+            
+            if(aString.substr(i,aIgnoreTolkenEnd.length()).compare(aIgnoreTolkenEnd) == 0){
+                lIgnoreCount --;
+                i += aIgnoreTolkenEnd.length();
+            }            
+            
+            if(lIgnoreCount == 0){
+                if(aString.substr(i,aFindValue.length()).compare(aFindValue) == 0){
+                    return i;
+                }
+            }
+
+        }
+        
+        return std::string::npos;
+        
+    }    
+    
+    
     /**
      * Splits a string into a vector of strings at each delimitation point.
      * @param aInput Input string being split apart.
@@ -138,6 +205,36 @@ namespace glch{
         return lRet;
     }
 
+    /**
+     * Splits a string into a vector of strings at each delimitation point.
+     * @param aInput Input string being split apart.
+     * @param aDelim The delimitation string. 
+     * @return Vector of strings.
+     */
+    std::vector<std::string> split_string(std::string aInput, std::string aDelim, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd){
+        std::vector<std::string> lRet;
+        std::vector<size_t> aPositions;
+        bool lSplit = in_str(aInput,aPositions,aDelim,aIgnoreTolkenStart,aIgnoreTolkenEnd);
+        size_t aDelimSize = aDelim.length();
+        size_t aLast = 0;
+        
+        std::string lSplitStr = "";
+        if(lSplit){
+            for(std::vector<size_t>::iterator it = aPositions.begin(); it != aPositions.end(); it++){
+                lSplitStr = aInput.substr(aLast,(*it)-aLast);
+                aLast = (*it)+aDelimSize;
+                lRet.push_back(lSplitStr);
+            }
+            
+            
+        } 
+        lSplitStr = aInput.substr(aLast,aInput.length()-aLast);
+        lRet.push_back(lSplitStr);
+        
+        return lRet;
+    }    
+    
+    
     /**
      * Removes all special characters from a string (aInput) and converts them to the 
      * delimitation character (aDelim).  Valid characters are considered letters, numbers

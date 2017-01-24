@@ -159,7 +159,7 @@ private:
     
 };
 
-int main(){
+int main_table_manip(){
 
     std::vector<std::string> lDelim = glch::AString("///;\n;,").to_vector<std::string>(";");
         

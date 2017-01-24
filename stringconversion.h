@@ -82,7 +82,9 @@ namespace glch{
      */
     size_t find_string_in_vect(vector<string> &aInput, string aStringToFind);
 
-
+    
+    size_t find_ignore_tolkens(std::string aString, std::string aFindValue, size_t aPosition, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd);
+    
     /**
      * Reports if the Input contains the comparison string.  This is done through
      * the strings default find function.
@@ -92,6 +94,8 @@ namespace glch{
      */
     bool in_str(std::string aInput, std::string aStringToFind);
 
+    bool in_str(std::string aInput, std::vector<size_t> &aPositions, std::string aStringToFind, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd);    
+    
     /**
      * Finds the positions of a string inside of a string.
      * @param aInput String being searched.
@@ -109,6 +113,9 @@ namespace glch{
      */
     std::vector<std::string> split_string(std::string aInput, std::string aDelim);
 
+    
+    std::vector<std::string> split_string(std::string aInput, std::string aDelim, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd);    
+    
     /**
      * Removes all special characters from a string (aInput) and converts them to the 
      * delimitation character (aDelim).  Valid characters are considered letters, numbers

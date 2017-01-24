@@ -567,6 +567,27 @@ namespace glch{
     }
 
     /**
+     * Splits an AString into a list of AString.
+     * @param aDelim the delimitation string used to determine the split locations.
+     * Default value is comma ','.
+     * @return A list split apart at the delimitation string.
+     */    
+    std::vector<AString> AString::split(std::string aDelim, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd){
+        std::vector<std::string> lSplit = glch::split_string(*this,aDelim,aIgnoreTolkenStart,aIgnoreTolkenEnd);
+        std::vector<AString> lRet(lSplit.size());
+        
+        size_t i = 0;
+        for(std::vector<std::string>::iterator it = lSplit.begin(); it != lSplit.end(); it++, i++){
+            lRet.at(i) = (*it);
+            lRet.at(i).replace_all_strings(aIgnoreTolkenStart,"");
+            lRet.at(i).replace_all_strings(aIgnoreTolkenEnd,"");
+        }
+        
+        return lRet;
+        
+    }    
+    
+    /**
      * Splits an AString into a list of numeric ranges.
      * @param aDelim Character to denote the range.
      * @return List of numbers in the range.
@@ -702,23 +723,28 @@ namespace glch{
         return lRet;
     }
 
-    AString AString::csvi(size_t aRow, std::string aCol, std::string aTextDelim){
+    AString AString::csvi(size_t aRow, std::string aCol, std::string aTextDelim, bool aStripTextDelim){
         size_t lCol = csv_col_index(aCol,aTextDelim);
         if(lCol == std::string::npos){
             return "";
         } else {
-            return csv(aRow, lCol, aTextDelim);
+            return csv(aRow, lCol, aTextDelim, aStripTextDelim);
         }
  
     }
     
-    AString AString::csv(size_t aRow, size_t aCol, std::string aTextDelim){
-        return table(aRow, aCol, "\n", ",", aTextDelim);
+    AString AString::csv(size_t aRow, size_t aCol, std::string aTextDelim, bool aStripTextDelim){
+        AString lRet = table(aRow, aCol, "\n", ",", aTextDelim);
+        if(aStripTextDelim){
+            lRet.replace_all_strings(aTextDelim,"");
+        }
+        return lRet;
     }
     
     AString AString::csv(size_t aPage, size_t aRow, size_t aCol, std::string aTextDelim){
         return table(aPage, aRow, aCol, "\n///\n", "\n", ",");
     }
+    
     AString AString::csvi(size_t aPage, size_t aRow, std::string aCol, std::string aTextDelim){
         size_t lCol = csv_col_index(aCol,aPage,aTextDelim);
         if(lCol == std::string::npos){
@@ -1036,7 +1062,7 @@ namespace glch{
 //        
 //        return lRet;
 //    }    
-    
+
     AString AString::table(vector<size_t> aIndex, std::vector<std::string> aDelims, std::string aTextDelim){
         
         std::vector<size_t> lStart(aIndex.size()+1,0);

@@ -71,6 +71,10 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>NDArray.cpp</itemPath>
+    <itemPath>NDArray.h</itemPath>
+    <itemPath>NDPoint.cpp</itemPath>
+    <itemPath>NDPoint.h</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -117,6 +121,14 @@
       <item path="MatTFunctions.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Moments.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDPoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDPoint.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PairT.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -239,6 +251,14 @@
       </item>
       <item path="Moments.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="NDArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDPoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDPoint.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PairT.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PointT.h" ex="false" tool="3" flavor2="0">
@@ -360,6 +380,14 @@
       <item path="MatTFunctions.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Moments.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDPoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDPoint.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PairT.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -501,6 +529,14 @@
       </item>
       <item path="Moments.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="NDArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDPoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDPoint.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PairT.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PointT.h" ex="false" tool="3" flavor2="0">
@@ -621,6 +657,14 @@
       <item path="MatTFunctions.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Moments.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDPoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDPoint.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PairT.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -743,6 +787,14 @@
       </item>
       <item path="Moments.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="NDArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDPoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDPoint.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="PairT.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PointT.h" ex="false" tool="3" flavor2="0">
@@ -863,6 +915,14 @@
       <item path="MatTFunctions.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Moments.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDArray.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDArray.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="NDPoint.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="NDPoint.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="PairT.h" ex="false" tool="3" flavor2="0">
       </item>

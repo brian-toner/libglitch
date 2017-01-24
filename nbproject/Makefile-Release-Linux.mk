@@ -42,6 +42,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/FileLoad.o \
 	${OBJECTDIR}/FileStrings.o \
 	${OBJECTDIR}/LinearModel.o \
+	${OBJECTDIR}/NDArray.o \
+	${OBJECTDIR}/NDPoint.o \
 	${OBJECTDIR}/SRAL.o \
 	${OBJECTDIR}/StatsF.o \
 	${OBJECTDIR}/StringAddress.o \
@@ -110,6 +112,16 @@ ${OBJECTDIR}/LinearModel.o: LinearModel.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LinearModel.o LinearModel.cpp
+
+${OBJECTDIR}/NDArray.o: NDArray.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDArray.o NDArray.cpp
+
+${OBJECTDIR}/NDPoint.o: NDPoint.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDPoint.o NDPoint.cpp
 
 ${OBJECTDIR}/SRAL.o: SRAL.cpp 
 	${MKDIR} -p ${OBJECTDIR}

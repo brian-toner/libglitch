@@ -400,6 +400,8 @@ namespace glch{
              */
             std::vector<AString> split(std::string aDelim);
 
+            std::vector<AString> split(std::string aDelim, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd);
+            
             /**
              * Splits an AString into a list of numeric ranges.
              * @param aDelim Character to denote the range.
@@ -420,8 +422,8 @@ namespace glch{
             size_t csv_col_index(std::string aColName, size_t aPage, std::string aTextDelim = "\"");
             size_t csv_row_index(std::string aRowName, size_t aPage, std::string aTextDelim = "\"");
             
-            AString csvi(size_t aRow, std::string aCol, std::string aTextDelim = "\"");
-            AString csv(size_t aRow, size_t aCol, std::string aTextDelim = "\"");
+            AString csvi(size_t aRow, std::string aCol, std::string aTextDelim = "\"", bool aStripTextDelim = false);
+            AString csv(size_t aRow, size_t aCol, std::string aTextDelim = "\"", bool aStripTextDelim = false);
             AString& csv_replace(std::string aValue, size_t aRow, size_t aCol, std::string aTextDelim = "\"");
             size_t csv_row_count(std::string aTextDelim = "\"");
             size_t csv_col_count(size_t aRow, std::string aTextDelim = "\"");
