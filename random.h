@@ -40,6 +40,16 @@ namespace glch{
     }
 
     /**
+     * Produces a random integer between min (inclusive) and max (exclusive), e.g. domain of [min,max).
+     * @param aMin Minimum value.
+     * @param aMax Maximum value.
+     * @return Random integer between min and max inclusive.
+     */
+    inline int randint_ub(int aMin, int aMax){
+        return randf()*(aMax-aMin) + aMin;
+    }    
+    
+    /**
      * Produces a random number of type T between min and max (exclusive end points), e.g. domain of (min,max).
      * @param aMin Minimum value.
      * @param aMax Maximum value.
@@ -49,6 +59,24 @@ namespace glch{
     inline T randt(T aMin, T aMax){
         return randf()*( (aMax)-aMin) + aMin;
     }    
+    
+    /**
+     * Produces a vector of random numbers of type T between min and max (exclusive end points).
+     * @param aMin aMin Minimum value
+     * @param aMax aMax Maximum value
+     * @param aNumb Number of elements
+     * @return Vector of random number of type T between min and max exclusive.
+     */
+    template <class T>
+    inline std::vector<T> randt_vector(T aMin, T aMax, size_t aNumb){
+        std::vector<T> lRet(aNumb);
+        
+        for(size_t i = 0; i < aNumb; i++){
+            lRet.at(i) = randt(aMin,aMax);
+        }
+        
+        return lRet;
+    }
     
     /**
      * Generates a random float between min and max values (exclusive end points). e.g. domain of (min,max)
@@ -78,9 +106,9 @@ namespace glch{
       std::vector<T> lReturn(aNumb);
       
       for(size_t i = 0; i < aNumb; i++){
-        int tElement = randint(0,lListLen);
+        int tElement = randint(0,lListLen-1);
 
-        lReturn[i] = lList[tElement];
+        lReturn.at(i) = lList.at(tElement);
 
         if(!aReplace){
           lList.erase(lList.begin()+tElement);
@@ -91,6 +119,18 @@ namespace glch{
       return lReturn;
     }
 
+    /**
+     * Randomly samples a vector of type T.
+     * @param aList Input vector being sampled.
+     * @return A value will be pulled from the list.
+     */
+    template <class T>
+    T sample_one(const std::vector<T> &aList){
+
+        int lElement = randint(0,aList.size()-1);
+        return aList.at(lElement);
+    }    
+    
     /**
      * Seeds the RNG with the current time.  This can not be performed more 
      * than once every second.

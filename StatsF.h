@@ -25,6 +25,104 @@ namespace glch{
      */
     double calc_average(double *argData, long unsigned int argSize); 
 
+    template <class T>
+    double mean(std::vector<T> aData){
+        double lRet = 0;
+        for(size_t i = 0; i < aData.size(); i++){
+            lRet += aData.at(i);
+        }
+        return lRet/aData.size();
+        
+    }
+
+    /**
+     * CalcVariance(double, int) - Calculates the simple variance of a array.  
+     * This is accomplished by:
+     * <br>
+     * Var = ∑((x_i)^2 | i=1 to N)/N - (mu)^2
+     * 
+     * @param argData -Array of doubles we want to find the variance of.
+     * @param argSize -Integer that indicates how many elements argData contains.
+     * @return Returns a double that represents the variance.
+     */    
+    template <class T>
+    double variance(std::vector<T> aData){
+
+        double lAverage = mean(aData);
+        double lResults = 0;
+
+        for(size_t i=0;i<aData.size();i++){
+            lResults += (aData[i]-lAverage)*(aData[i]-lAverage);
+        }
+
+        lResults = lResults/(aData.size()-1);
+        
+        return lResults;
+
+    }
+    
+    /**
+     * CalcVariance(double, int) - Calculates the population variance of a array.  
+     * This is accomplished by:
+     * <br>
+     * Var = ∑((x_i)^2 | i=1 to N)/N - (mu)^2
+     * 
+     * @param argData -Array of doubles we want to find the variance of.
+     * @param argSize -Integer that indicates how many elements argData contains.
+     * @return Returns a double that represents the variance.
+     */    
+    template <class T>
+    double variancep(std::vector<T> aData){
+
+        double lAverage = mean(aData);
+        double lResults = 0;
+
+        for(size_t i=0;i<aData.size();i++){
+            lResults += aData[i]*aData[i];
+        }
+
+        lResults = lResults/aData.size();
+        lResults -= (lAverage*lAverage);
+        
+        return lResults;
+
+    }
+
+    /**
+     * Calculates population standard deviation of a double array.  This is accomplished by
+     * sqrt(Variance)
+     * @param argData -Array of doubles we want to find the standard deviation of.
+     * @param argSize -Integer that indicates how many elements argData contains.
+     * @return Returns a double that represents the standard deviation.
+     */    
+    template <class T>
+    double stdevp(std::vector<T> aData){
+        return sqrt(variancep(aData));
+    }
+    
+
+    /**
+     * Calculates the simple standard deviation of a double array.  This is accomplished by
+     * sqrt(Variance)
+     * @param argData -Array of doubles we want to find the standard deviation of.
+     * @param argSize -Integer that indicates how many elements argData contains.
+     * @return Returns a double that represents the standard deviation.
+     */    
+    template <class T>
+    double stdev(std::vector<T> aData){
+        return sqrt(variance(aData));
+    }    
+    
+    template <class T>
+    T max_val(std::vector<T> aData){
+        return *std::max_element(aData.begin(), aData.end());
+    }
+
+    template <class T>
+    T min_val(std::vector<T> aData){
+        return *std::min_element(aData.begin(), aData.end());
+    }
+    
     /**
      * Calculates the average of an ordered set of pairs.
      * <br>

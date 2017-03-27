@@ -35,7 +35,7 @@ void NDArray::set_dim(size_t aDimNumber, size_t aDimSize){
 void NDArray::set_dims(size_t *aDims, size_t aNDims){
     vDims.resize(aNDims);
     
-    for(int i = 0; i < aNDims; i++){
+    for(size_t i = 0; i < aNDims; i++){
         vDims.at(i) = aDims[i];
     }
     
@@ -116,7 +116,7 @@ void NDArray::print_element(size_t* aCoords, size_t aNDims){
     size_t lElement = 0;
     
     std::cout << "Element:" << std::endl;
-    for(int i = 0; i < aNDims; i++){   
+    for(size_t i = 0; i < aNDims; i++){   
         lElement += aCoords[i]*vSizes.at(i);
         std::cout << aCoords[i] << " : " << vSizes.at(i) << std::endl;
     } 
@@ -165,7 +165,7 @@ void NDArray::print_data(){
 size_t NDArray::get_index(size_t* aCoords, size_t aNDims){
     size_t lElement = 0;
 
-    for(int i = 0; i < aNDims; i++){
+    for(size_t i = 0; i < aNDims; i++){
         
         lElement += aCoords[i]*vSizes.at(i);
     } 

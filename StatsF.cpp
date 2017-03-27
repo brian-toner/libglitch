@@ -25,6 +25,8 @@ double calc_average(double *argData, long unsigned int argSize){
     return locAverage;
 }
 
+
+
 /**
  * Calculates the average of an ordered set of pairs.
  * <br>

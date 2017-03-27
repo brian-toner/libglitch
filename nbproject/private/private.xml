@@ -110,26 +110,26 @@
             <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/FileLoad.h</file>
             <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/FileLoad.cpp</file>
         </group>
+        <group name="mltrainerqt">
+            <file>file:/home/brian/glados-git/libglitch/MatTFunctions.h</file>
+        </group>
         <group name="bbsim">
-            <file>file:/home/brian/glados-git/bbsim/libglitch/main.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/miscfunctions.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/LinearModel.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/MatTFunctions.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/NDPoint.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/stringconversion.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/FileLoad.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/NDArray.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/NDArray.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/StatsF.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/miscfunctions.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/random.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/NDPoint.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/MatT.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/AStringFunctions.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/AString.h</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/AString.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/stringconversion.cpp</file>
-            <file>file:/home/brian/glados-git/bbsim/libglitch/LinearModel.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/LinearModel.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/NDArray.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/main.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/StatsF.h</file>
+            <file>file:/home/brian/glados-git/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/MatT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/PointT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/random.h</file>
+            <file>file:/home/brian/glados-git/libglitch/PairT.h</file>
+            <file>file:/home/brian/glados-git/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.h</file>
+            <file>file:/home/brian/glados-git/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/random.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/StatsF.cpp</file>
         </group>
     </open-files>
 </project-private>

@@ -70,7 +70,7 @@ namespace glch{
         return lRet;
 
     }
-
+    
     /**
      * Copies an array of type T into a string vector.
      * @param aSrc Source to copy

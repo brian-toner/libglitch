@@ -78,7 +78,7 @@ public:
     }
     
     size_t get_element(size_t aX, size_t aY){
-        return aX*rows+aY;
+        return aY*rows+aX;
     }
     
     void clear_roi(){

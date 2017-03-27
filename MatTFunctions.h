@@ -386,18 +386,19 @@ namespace glch{
     }
     
     template <class T>
-    inline T sum_col(const MatT<T> &aMatrix, int aColNum){
+    inline T sum_col(MatT<T> &aMatrix, int aColNum){
         T lRet = 0;
 
-        for(int r = 0; r < aMatrix.rows; r++){
-            lRet += aMatrix.at(Point(aColNum,r) );
+        for(size_t r = 0; r < aMatrix.rows; r++){
+            //lRet += aMatrix.at(Point(aColNum,r) );
+            lRet += aMatrix.at(aColNum,r);
         }
 
         return lRet;
     }
 
     template <class T>
-    inline std::vector<T> sum_cols(const MatT<T> &aMatrix){
+    inline std::vector<T> sum_cols(MatT<T> &aMatrix){
         std::vector<T> lRet;
         lRet.resize(aMatrix.cols);
 
