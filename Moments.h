@@ -5,8 +5,8 @@
  * Created on January 1, 2016, 2:04 PM
  */
 
-#ifndef MOMENTS_H
-#define	MOMENTS_H
+#ifndef GLCH_MOMENTS_H
+#define	GLCH_MOMENTS_H
 
 #include "PointT.h"
 #include "MatT.h"
@@ -15,7 +15,7 @@ namespace glch{
 
     template <class T>
     PointF centroid(MatT<T> &aImage){
-        PointT<T> lCentroid;
+        PointF lCentroid;
 
         double m00 = moment(aImage, 0,0);
         double m10 = moment(aImage, 1,0);
@@ -34,7 +34,7 @@ namespace glch{
     template <class T>
     PointF centroid(std::vector< PointT<T> > &aPolygon){
 
-        PointT<T> lCentroid;
+        PointF lCentroid;
 
         double m00 = moment(aPolygon, 0,0);
         double m10 = moment(aPolygon, 1,0);
@@ -55,10 +55,21 @@ namespace glch{
      */
     template <class T>
     double orientation(std::vector<PointT<T> > &aPolygon){
+        
+        if(aPolygon.size() < 2){
+            return 0;
+        }
+                
         PointF lCentroid = centroid(aPolygon);
         double mu11 = central_moment(aPolygon, lCentroid, 1,1);
         double mu20 = central_moment(aPolygon, lCentroid, 2,0);
         double mu02 = central_moment(aPolygon, lCentroid, 0,2);
+        
+        //std::cout << mu11 << " : " << mu20 << " : " << mu02 << endl;
+        if(mu20-mu02 == 0){
+            return 0;
+        }
+        
         return (0.5*atan(2.0*mu11/(mu20-mu02)));
     }
     
@@ -336,5 +347,5 @@ namespace glch{
     }    
 }
 
-#endif	/* MOMENTS_H */
+#endif	/* GLCH_MOMENTS_H */
 
