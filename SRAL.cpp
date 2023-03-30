@@ -89,8 +89,8 @@ void build_bracket_list(std::vector<Bracket> &argBracketList){
     argBracketList.push_back(bracket('{', '}'));
     argBracketList.push_back(bracket('[', ']'));
     //argBracketList.push_back(bracket('<', '>'));
-    argBracketList.push_back(bracket('\'', '\''));
-    argBracketList.push_back(bracket('\"', '\"'));
+    //argBracketList.push_back(bracket('\'', '\''));
+    //argBracketList.push_back(bracket('\"', '\"'));
     
 }
 

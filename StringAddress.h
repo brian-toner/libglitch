@@ -5,8 +5,8 @@
  * Created on July 5, 2015, 12:19 PM
  */
 
-#ifndef STRINGADDRESS_H
-#define	STRINGADDRESS_H
+#ifndef GLCH_STRINGADDRESS_H
+#define	GLCH_STRINGADDRESS_H
 
 #include <iostream>
 #include <string>
@@ -61,5 +61,5 @@ namespace glch{
 
 }
 
-#endif	/* STRINGADDRESS_H */
+#endif	/* GLCH_STRINGADDRESS_H */
 

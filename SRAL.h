@@ -5,8 +5,8 @@
  * Created on July 5, 2015, 1:13 PM
  */
 
-#ifndef SRAL_H
-#define	SRAL_H
+#ifndef GLCH_SRAL_H
+#define	GLCH_SRAL_H
 
 #include <iostream>
 #include <string>
@@ -41,5 +41,5 @@ namespace glch{
 
 }
 
-#endif	/* SRAL_H */
+#endif	/* GLCH_SRAL_H */
 
