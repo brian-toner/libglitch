@@ -5,20 +5,21 @@
  * Created on January 7, 2016, 1:11 PM
  */
 
-#ifndef POLYGONFUNCTIONS_H
-#define	POLYGONFUNCTIONS_H
+#ifndef GLCH_POLYGONFUNCTIONS_H
+#define	GLCH_POLYGONFUNCTIONS_H
 
 #include <cfloat>
 #include <math.h>
 #include <limits>
 #include <vector>
 #include <algorithm>
-#include <values.h>
+//#include <values.h>
 
 #include "PointT.h"
 #include "RectT.h"
 #include "PairT.h"
 #include "VectorFunctions.h"
+#include "Moments.h"
 
 
 namespace glch{
@@ -65,8 +66,8 @@ namespace glch{
 
     template <class T>
     size_t furthest_from(std::vector< PointT<T> > &aSrc, PointT<T> aPt){
-        double lDistance = 0;
-        size_t lIndex = (size_t)-1;
+        double lDistance = aPt.distance(aSrc.front());
+        size_t lIndex = 0;
 
         for(size_t i = 1; i < aSrc.size(); i++){
             if(aPt.distance(aSrc.at(i)) > lDistance){
@@ -87,17 +88,18 @@ namespace glch{
 
         for(size_t i = 0; i < aSrc.size(); i++){
             lDistances.at(i).first = i;
+            PointT<T> lPt2 = aSrc.at(i);
             double lAngle;
 
-            if(lPt1.slope_undef(aSrc.at(i))){
-                if(lPt1 == aSrc.at(i)){
+            if(lPt1.slope_undef(lPt2)){
+                if(lPt1 == lPt2){
                     lAngle = -M_PI/2.0;
                 } else {
                     lAngle = M_PI/2.0;
                 }
 
             } else {
-                lAngle = acos((aSrc.at(i).x-lPt1.x)/lPt1.distance(aSrc.at(i)) );
+                lAngle = acos((lPt2.x-lPt1.x)/lPt1.distance(lPt2) );
             }
             lDistances.at(i).second = lAngle;
         }
@@ -106,11 +108,9 @@ namespace glch{
         std::sort(lDistances.begin(), lDistances.end());
 
         std::vector<PointT<T> > lSorted(aSrc.size());
-
         for(size_t i = 0; i < aSrc.size(); i++){
             lSorted.at(i) = aSrc.at(lDistances.at(i).first);
         }
-
         aSrc = lSorted;
 
     }
@@ -190,11 +190,11 @@ namespace glch{
     void subdivide_polygon(std::vector< PointT<T> > &aSrc){
         
         for(size_t i = 1; i < aSrc.size(); i+=2){
-            subdivide_vertex(aSrc,i);
+            subdivide_vertex(aSrc,i,false);
         }
         
         if(aSrc.front() != aSrc.back() ){
-            subdivide_vertex(aSrc.size()-1,true);
+            subdivide_vertex(aSrc,aSrc.size()-1,true);
         }
         
         
@@ -217,24 +217,37 @@ namespace glch{
         return lRet;
     }
     
+    template <class T>
+    double poly_moment(std::vector<PointT<T> >& aPoly, size_t p, size_t q, bool aClosed = false){
+        
+        double lArea1 = area(aPoly,aClosed);
+        double lArea2 = moment(aPoly,0,0);
+        double lARatio = lArea1/lArea2;
+        
+        return moment(aPoly,p,q)*lARatio;
+        
+    }
+    
     /**
-     * Computes the area of the polygon using coordinate geometry.  This will not
-     * provide an accurate answer for self intersecting rectangles.
-     * @param aPoly The polygon we are finding the area of.
-     * @return The area of the polygon.
+     * Computes the area of the polygon using cross product of points.
+     * @param aPoly The polygon to find the area of
+     * @param aClosed If the polygon front pt = back pt.
+     * @return The polygon area.
      */
     template <class T>
-    double area(std::vector< PointT<T> > &aPoly){ 
-        double lArea = 0;               // Area of the polygon
-        size_t j = aPoly.size()-1;      // The next vertex.
-
-        //Accumulates the area of the polygon.
-        for(size_t i = 0; i < aPoly.size(); i++, j=1){
-            lArea += (aPoly.at(j).x+aPoly.at(i).x)*(aPoly.at(j).y-aPoly.at(i).y);
+    double area(std::vector<PointT<T> >& aPoly, bool aClosed = false){
+        double lRet = 0;
+        
+        if(!aClosed){
+            lRet += aPoly.back().cross(aPoly.front());
         }
-
-        return fabs(lArea/2);
-
+        
+        for(size_t i = 0; i < aPoly.size()-1; i++){
+            lRet += aPoly.at(i).cross(aPoly.at(i+1));
+        }
+        
+        //Traversal direction alters sign.
+        return fabs(lRet/2.0);
     }
     
     template <class T, class U>
@@ -261,10 +274,10 @@ namespace glch{
 
         RectT<T> lReturn;   //The final rectangle.
 
-        double lMinX = 0;   //Smallest x of all the vertices 
-        double lMinY = 0;   //Smallest y of all the vertices 
-        double lMaxX = 0;   //Largest x of all the vertices 
-        double lMaxY = 0;   //Largest y of all the vertices 
+        double lMinX = aPoly.front().x;   //Smallest x of all the vertices 
+        double lMinY = aPoly.front().y;   //Smallest y of all the vertices 
+        double lMaxX = aPoly.front().x;   //Largest x of all the vertices 
+        double lMaxY = aPoly.front().y;   //Largest y of all the vertices 
 
         if(aPoly.size() > 1){
 
@@ -293,8 +306,8 @@ namespace glch{
 
         lReturn.x = lMinX;
         lReturn.y = lMinY;
-        lReturn.width = lMaxX-lMinX;
-        lReturn.height = lMaxY-lMinY;
+        lReturn.width = lMaxX-lMinX+1;
+        lReturn.height = lMaxY-lMinY+1;
 
         return lReturn;
 
@@ -311,7 +324,7 @@ namespace glch{
      */
     template<class T>
     std::vector<PointF > minimal_bounding_rect(std::vector< PointT<T> > &aPoly){
-        
+
         //Rotate the polygon so it's orientation is 0
         PointF lCent = centroid(aPoly);
         double lTheta = orientation(aPoly);
@@ -347,6 +360,45 @@ namespace glch{
         
     }    
     
+    template <class T>
+    bool on_line(PointT<T> lPt1, PointT<T> lPt2, PointT<T> aSearchPt, double aTolerance = .1){
+        
+        double lError;
+        double y2 = lPt2.y;
+        double y1 = lPt1.y;
+        double x2 = lPt2.x;
+        double x1 = lPt1.x;
+        double x = aSearchPt.x;
+        double y = aSearchPt.y;
+        
+        if(lPt2.x == lPt1.x){
+            return (y > (std::min(y1,y2)-aTolerance) && y < (std::max(y1,y2)+aTolerance) );
+        } else if (lPt2.y == lPt1.y) {
+            return (x > (std::min(x1,x2)-aTolerance) && x < (std::max(x1,x2)+aTolerance) );
+        } else {
+            lError = (y2-y1)/(x2-x1)*(x-x1)-y+y1;
+        }
+        
+
+        if(fabs(lError) < aTolerance){
+            return true;
+        }
+        
+        return false;
+    }
+    
+    template <class T>
+    bool on_boundary(std::vector< PointT<T> >& aPoly, PointT<T> aPt){
+        
+        bool lOnLine = on_line(aPoly.front(),aPoly.back(),aPt);
+        
+        for(size_t i = 0; i < aPoly.size()-1; i++){
+            lOnLine |= on_line(aPoly.at(i),aPoly.at(i+1),aPt);
+        }
+        
+        return lOnLine;
+    }
+    
     /**
      * Computes if a point falls along or inside of the boundary of a non self
      * intersecting polygon.
@@ -355,25 +407,25 @@ namespace glch{
      * @return True if the point is within the polygon.  False otherwise.
      */
     template <class T>
-    bool contains(std::vector< PointT<T> > &aPoly, PointT<T> aPoint){
+    bool contains(std::vector< PointT<T> > &aPoly, PointT<T> aPt){
+        int i, j, c = false;
+        double y = aPt.y;
+        double x = aPt.x;
+        int nvert = aPoly.size();
 
-        size_t i;
-        size_t j = aPoly.size()-1;
-        bool oddNodes=false;
+        for (i = 0, j = nvert-1; i < nvert; j = i++) {
+            double yi = aPoly.at(i).y;
+            double yj = aPoly.at(j).y;
+            double xi = aPoly.at(i).x;
+            double xj = aPoly.at(j).x;
+            
 
-        for (i = 0; i < aPoly.size(); i++) {
-            if (( (aPoly.at(i).y < aPoint.y && aPoly.at(j).y >= aPoint.y)
-            || (aPoly.at(j).y < aPoint.y && aPoly.at(i).y >= aPoint.y) )
-            &&  ( aPoly.at(i).x <= aPoint.x || aPoly.at(j).x <= aPoint.x)) {
-              oddNodes^=( aPoly.at(i).x + (aPoint.y-aPoly.at(i).y)/(aPoly.at(j).y-aPoly.at(i).y)*(aPoly.at(j).x - aPoly.at(i).x) < aPoint.x ); 
+            if ( ((yi>=y) != (yj>=y)) && (x <= (xj-xi) * (y-yi) / (yj-yi) + xi) ){
+                c = !c;
             }
-
-            j = i; 
         }
-
-        return oddNodes; 
+        return c;
     }
-    
     
     /**
      * Recursively simplifies polygon using the Douglas-Peucker algorithm.
@@ -523,6 +575,24 @@ namespace glch{
         
         return lIndex;
     }
+
+    template <class T>
+    size_t furtherst_from(std::vector<PointT<T> > &aPolygon, PointT<T> aP1, PointT<T> aP2){
+        size_t lIndex = 0;
+        double lDist = perpendicular_distance(aP1,aP2,aPolygon.front());
+        
+        for(size_t i = 1; i < aPolygon.size(); i++){
+
+            double lTempDist = perpendicular_distance(aP1,aP2,aPolygon.at(i));
+            if(lTempDist > lDist ){
+                lDist = lTempDist;
+                lIndex = i;
+            }
+            
+        }
+        
+        return lIndex;
+    }
     
     /**
      * Finds the convex hull of the polygon.  This is done by finding the lowest
@@ -580,6 +650,55 @@ namespace glch{
         
     }    
 
+    template <class T>
+    std::vector<PointT<T> > convex_hull_new(std::vector<PointT<T> > &aPolygon){
+        
+        std::vector<PointT<T> > lSearch = aPolygon;     //The points we are searching through.
+        std::vector<PointT<T> > lCvxPoly;               //The convex polygon.                            
+        size_t lIndex;                                  //Index of current point.
+
+        lIndex = lowest_point(lSearch);                //Index of the starting point of the convex polygon.
+        PointT<T> lP1 = lSearch.at(lIndex);            //Starting point of the convex polygon.
+        lCvxPoly.push_back(lP1);
+        lSearch.erase(lSearch.begin()+lIndex);
+        
+        
+        lIndex = furthest_from(lSearch,lP1);            //Index of the point furthest away from the starting point.
+        PointT<T> lP2 = lSearch.at(lIndex);          //Point furthest away from the starting point.
+        lCvxPoly.push_back(lP2);
+        lSearch.erase(lSearch.begin()+lIndex);
+        
+        //Scan through the list of points and find the point with the greatest
+        //perpendicular distance from p1 and p2.  This point is then removed from the
+        //list of points to consider.
+        while(lSearch.size() > 0){
+            lIndex = furtherst_from(lSearch, lP1, lP2);
+            
+            lCvxPoly.push_back(lSearch.at(lIndex));
+            lSearch.erase(lSearch.begin()+lIndex);
+
+            angle_sort(lCvxPoly);
+
+            //Finding any points which fall inside of convex polygon.  If a point
+            //is found to lie within the boundary, then it is masked off and the
+            //counter is decremented.
+
+            for(size_t i = 0; i < lSearch.size(); i++){
+                PointT<T> lPt = lSearch.at(i);
+                
+                if( contains(lCvxPoly, lPt) ){
+                    lSearch.erase(lSearch.begin()+i);
+                    i--;
+                }                
+            }
+         
+            
+        }
+
+        return lCvxPoly;
+        
+    }        
+    
     /**
      * Finds the two vertices which are furthest away from each other in a polygon.
      * @param aPoly The polygon we are finding the diameter points of.
@@ -617,6 +736,24 @@ namespace glch{
         
     }    
 
+    template <class T>
+    double diameter_taxicab(std::vector< PointT<T> > &aPoly){
+        
+        if(aPoly.size() < 2){
+            if(aPoly.size() > 0){
+                return 1.0;
+            }
+            return 0.0;
+        }
+        
+        std::vector<size_t> lElements = diameter_points(aPoly);
+        PointT<T> lPoint1 = aPoly.at(lElements.at(0));
+        PointT<T> lPoint2 = aPoly.at(lElements.at(1));
+        
+        return lPoint1.taxicab(lPoint2);
+        
+    }
+    
     /**
      * Computes the diameter of a polygon.  The diameter is computed as the distance
      * between the two points which are furthest from each other in a polygon.
@@ -625,6 +762,13 @@ namespace glch{
      */
     template <class T>
     double diameter(std::vector< PointT<T> > &aPoly){
+        if(aPoly.size() < 2){
+            if(aPoly.size() > 0){
+                return 1.0;
+            }
+            return 0.0;
+        }
+        
         std::vector<size_t> lElements = diameter_points(aPoly);
         PointT<T> lPoint1 = aPoly.at(lElements.at(0));
         PointT<T> lPoint2 = aPoly.at(lElements.at(1));
@@ -716,5 +860,5 @@ namespace glch{
     }
 }
 
-#endif	/* POLYGONFUNCTIONS_H */
+#endif	/* GLCH_POLYGONFUNCTIONS_H */
 
