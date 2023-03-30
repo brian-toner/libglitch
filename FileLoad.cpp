@@ -1,6 +1,7 @@
 
 
 #include "FileLoad.h"
+#include "AString.h"
 
 namespace glch {
 
@@ -38,6 +39,21 @@ namespace glch {
     }
 
     /**
+     * Saves a text file from a string buffer.
+     * @param aFileName Name of file being saved.
+     * @param aStringBuffer String buffer containing the save data.
+     */
+    void append_text_file(std::string aFileName, std::string &aStringBuffer){
+
+        std::ofstream lInput;
+
+        lInput.open(aFileName.c_str(), std::ios_base::app);
+        lInput << aStringBuffer;
+        lInput.close();
+
+    }
+    
+    /**
      * Loads a text file specified from FileName, data is returned as a string.
      * @param aFileName Name of text file being loaded into memory.
      * @return String containing document.
@@ -53,7 +69,7 @@ namespace glch {
             char * locPt = &lReturn.at(0);
 
             lInput.open(aFileName.c_str(), std::ios::binary | std::ios::in);
-            lInput.read(locPt,lSize-1);
+            lInput.read(locPt,lSize);
             lInput.close();
         }
 

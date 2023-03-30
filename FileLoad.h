@@ -5,8 +5,8 @@
  * Created on June 19, 2014, 6:24 PM
  */
 
-#ifndef FILELOAD_H
-#define	FILELOAD_H
+#ifndef GLCH_FILELOAD_H
+#define	GLCH_FILELOAD_H
 
 #include <iostream>
 #include <vector>
@@ -29,6 +29,12 @@ namespace glch {
      */
     void save_text_file(std::string aFileName, std::string &aStringBuffer);
 
+    /**
+     * Appends a text file from a string buffer.
+     * @param aFileName Name of file being saved.
+     * @param aStringBuffer String buffer containing the save data.
+     */
+    void append_text_file(std::string aFileName, std::string &aStringBuffer);
     
     /**
      * Loads a text file specified from FileName, data is returned as a string.
@@ -36,6 +42,9 @@ namespace glch {
      * @return String containing document.
      */
     std::string load_text_file(std::string aFileName);
+    
+    
+    
     
     /**
      * Counts the number of delimitators contained in the file.
@@ -76,5 +85,5 @@ namespace glch {
 
 }
 
-#endif	/* FILELOAD_H */
+#endif	/* GLCH_FILELOAD_H */
 
