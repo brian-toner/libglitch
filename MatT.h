@@ -5,8 +5,8 @@
  * Created on July 20, 2015, 2:47 AM
  */
 
-#ifndef MATT_H
-#define	MATT_H
+#ifndef GLCH_MATT_H
+#define	GLCH_MATT_H
 
 #include <vector>
 #include <algorithm>
@@ -20,6 +20,7 @@
 #include "RectT.h"
 #include "AString.h"
 #include "VectorFunctions.h"
+#include "TemplateMath.h"
 
 namespace glch{
 
@@ -45,6 +46,20 @@ public:
     size_t roi_set;
     bool by_row;
     
+    void swapbytes(){
+        
+        for(int i = 0; i < this->size(); i++){
+            for(int j = 0; j < sizeof(T)/2; j++){
+                unsigned char* lRef = (unsigned char*)(&this->at(i));
+
+                lRef[0] = lRef[0]^lRef[sizeof(T)-j-1];
+                lRef[sizeof(T)-j-1] = lRef[sizeof(T)-j-1] ^ lRef[0];
+                lRef[0] = lRef[0]^lRef[sizeof(T)-j-1];
+
+            }
+        }
+    }
+    
     std::vector<size_t> & new_roi(){
         roi_set++;
         return get_roi();
@@ -67,6 +82,7 @@ public:
     
     size_t get_element(size_t aIndex){
         if(roi_set){
+            
             return get_roi().at(aIndex);
         } else {
             return aIndex;
@@ -74,11 +90,12 @@ public:
     }
     
     size_t get_element(Point aPos){
-        return aPos.x*rows+aPos.y;
+        //return aPos.x*rows+aPos.y;
+        return get_element(aPos.y*cols+aPos.x);
     }
     
     size_t get_element(size_t aX, size_t aY){
-        return aY*rows+aX;
+        return get_element(aY*cols+aX);
     }
     
     void clear_roi(){
@@ -173,12 +190,14 @@ public:
         size_t lSizeY = (aEnd.y+1)-aStart.y;
         
         new_roi().resize(lSizeX*lSizeY);
-
+        //roi_set = false;
+        
         size_t i = 0;
         for(long r = aStart.y; r < aEnd.y+1; r++){
             for(long c = aStart.x; c < aEnd.x+1; c++, i++){
+                std::cout << roi_set << " : " << c << " : " << r << std::endl;
                 get_roi().at(i) = get_element(Point(c,r));
-                //std::cout << roi.at(i) << " : " << c << " : " << r << std::endl;
+                std::cout << get_roi().at(i) << " : " << c << " : " << r << " : " << get_element(c,r) << std::endl;
                 //lRet.at(Point(lX,lY)) = at(Point(c,r));
             }
         }
@@ -194,15 +213,49 @@ public:
     
     void resize(size_t aRows, size_t aCols);
     
+    void resize_clone(size_t aRows, size_t aCols);
+    
     size_t size(){return rows*cols;}
     
     void print(std::string aDelim = "\t");
+    
+    template<class U>
+    void printt(std::string aDelim = "\t"){
+
+        for(size_t r = 0; r < rows; r++){
+            for(size_t c = 0; c < cols; c++){
+                std::cout << (U)at(Point(c,r)) << aDelim;
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+
+        return;
+    }
+    
+    template<class U>
+    void save_csvt(std::string aFileName){
+        AString lBuffer = "";
+
+        for(size_t r = 0; r < rows; r++){
+            for(size_t c = 0; c < cols; c++){
+                lBuffer << (U)at(Point(c,r));
+            }
+            lBuffer << "\n";
+        }
+        save_text_file(aFileName,lBuffer);
+        
+        return;
+    }
+    
     void save_csv(std::string aFileName);
     
     T& at(Point aPos);
     T& at(size_t aX, size_t aY);
     T& at(size_t aPos);
     T& at_wrap(Point aPos);
+    T  at_no_wrap(Point aPos);
+    T  at_no_wrap(int aX, int aY);
     
     template <class U>
     operator MatT<U>(){
@@ -221,6 +274,10 @@ public:
      * @param aData Data being copied into the matrix.
      */
     void setv(std::vector<T> &aData);
+    
+    void setv_val(std::vector<T> aData);
+    
+    MatT<T>& operator=(std::vector<T> aData);
     
     /**
      * Gets a row from the matrix
@@ -272,7 +329,9 @@ public:
      * @return 
      */
     MatT<T>& copy(MatT<T> &aData, Point aStartingPoint = Point(0,0));
+    MatT<T>& copy(MatT<T> &aData, Point aStartingPoint, Point aSrcPoint);
     
+    MatT<T>& copy(MatT<T> &aData, glch::Rect aArea);
     /**
      * Sets a row to the values of aData
      * @param aData Data being copied into the matrix.
@@ -297,7 +356,7 @@ public:
     
     void applymat(T aData, T(*fn)(T,T));
     
-    void apply(T(*fn)(T));
+    //void apply(T(*fn)(T));
     
     /**
      * Gets the determinate submatrix associated with leading column aCol;
@@ -325,7 +384,7 @@ private:
 
     template<class T>
     MatT<T>::MatT(T* aData, size_t aRows, size_t aCols, bool aByRow){
-        resize(aCols,aRows);
+        resize(aRows,aCols);
         roi_set = false;
         by_row = aByRow;
         
@@ -336,7 +395,7 @@ private:
     
     template<class T>
     MatT<T>::MatT(size_t aRows, size_t aCols, bool aByRow){
-        resize(aCols,aRows);
+        resize(aRows,aCols);
         roi_set = false;
         by_row = aByRow;        
     }
@@ -348,8 +407,28 @@ private:
     void MatT<T>::resize(size_t aRows, size_t aCols){
         cols = aCols;
         rows = aRows;
-        
+
         data.resize(aCols*aRows);
+ 
+    }
+
+    template<class T>
+    void MatT<T>::resize_clone(size_t aRows, size_t aCols){
+
+        MatT<T> lData = *this; 
+        resize(aRows,aCols);
+        
+        for(size_t i = 0; i < data.size(); i++){
+            data.at(i) = 0;
+        }
+        
+        
+        for(size_t r = 0; r < lData.rows; r++){
+            for(size_t c = 0; c < lData.cols; c++){
+                at(c,r) = lData.at(c,r);    
+            }
+        }
+        
     }
     
     template<class T>
@@ -366,6 +445,8 @@ private:
         
         return;
     }
+    
+    
     
     template<class T>
     void MatT<T>::save_csv(std::string aFileName){
@@ -421,6 +502,34 @@ private:
     }    
     
     template<class T>
+    T MatT<T>::at_no_wrap(int aX, int aY){
+        if((size_t)aX > cols-1 || aX < 0){
+            return 0;
+        }
+        
+        if((size_t)aY > rows-1 || aY < 0){
+            return 0;
+        }
+
+        return at(aX,aY);
+        
+    } 
+    
+    template<class T>
+    T MatT<T>::at_no_wrap(Point aPos){
+        if((size_t)aPos.x > cols-1 || aPos.x < 0){
+            return 0;
+        }
+        
+        if((size_t)aPos.y > rows-1 || aPos.y < 0){
+            return 0;
+        }
+
+        return at(aPos);
+        
+    }        
+    
+    template<class T>
     T& MatT<T>::at(size_t aPos){
         return data.at(get_element(aPos));
     }
@@ -443,6 +552,24 @@ private:
             }
         }
         
+    }
+    
+    template<class T>
+    void MatT<T>::setv_val(std::vector<T> aData){
+        
+        size_t lCount = 0;
+        for(size_t c = 0; c < cols; c++){
+            for(size_t r = 0; r < rows; r++, lCount ++){
+                at(Point(c,r)) = aData.at(lCount);
+            }
+        }
+        
+    }
+    
+    template<class T>
+    MatT<T>&  MatT<T>::operator=(std::vector<T> aData){
+        setv_val(aData);
+        return *this;
     }
     
     template<class T>
@@ -515,11 +642,12 @@ private:
     
     template<class T>
     MatT<T>& MatT<T>::copy(MatT<T> &aData, Point aStartingPoint){
-        
+        int minRows = (this->rows > aData.rows)?aData.rows : this->rows;
+        int minCols = (this->cols > aData.cols)?aData.cols : this->cols;
         int lX = 0;
         int lY = 0;
-        for(int r = aStartingPoint.y; r < aStartingPoint.y+(int)aData.rows; r++, lY++){
-            for(int c = aStartingPoint.x; c < aStartingPoint.x+(int)aData.cols; c++, lX++){
+        for(int r = aStartingPoint.y; r < aStartingPoint.y+minRows; r++, lY++){
+            for(int c = aStartingPoint.x; c < aStartingPoint.x+minCols; c++, lX++){
                 at(Point(c,r)) = aData.at(Point(lX,lY));
             }
             lX = 0;
@@ -527,8 +655,37 @@ private:
         
         return *this;
     }    
+
+    template<class T>
+    MatT<T>& MatT<T>::copy(MatT<T> &aData, Point aStartingPoint, Point aSrcPoint){
+        int minRows = (this->rows > aData.rows)?aData.rows : this->rows;
+        int minCols = (this->cols > aData.cols)?aData.cols : this->cols;
+        int lX = 0;
+        int lY = 0;
+        for(int r = aStartingPoint.y; r < aStartingPoint.y+minRows; r++, lY++){
+            for(int c = aStartingPoint.x; c < aStartingPoint.x+minCols; c++, lX++){
+                at(Point(c,r)) = aData.at(Point(aSrcPoint.x+lX,aSrcPoint.y+lY));
+            }
+            lX = 0;
+        }
+        
+        return *this;
+    }  
     
-    
+    template<class T>
+    MatT<T>& MatT<T>::copy(MatT<T> &aData, glch::Rect aArea){
+        
+        int lX = 0;
+        int lY = 0;
+        for(int r = aArea.y; r < aArea.bottom(); r++, lY++){
+            for(int c = aArea.x; c < aArea.right(); c++, lX++){
+                at(Point(c,r)) = aData.at(Point(c,r));
+            }
+            lX = 0;
+        }
+        
+        return *this;
+    }   
     
     template<class T>
     void MatT<T>::setr(std::vector<T> aData, size_t aRow){
@@ -572,7 +729,7 @@ private:
     template<class T>
     void MatT<T>::applyr(T aData, size_t aRow, T(*fn)(T,T)){
         std::vector<T> lRow = getr(aRow);
-        std::vector<T> lRes = apply(lRow,aData,fn);
+        std::vector<T> lRes = apply<T>(lRow,aData,fn);
         
         setr(lRes,aRow);
         
@@ -621,13 +778,13 @@ private:
         return;
     }
     
-    template<class T>
-    void MatT<T>::apply(T(*fn)(T)){
-        
-        for(size_t i = 0; i < size(); i++){
-            at(i) = fn(at(i));
-        }
-    }
+//    template<class T>
+//    void MatT<T>::apply(T(*fn)(T)){
+//        
+//        for(size_t i = 0; i < size(); i++){
+//            at(i) = fn(at(i));
+//        }
+//    }
     
     template<class T>
     MatT<T> MatT<T>::det_sub_mat(Point aElement){
@@ -675,11 +832,14 @@ private:
     
     typedef MatT<double> MatF;
     typedef std::vector<MatT<unsigned char> > MatImageC;
-    
+    typedef std::vector<MatT<unsigned short> > MatImageUS;
+    typedef std::vector<MatT<unsigned int> > MatImageUI;
+    typedef std::vector<MatT<float> > MatImageF;
+    typedef std::vector<MatT<double> > MatImageD;
 }
 
 
 
 
-#endif	/* MATT_H */
+#endif	/* GLCH_MATT_H */
 
