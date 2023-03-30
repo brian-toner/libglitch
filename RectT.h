@@ -5,8 +5,8 @@
  * Created on July 4, 2015, 10:30 PM
  */
 
-#ifndef RECTT_H
-#define	RECTT_H
+#ifndef GLCH_RECTT_H
+#define	GLCH_RECTT_H
 
 #include "PointT.h"
 #include <iostream>
@@ -52,7 +52,7 @@ namespace glch {
          * Right x-coordinate of the rectangle.
          * @return Right x-coordinate of the rectangle.
          */
-        T right(){return x+width;};
+        T right(){return x+width-1;};
         
         /**
          * Top y-coordinate of the rectangle.
@@ -64,12 +64,12 @@ namespace glch {
          * Bottom y-coordinate of the rectangle.
          * @return Bottom y-coordinate of the rectangle.
          */        
-        T bottom(){return y+height;};
+        T bottom(){return y+height-1;};
 
         /**
          * Prints off the rectangle information.
          */
-        void print(){
+        void print(std::string aDelim = ""){
             std::cout << "[" << x << ", " << y << ", " << width << ", " << height << "]" << std::endl;
         }
         
@@ -81,9 +81,9 @@ namespace glch {
             std::vector<PointT<T> > lRet(4);
             
             lRet.at(0) = PointT<T>(top_left());
-            lRet.at(1) = PointT<T>(top_right());
-            lRet.at(2) = PointT<T>(bottom_right());
-            lRet.at(3) = PointT<T>(bottom_left());
+            lRet.at(1) = PointT<T>(top_right(true));
+            lRet.at(2) = PointT<T>(bottom_right(true));
+            lRet.at(3) = PointT<T>(bottom_left(true));
             
             return lRet;
         }
@@ -110,19 +110,21 @@ namespace glch {
          * Returns the top right coordinate of the rectangle.
          * @return Top right coordinate.
          */
-        PointT<T> top_right(){return PointT<T>(right(),y);};
+        PointT<T> top_right(bool aExtend = false){return PointT<T>(right()+(aExtend?1:0),y);};
+
         
         /**
          * Returns the bottom left coordinate of the rectangle.
          * @return Bottom left coordinate.
          */
-        PointT<T> bottom_left(){return PointT<T>(x,bottom());};
+        PointT<T> bottom_left(bool aExtend = false){return PointT<T>(x,bottom()+(aExtend?1:0));};
         
         /**
          * Returns the bottom right coordinate of the rectangle.
          * @return Bottom right coordinate.
          */
-        PointT<T> bottom_right(){return PointT<T>(right(),bottom());};
+        PointT<T> bottom_right(bool aExtend = false){return PointT<T>(right()+(aExtend?1:0),bottom()+(aExtend?1:0));};
+
 
         /**
          * Floating point Distance between the centroid of this rectangle and another rectangle.
@@ -505,7 +507,7 @@ namespace glch {
     bool RectT<T>::contains(PointT<T> aPoint){        
         return (left() <= aPoint.x && 
                 aPoint.x <= right() && 
-                top <= aPoint.y && 
+                top() <= aPoint.y && 
                 aPoint.y <= bottom());
     }
     
@@ -534,5 +536,5 @@ namespace glch {
 
 }
 
-#endif	/* RECTT_H */
+#endif	/* GLCH_RECTT_H */
 
