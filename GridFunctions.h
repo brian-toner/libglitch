@@ -5,8 +5,8 @@
  * Created on January 7, 2016, 1:33 PM
  */
 
-#ifndef GRIDFUNCTIONS_H
-#define	GRIDFUNCTIONS_H
+#ifndef GLCH_GRIDFUNCTIONS_H
+#define	GLCH_GRIDFUNCTIONS_H
 
 #include <vector>
 #include "RectT.h"
@@ -80,6 +80,8 @@ namespace glch{
         int locCols = calc_grid_dim(aImageWidth, aLgWidth, aSmWidth);  
         int lShiftOffset = aImageWidth-((aLgWidth-aSmWidth)+(locCols*aSmWidth));
 
+        //std::cout << lShiftOffset << std::endl;
+        
         for(size_t i = 0; i < aGrid.size(); i++){
             aGrid.at(i).x += lShiftOffset;
         }
@@ -111,5 +113,5 @@ namespace glch{
 }
 
 
-#endif	/* GRIDFUNCTIONS_H */
+#endif	/* GLCH_GRIDFUNCTIONS_H */
 
