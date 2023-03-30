@@ -36,8 +36,9 @@ namespace glch{
         //double z_1 = sqrt(-2.0*log(randf()))*sin(2*M_PI*randf());
 
         return z_0*aSigma+aMu;
-    }    
+    }
 
+    
     /**
      * Uses the box-mull transformation to produce 2d normal random distribution.
      * @param aMu Mean.
@@ -137,4 +138,64 @@ namespace glch{
 
     }
     
+    string random_string(int aLen){
+        static const char lChars[] =
+            "0123456789"
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            "abcdefghijklmnopqrstuvwxyz";
+
+        string lRet = "";
+                
+        //Starting the string off with a character
+        lRet += lChars[(rand() % (sizeof(lChars) - 11)) + 10];
+        
+        for (int i = 1; i < aLen; ++i) {
+            lRet += lChars[rand() % (sizeof(lChars) - 1)];
+        }
+        
+        return lRet;
+
+    }
+    
+    
+    
+    double mutate_norm(double aX, double aMutationLower, double aMutationUpper, double aMean, double aStdev, bool aHasMin, bool aHasMax, double aMin, double aMax){
+        
+        double lRandVal = (rand()%2?-1:1)*glch::normal_dist(glch::randf(aMutationLower,aMutationUpper),aMean,aStdev);
+        double lRetVal = lRandVal+aX;
+        
+        if(aHasMax && lRetVal > aMax){
+            return aMax;
+        }
+        
+        if(aHasMin && lRetVal < aMin){
+            return aMin;
+        }
+        
+        return lRetVal;
+        
+    }
+    
+    double mutate_norm(double aX, double aMutationLower, double aMutationUpper){
+        
+        double lRandVal = (rand()%2?-1:1)*glch::normal_dist(glch::randf(aMutationLower,aMutationUpper),0,1);
+        return lRandVal+aX;
+        
+    }
+    
+    
+    double mutate_norm(double aX, double aMutationLower, double aMutationUpper, double aMin, double aMax){
+
+        double lRetVal = mutate_norm(aX, aMutationLower, aMutationUpper);
+        
+        if(lRetVal > aMax){
+            return aMax;
+        }
+        
+        if(lRetVal < aMin){
+            return aMin;
+        }
+        
+        return lRetVal;
+    }
 }
