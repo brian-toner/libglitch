@@ -5,8 +5,8 @@
  * Created on April 21, 2015, 10:13 AM
  */
 
-#ifndef MISCFUNCTIONS_H
-#define	MISCFUNCTIONS_H
+#ifndef GLCH_MISCFUNCTIONS_H
+#define	GLCH_MISCFUNCTIONS_H
 
 #include <vector>
 #include <stdio.h>
@@ -14,6 +14,7 @@
 #include <iostream>
 #include <math.h>
 #include <algorithm>
+
 
 namespace glch{
     
@@ -30,6 +31,8 @@ namespace glch{
     int minute();
 
     int second();
+    
+    float usecond();
     
     /**
     * Copies one data vector to another.
@@ -104,7 +107,11 @@ namespace glch{
      * @return Mapped Value
      */
     double map_point(double aInput, double aToRange, double aToMin, double aFromRange, double aFromMin, bool aFlip);
+    double map_point_exclude_zero(double aInput, double aToRange, double aToMin, int aFromRange, int aFromMin);
     
+    double quotient(double aDividend, double aDivisor);
+    double remainderf(double aDividend, double aDivisor);
+    double modf(double aDividend, double aDivisor);
     
     bool power_of_two(int n,int &m,int &twopm);
     int FFT(int dir,int m, std::vector<double> &x, std::vector<double> &y);
@@ -132,7 +139,29 @@ namespace glch{
      * @return The value converted into a double.
      */
     double real48ToDouble(char *aRealValue);
+    
+    
+    double gauss(double x, double y, double x0, double y0, double A, double a, double b, double c);
+    double gauss_dx(double x, double y, double x0, double y0, double A, double a, double b, double c);
+    double gauss_dy(double x, double y, double x0, double y0, double A, double a, double b, double c);
+    
+    double normal_dist(double aX, double aMean, double aStdev);
+    
+    
+    std::vector<unsigned long> sieve_of_eratosthenes(long x);
+    unsigned long prime_upper_bound(unsigned long x);
+    unsigned long approx_prime(unsigned long x);
+    std::vector<unsigned long> sieve_two(unsigned long x);
+    std::vector<unsigned long> primes(unsigned long x);
+    unsigned long prime(unsigned long x);
+    std::vector<unsigned long> factors(unsigned long x);
+    //std::vector<unsigned long> triangle_sieve(unsigned long x);
+    //std::vector<unsigned long> triangle_sieve_primes(unsigned long x);
+     
+    
+    unsigned long counting_every_row(unsigned long maxPrime);
+    std::vector<unsigned long> counting_every_row_all(unsigned long maxPrime);
 }
 
-#endif	/* MISCFUNCTIONS_H */
+#endif	/* GLCH_MISCFUNCTIONS_H */
 

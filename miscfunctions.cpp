@@ -45,6 +45,8 @@ namespace glch{
         return lTime->tm_sec;     
     }  
     
+
+    
     /**
     * Copies one data vector to another.
     * @param aBegin The pointer to the destination vector.
@@ -138,6 +140,19 @@ namespace glch{
         return locReturn;
     }
     
+    double map_point_exclude_zero(double aInput, double aToRange, double aToMin, int aFromRange, int aFromMin){
+        double locReturn = 0;
+
+        if(aInput == 0){
+            return 0;
+        }
+        
+        locReturn = (aInput - aFromMin)/(aFromRange) * (aToRange) + aToMin+1; 
+        
+
+        return locReturn;
+    }
+    
     /**
      * Computes the percent error between the ideal value and measured value.
      * @param aIdeal Ideal value
@@ -191,6 +206,17 @@ namespace glch{
             return lMantissa * pow(2.0, lExponent);
     }
     
+    double quotient(double aDividend, double aDivisor){
+        return (long)(aDividend/aDivisor);
+    }
+    
+    double remainderf(double aDividend, double aDivisor){
+        return (aDividend/aDivisor-quotient(aDividend,aDivisor));
+    }
+    
+    double modf(double aDividend, double aDivisor){
+        return (remainderf(aDividend,aDivisor))*(aDivisor);
+    }
     
     /*-------------------------------------------------------------------------
        Calculate the closest but lower power of two of a number
@@ -316,5 +342,273 @@ namespace glch{
 
         return(true);
     }    
+    
+    double gauss(double x, double y, double x0, double y0, double A, double a, double b, double c){
+        return A*exp(-1*(a*(x-x0)*(x-x0) - 2*b*(x-x0)*(y-y0) + c*(y-y0)*(y-y0)));
+    }
+    
+    double gauss_dx(double x, double y, double x0, double y0, double A, double a, double b, double c){
+        return A*(2*b*(y - y0) - 2*a*(x - x0))*exp(-a*(x - x0)*(x - x0) + 2*b*(x - x0)*(y - y0) - c*(y - y0)*(y - y0));
+    }
+    
+    double gauss_dy(double x, double y, double x0, double y0, double A, double a, double b, double c){
+        return A*(2*b*(x - x0) - 2*c*(y - y0))*exp(-a*(x - x0)*(x - x0) + 2*b*(x - x0)*(y - y0) - c*(y - y0)*(y - y0));
+    }
+    
+    double normal_dist(double aX, double aMean, double aStdev){
+        return 1/(aStdev*sqrt(2*M_PI))*exp(-.5*((aX-aMean)/aStdev)*((aX-aMean)/aStdev) );
+    }
+    
+    std::vector<unsigned long> sieve_of_eratosthenes(long x) {
+        unsigned long lNumbPrimes = 1;
+        unsigned long lNumbInts = x;
+        unsigned long lCurrentPrime = 2;
+
+        std::vector<unsigned long> lPrimesTF(lNumbInts,1);
+        std::vector<unsigned long> lPrimeList(x,0);
+
+        lPrimesTF[0] = 0;
+        lPrimesTF[1] = 0;
+        lPrimeList[0] = 2;
+
+        //while(lNumbPrimes < x) {
+        for(unsigned long j = 0; j < sqrt(lNumbInts); j++){
+            //std::cout << lNumbInts << " : " << lNumbPrimes << " : " << std::endl;
+            //while(lNumbPrimes < x) {
+            lCurrentPrime = lPrimeList[lNumbPrimes-1];
+            for(unsigned long i = lCurrentPrime+1; i < lNumbInts; i++){
+                if(lPrimesTF[i] != 0){
+                    if(i%lCurrentPrime == 0){
+                        lPrimesTF[i] = 0;
+                    }
+                }
+            }
+
+            for(unsigned long i = lCurrentPrime+1; i < lNumbInts; i++){
+                if(lPrimesTF[i] == 1){
+                    //std::cout << "Found: " << i << std::endl;
+                    lPrimeList[lNumbPrimes] = i;
+                    lNumbPrimes ++;
+                    break;
+                }
+            }
+
+        }
+
+        return(lPrimesTF);
+    }
+    
+    unsigned long prime_upper_bound(unsigned long x){
+
+        double lUpperBound = x+1;
+        double lLowerBound = lUpperBound*log(lUpperBound);
+        double m  = lLowerBound/log(lLowerBound);
+
+        unsigned long lRet = 0;
+
+        while(m < x+1){
+            m = lUpperBound/log(lUpperBound);
+            lUpperBound += lLowerBound*0.01;
+        }
+
+        return lUpperBound;
+
+    }
+    
+    unsigned long approx_prime(unsigned long x){
+
+        double lUpperBound = x+1;
+        double lLowerBound = lUpperBound*log(lUpperBound);
+        double m  = lLowerBound/log(lLowerBound);
+
+        unsigned long lRet = 0;
+
+        while(m < x+1){
+            m = lUpperBound/log(lUpperBound);
+            lUpperBound += lLowerBound*0.01;
+        }
+
+        //std::cout << (long)lUpperBound << " : " << (long)lLowerBound << std::endl;
+        lRet = round((lUpperBound+lLowerBound)/2+.5,0)*1.01;
+        if(lRet%2 == 0){
+            lRet--;
+        }
+        return lRet;
+
+    }
+    
+    std::vector<unsigned long> sieve_two(unsigned long x){
+
+        unsigned long MAX = x; //approx_prime(x);
+        unsigned long SQRT_MAX = sqrt(MAX) + 1;
+        std::vector<unsigned long> array(MAX,1);
+
+        array[0] = false;
+        array[1] = false;  
+
+        //--//
+        for (unsigned long i = 2; i < MAX; i++) {
+            if (array[i]) {
+                unsigned long j = i + i;
+                while (j < MAX) {
+                    array[j] = false;
+                    j += i;
+                }
+            }
+        }
+
+        return array;
+
+    }
+    
+    std::vector<unsigned long> primes(unsigned long x){
+
+        
+        //unsigned long n = approx_prime(x)+10;
+        unsigned long n = prime_upper_bound(x);
+
+        //NumericVector lPrimesTF = sieve_of_eratosthenes(n);
+        std::vector<unsigned long> lPrimesTF = sieve_two(n);
+        std::vector<unsigned long> lPrimeList(x,0);
+        lPrimeList.at(0) = 2;
+        
+        unsigned long lCount = 0;
+        for(unsigned long i = 0; i < lPrimesTF.size(); i++){
+            
+            if(lPrimesTF[i] == 1){
+                if(lCount < lPrimeList.size() ){
+                    lPrimeList[lCount] = i;
+                    lCount ++;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        return(lPrimeList);
+    }
+    
+    unsigned long prime(unsigned long x){
+        std::vector<unsigned long> lRet = primes(x);
+        return (*(lRet.end()-1));
+    }
+    
+    std::vector<unsigned long> factors(unsigned long x){
+
+        std::vector<unsigned long> lFactorList;
+
+        for(unsigned long i = 1; i <= x; i++){
+            if(x%i == 0){
+                lFactorList.push_back(i);
+            }
+        }
+
+
+        return lFactorList;
+    }
+    
+    std::vector<unsigned long> vectorized_pascals(std::vector<unsigned long>& input, unsigned long modular, unsigned long rowNumber){
+        
+        std::vector<unsigned long> P(input.size()+1,0);
+        P.at(1) = 1;
+        
+        for(unsigned long n = 2; n < rowNumber+1; n++){
+            P.at(n) = (input.at(n)+input.at(n-1))%modular;
+        }
+        
+        return P;
+    }
+    
+    void counting_rows(std::vector<unsigned long>& counts, std::vector<unsigned long>& input, unsigned long rowNumber){
+
+        for(unsigned long a = 1; a < rowNumber+1; a++){
+            counts.at(input.at(a)+1)++;
+        }
+        
+        
+    }
+    
+    unsigned long counting_every_row(unsigned long maxPrime){
+        //std::cout << "Prime: " << prime(maxPrime) << std::endl;
+        
+        std::vector<unsigned long> x = primes(maxPrime);
+        
+        unsigned long lastRow = x.back();
+        std::vector<unsigned long> counts(lastRow+1,0);
+        std::vector<unsigned long> vectorize(lastRow+1,0);
+        unsigned long modular = lastRow;
+        
+        for(unsigned long n = 1; n < lastRow+1; n++){
+            vectorize = vectorized_pascals(vectorize,modular,n);
+            counting_rows(counts,vectorize,n);
+        }
+
+        return counts.at(2);
+        
+    }
+    
+    std::vector<unsigned long> counting_every_row_all(unsigned long maxPrime){
+        //std::cout << "Prime: " << prime(maxPrime) << std::endl;
+        
+        std::vector<unsigned long> x = primes(maxPrime);
+        
+        unsigned long lastRow = x.back();
+        std::vector<unsigned long> counts(lastRow+1,0);
+        std::vector<unsigned long> vectorize(lastRow+1,0);
+        unsigned long modular = lastRow;
+        
+        for(unsigned long n = 1; n < lastRow+1; n++){
+            vectorize = vectorized_pascals(vectorize,modular,n);
+            counting_rows(counts,vectorize,n);
+        }
+
+        counts.at(0) = lastRow;
+        return counts;
+        
+    }
+    
+//    std::vector<unsigned long> triangle_sieve(unsigned long x) {
+//
+//        std::vector<unsigned long> lPrimesTF(x,x);
+//
+//        for(unsigned long i = 1; i <= x; i++){
+//
+//            std::vector<unsigned long> lFactors = factors(i);
+//
+//            for(unsigned long j = 0; j < lFactors.size(); j++){
+//                lPrimesTF(i-1,lFactors(j)-1) = 1;
+//
+//            }
+//
+//        }
+//
+//        return(lPrimesTF);
+//
+//    }
+//    
+//    std::vector<unsigned long> triangle_sieve_primes(unsigned long x) {
+//
+//        std::vector<unsigned long> lPrimesTF(x,x);
+//
+//        for(unsigned long i = 1; i <= x; i++){
+//
+//            std::vector<unsigned long> lFactors = factors(i);
+//
+//            for(unsigned long j = 0; j < lFactors.size(); j++){
+//                lPrimesTF(i-1,lFactors(j)-1) = 1;
+//
+//            }
+//
+//            if(lFactors.size() == 2){
+//                for(unsigned long j = 1; j < i-1; j++){
+//                    lPrimesTF(i-1,j) = .25;
+//                }
+//            }
+//
+//        }
+//
+//        return(lPrimesTF);
+//
+//    }
     
 }
