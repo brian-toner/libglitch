@@ -1,26 +1,10 @@
 
 #include "FileStrings.h"
-#include "DirectoryFunctions.h"
+
 
 namespace glch {
 
-    /**
-     * Returns the directory structure of a file path.  Program cuts off last forward or back slash.
-     * @param argFileName The full path and file.
-     * @return The path leading to the file.
-     */
-    std::string get_path(std::string argFileName){
-        long locCount = argFileName.size()-1;
-        std::string locReturn = "";
-
-        while(argFileName.c_str()[locCount] != '/' && argFileName.c_str()[locCount] != '\\'){
-            locCount --;
-        }
-
-        locReturn = argFileName.substr(0, locCount);
-
-        return locReturn;        
-    }
+    
 
     /**
      * Returns the name of the file with the extension and path stripped.

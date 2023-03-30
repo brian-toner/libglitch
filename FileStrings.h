@@ -5,23 +5,18 @@
  * Created on June 19, 2014, 5:44 PM
  */
 
-#ifndef FILESTRINGS_H
-#define	FILESTRINGS_H
+#ifndef GLCH_FILESTRINGS_H
+#define	GLCH_FILESTRINGS_H
 
 #include <iostream>
 #include <algorithm> 
 #include <vector>
 
-#include "AString.h"
+#include "DirectoryFunctions.h"
+//#include "AString.h"
 
 namespace glch {
 
-    /**
-     * Returns the directory structure of a file path.  Program cuts off last forward or back slash.
-     * @param argFileName The full path and file.
-     * @return The path leading to the file.
-     */
-    std::string get_path(std::string argFileName);
     
     /**
      * Returns the name of the file with the extension and path stripped.
@@ -65,5 +60,5 @@ namespace glch {
 
 }
 
-#endif	/* FILESTRINGS_H */
+#endif	/* GLCH_FILESTRINGS_H */
 
