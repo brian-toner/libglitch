@@ -5,8 +5,8 @@
  * Created on April 19, 2015, 4:40 PM
  */
 
-#ifndef ORDERPAIR_H
-#define	ORDERPAIR_H
+#ifndef GLCH_ORDERPAIR_H
+#define	GLCH_ORDERPAIR_H
 
 #include <vector>
 #include <iostream>
@@ -61,5 +61,5 @@ namespace glch{
 
 }
 
-#endif	/* ORDERPAIR_H */
+#endif	/* GLCH_ORDERPAIR_H */
 

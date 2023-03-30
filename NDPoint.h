@@ -5,8 +5,8 @@
  * Created on May 14, 2015, 11:53 AM
  */
 
-#ifndef NDPOINT_H
-#define	NDPOINT_H
+#ifndef GLCH_NDPOINT_H
+#define	GLCH_NDPOINT_H
 
 #include <vector>
 #include <iostream>
@@ -35,5 +35,5 @@ private:
 
 };
 
-#endif	/* NDPOINT_H */
+#endif	/* GLCH_NDPOINT_H */
 

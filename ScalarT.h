@@ -5,8 +5,8 @@
  * Created on July 4, 2015, 10:34 PM
  */
 
-#ifndef SCALART_H
-#define	SCALART_H
+#ifndef GLCH_SCALART_H
+#define	GLCH_SCALART_H
 
 namespace glch{
 
@@ -35,6 +35,15 @@ struct ScalarT{
         val[3] = orig.val[3];
     }
     
+    void set(unsigned char* aVal, int aCt){
+        
+        for(int i = 0; i < aCt; i++){
+            val[i] = aVal[i];
+        }
+    }
+    
+    
+    
 };
 
 typedef ScalarT<double> ScalarF; 
@@ -42,5 +51,5 @@ typedef ScalarT<double> ScalarF;
 
 }
 
-#endif	/* SCALART_H */
+#endif	/* GLCH_SCALART_H */
 

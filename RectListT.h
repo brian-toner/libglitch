@@ -5,8 +5,8 @@
  * Created on January 4, 2016, 7:40 PM
  */
 
-#ifndef RECTLISTT_H
-#define	RECTLISTT_H
+#ifndef GLCH_RECTLISTT_H
+#define	GLCH_RECTLISTT_H
 
 #include <vector>
 #include "RectT.h"
@@ -416,5 +416,5 @@ namespace glch{
     
 }
 
-#endif	/* RECTLISTT_H */
+#endif	/* GLCH_RECTLISTT_H */
 

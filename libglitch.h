@@ -5,8 +5,8 @@
  * Created on January 13, 2016, 12:08 PM
  */
 
-#ifndef ANALYSIS2D_H
-#define	ANALYSIS2D_H
+#ifndef GLCH_LIBGLITCH
+#define	GLCH_LIBGLITCH
 
 #include "AString.h"
 #include "AStringFunctions.h"
@@ -35,7 +35,11 @@
 #include "miscfunctions.h"
 #include "random.h"
 #include "stringconversion.h"
+#include "ArgParser.h"
+#include "GeneBuilder.h"
+#include "Cluster.h"
+#include "ImgClusters.h"
+#include "Parser.h"
 
-
-#endif	/* ANALYSIS2D_H */
+#endif	/* GLCH_LIBGLITCH */
 

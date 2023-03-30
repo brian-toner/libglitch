@@ -5,8 +5,8 @@
  * Created on July 7, 2015, 11:23 AM
  */
 
-#ifndef TEMPLATEMATH_H
-#define	TEMPLATEMATH_H
+#ifndef GLCH_TEMPLATEMATH_H
+#define	GLCH_TEMPLATEMATH_H
 
 namespace glch{
 
@@ -148,5 +148,5 @@ namespace glch{
 
 }
 
-#endif	/* TEMPLATEMATH_H */
+#endif	/* GLCH_TEMPLATEMATH_H */
 

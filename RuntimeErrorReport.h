@@ -5,8 +5,8 @@
  * Created on July 5, 2015, 10:49 AM
  */
 
-#ifndef BADCONVERSION_H
-#define	BADCONVERSION_H
+#ifndef GLCH_BADCONVERSION_H
+#define	GLCH_BADCONVERSION_H
 
 #include <stdexcept>
 #include <iostream>
@@ -25,5 +25,5 @@ namespace glch{
 
 }
 
-#endif	/* BADCONVERSION_H */
+#endif	/* GLCH_BADCONVERSION_H */
 

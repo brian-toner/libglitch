@@ -5,8 +5,8 @@
  * Created on May 14, 2015, 6:24 AM
  */
 
-#ifndef NDARRAY_H
-#define	NDARRAY_H
+#ifndef GLCH_NDARRAY_H
+#define	GLCH_NDARRAY_H
 
 #include <vector>
 #include <iostream>
@@ -77,5 +77,5 @@ private:
 
 };
 
-#endif	/* NDARRAY_H */
+#endif	/* GLCH_NDARRAY_H */
 
