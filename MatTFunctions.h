@@ -5,8 +5,8 @@
  * Created on July 10, 2015, 12:17 PM
  */
 
-#ifndef MATTFUNCTIONS_H
-#define	MATTFUNCTIONS_H
+#ifndef GLCH_MATTFUNCTIONS_H
+#define	GLCH_MATTFUNCTIONS_H
 
 #include "FileLoad.h"
 #include "MatT.h"
@@ -16,10 +16,14 @@
 #include "stringconversion.h"
 #include "AString.h"
 #include "miscfunctions.h"
-
+#include "fft.h"
+#include "ScalarT.h"
+#include "StatsF.h"
+#include "Moments.h"
 
 #include <algorithm>
-#include <iostream>     //cout, endl;
+#include <iostream>
+#include <map>     //cout, endl;
 
 namespace glch{
 
@@ -415,6 +419,73 @@ namespace glch{
         aMat.at(aPt) = aValue;
     }
     
+    template <class T, class U, class V>
+    void draw_filled_triangle(MatT<T> &aMat, PointT<U> aPt0, PointT<U> aPt1, PointT<U> aPt2, V aValue){
+        
+        double x0 = aPt0.x ,x1 = aPt1.x, x2 = aPt2.x, y0 = aPt0.y, y1 = aPt1.y, y2 = aPt2.y;
+        PointT<U> lPt0 = aPt0;
+        PointT<U> lPt1 = aPt1;
+        PointT<U> lPt2 = aPt2;
+        
+        
+        if(y1 < y0){
+            PointT<U> t = lPt1;
+            lPt1 = lPt0;
+            lPt0 = t;
+        }
+        
+        if(y2 < y0){
+            PointT<U> t = lPt2;
+            lPt2 = lPt0;
+            lPt0 = t;
+        }
+        
+        if(y2 < y1){
+            PointT<U> t = lPt1;
+            lPt1 = lPt2;
+            lPt2 = t;
+        }
+        
+        std::vector<PointT<U> > lLine01;
+        std::vector<PointT<U> > lLine12;
+        std::vector<PointT<U> > lLine02;
+        
+        compute_line_points(lPt0,lPt1,lLine01);
+        compute_line_points(lPt1,lPt2,lLine12);
+        compute_line_points(lPt0,lPt2,lLine02);
+        
+        draw_line(aMat, lPt0,lPt1, aValue);
+        draw_line(aMat, lPt1,lPt2, aValue);
+        draw_line(aMat, lPt0,lPt2, aValue);
+        
+        
+        std::map<U, PointT<U> > lLine012Map;
+        for(int i = 0; i != lLine01.size(); i++){
+            if(lLine012Map.find(lLine01.at(i).y) == lLine012Map.end()){
+                lLine012Map[lLine01.at(i).y] = lLine01.at(i);
+            } else {
+                if(lLine012Map[lLine01.at(i).y].x < lLine01.at(i).x){
+                    lLine012Map[lLine01.at(i).y] = lLine01.at(i);
+                }
+            }
+        }
+        
+        for(int i = 0; i != lLine12.size(); i++){
+            if(lLine012Map.find(lLine12.at(i).y) == lLine012Map.end()){
+                lLine012Map[lLine12.at(i).y] = lLine12.at(i);
+            } else {
+                if(lLine012Map[lLine12.at(i).y].x < lLine12.at(i).x){
+                    lLine012Map[lLine12.at(i).y] = lLine12.at(i);
+                }
+            }
+        }
+
+        for(int i = 0; i < lLine02.size(); i++){
+            draw_line(aMat,lLine02.at(i), lLine012Map[lLine02.at(i).y], aValue);
+        }
+        
+    }
+    
     template <class T, class U, class V> 
     void draw_line(MatT<T> &aMat, PointT<U> aPt1, PointT<U> aPt2, V aValue){
         double x1 = aPt1.x ,x2 = aPt2.x, y1 = aPt1.y, y2 = aPt2.y;
@@ -432,7 +503,7 @@ namespace glch{
         int y = y1;
         
         if(lDeltaY == 0){
-            for(size_t x = x1; x < x2; x++){
+            for(size_t x = x1; x < x2+1; x++){
                 aMat.at(Point(x,y1)) = aValue;
             }
             return;            
@@ -441,7 +512,7 @@ namespace glch{
         if(lDeltaX == 0){
             double lY1 = std::min(y1,y2);
             double lY2 = std::max(y1,y2);
-            for(size_t y = lY1; y < lY2; y++){
+            for(size_t y = lY1; y < lY2+1; y++){
                 aMat.at(Point(x1,y)) = aValue;
             }
             return;
@@ -543,12 +614,47 @@ namespace glch{
         
     } 
     
+    template <class T>
+    vector<PointT<T> > circ(PointT<T> aCentroid, T aRadius){
+        double lSteps = aRadius*0.01;
+        vector< PointT<T> > lRet;
+        
+        for(double x = -1*aRadius; x <= aRadius; x += lSteps){
+            PointT<T> lPt(x,sqrt(aRadius*aRadius-x*x));
+            if(fabs(lPt.y) < aRadius && fabs(lPt.x) < aRadius){
+                lPt.x += aCentroid.x;
+                lPt.y += aCentroid.y;
+                
+                lRet.push_back(lPt);
+            }
+        }
+        
+        for(double x = aRadius; x >= -1*aRadius; x -= lSteps){
+            PointT<T> lPt(x,-1*sqrt(aRadius*aRadius-x*x));
+            if(fabs(lPt.y) < aRadius && fabs(lPt.x) < aRadius){
+                lPt.x += aCentroid.x;
+                lPt.y += aCentroid.y;
+                
+                lRet.push_back(lPt);
+            }
+        }        
+        
+        return lRet;
+    }
+    
     template <class T, class U, class V>
     void draw_rect(MatT<T> &aMat, RectT<U> aRect, V aValue){
         Point lTL = aRect.top_left();
         Point lTR = Point(aRect.right()-1,aRect.top());
         Point lBL = Point(aRect.left(),aRect.bottom()-1);
         Point lBR = Point(aRect.right()-1,aRect.bottom()-1);
+        
+        //lTL.print();
+        //lTR.print();
+        //lBL.print();
+        //lBR.print();
+        
+        //std::cout << glch::AString().arg(lTL << " : " << lTR << " : " << lBL << " : " << lBR << std::endl;
         
         draw_line(aMat,lTL,lTR,aValue);
         draw_line(aMat,lTR,lBR,aValue);
@@ -567,13 +673,52 @@ namespace glch{
         
     }    
     
+    template <class T>
+    void resize_mat_pad(MatT<T> &aSrc, int aWidth, int aHeight){
+        MatT<T> lTemp = aSrc;
+        resize_mat_pad(lTemp,aSrc,aWidth,aHeight);
+    }
+    
+    template <class T, class U>
+    void resize_mat_pad(MatT<T> &aSrc, MatT<U> &aDst, int aWidth, int aHeight){
+        aDst.resize(aWidth, aHeight);
+        aDst.zero();
+        
+        for(size_t r = 0; r < aSrc.rows; r++){
+            for(size_t c = 0; c < aSrc.cols; c++){
+                aDst.at(Point(c,r)) = aSrc.at(Point(c,r));
+            }
+        }
+        
+    }
+    
+    template <class T>
+    void resize_mat(MatT<T> &aSrc, int aWidth, int aHeight){
+        MatT<T> lTemp = aSrc;
+        resize_mat(lTemp,aSrc,aWidth,aHeight);
+    }
+    
+    template <class T, class U>
+    void resize_mat(MatT<T> &aSrc, MatT<U> &aDst, int aWidth, int aHeight){
+        double aScaleX = (double)aWidth/(double)aSrc.cols;
+        double aScaleY = (double)aHeight/(double)aSrc.rows;
+        
+        scale_mat_size(aSrc,aDst,aScaleX,aScaleY);
+    }
+    
+    template <class T, class V>
+    void scale_mat_size(MatT<T> &aSrc, V aScaleX, V aScaleY){
+        MatT<T> lTemp = aSrc;
+        scale_mat_size(lTemp,aSrc,aScaleX,aScaleY);
+    }
+    
     template <class T, class U, class V>
     void scale_mat_size(MatT<T> &aSrc, MatT<U> &aDst, V aScaleX, V aScaleY){
         aDst.resize(aSrc.rows*aScaleY, aSrc.cols*aScaleX);
         
         for(size_t i = 0; i < aSrc.cols; i++){
             for(size_t j = 0; j < aSrc.rows; j++){
-                draw_filled_rect(aDst,Rect(floor(i*aScaleX),floor(j*aScaleY),ceil(aScaleX),ceil(aScaleY)),aSrc.at(Point(i,j)));
+                draw_filled_rect(aDst,Rect(floor(i*aScaleX),floor(j*aScaleY),ceil(aScaleX)+1,ceil(aScaleY)+1),aSrc.at(Point(i,j)));
             }
         }
         
@@ -613,6 +758,151 @@ namespace glch{
             draw_line(aMat, aPoly.front(), aPoly.back(), aValue);
         //}
         
+    }
+    
+    template <class T, class U, class V>
+    void draw_filled_poly_funky(MatT<T> &aMat, vector<PointT<U> > &aPoly, V aValue){
+        
+        //for(size_t i = 0; i < aPoly.size()-1; i++){
+            //std::cout << aMat.cols << " : " << aMat.rows << " | " << aPoly.at(i).x << " : " << aPoly.at(i).y << " | " << aPoly.at(i+1).x << " : " << aPoly.at(i+1).y << std::endl;
+        //    draw_line(aMat, aPoly.at(i), aPoly.at(i+1), aValue);
+            
+        //}
+        
+        //if(aPoly.front() != aPoly.back()){
+        //draw_line(aMat, aPoly.front(), aPoly.back(), aValue);
+        //}
+        
+        PointF lCentf = glch::centroid(aPoly);
+        Point lCent(lCentf.x,lCentf.y);
+        
+        for(int i = 0; i < aPoly.size()-1; i++){
+            draw_filled_triangle(aMat, aPoly.at(i), aPoly.at(i+1), lCent, aValue-(i%15)*15);
+            //draw_filled_triangle(aMat, aPoly.at(i), lCent, aPoly.at(i+1), aValue);
+            //draw_filled_triangle(aMat, aPoly.at(i+1), aPoly.at(i), lCent, aValue);
+            //draw_filled_triangle(aMat, aPoly.at(i+1), lCent, aPoly.at(i), aValue);
+            //draw_filled_triangle(aMat, lCent, aPoly.at(i), aPoly.at(i+1), aValue);
+            //draw_filled_triangle(aMat, lCent, aPoly.at(i+1), aPoly.at(i), aValue);
+
+                    
+        }
+
+        draw_filled_triangle(aMat, aPoly.front(), aPoly.back(), lCent, aValue-128);
+        //draw_filled_triangle(aMat, aPoly.front(), lCent, aPoly.back(), aValue);
+        //draw_filled_triangle(aMat, aPoly.back(), aPoly.front(), lCent, aValue);
+        //draw_filled_triangle(aMat, aPoly.back(), lCent, aPoly.front(), aValue);
+        //draw_filled_triangle(aMat, lCent, aPoly.front(), aPoly.back(), aValue);
+        //draw_filled_triangle(aMat, lCent, aPoly.back(), aPoly.front(), aValue);
+            
+        //for(size_t r = 0; r < aMat.rows; r++){
+        //    for(size_t c = 0; c < aMat.cols; c++){
+        //        Point lPt(c,r);
+        //        if(contains(aPoly,lPt)){
+        //            aMat.at(lPt) = aValue;
+        //        }
+        //    }
+        //}    
+            
+    }    
+    
+    template <class T, class U, class V>
+    void draw_filled_poly_simple(MatT<T> &aMat, vector<PointT<U> > &aPoly, V aValue){
+        
+        
+        std::map<U, PointT<U> > lMinX;
+        std::map<U, PointT<U> > lMaxX;
+        U lMinY = aMat.rows;
+        U lMaxY = 0;
+        
+        std::vector<PointT<U> > lPolyCoords;
+        
+        for(int i = 0; i < aPoly.size()-1; i++){
+            compute_line_points(aPoly.at(i), aPoly.at(i+1), lPolyCoords);
+        }
+        compute_line_points(aPoly.back(), aPoly.front(), lPolyCoords);   
+        
+        for(int i = 0; i < lPolyCoords.size(); i++){
+            //lPolyCoords.at(i).print();
+        
+        //for(std::vector<PointT<U> >::iterator it = lPolyCoords.begin(); it < lPolyCoords.end(); it++){
+            if(lMinY > lPolyCoords.at(i).y){
+                
+                lMinY = lPolyCoords.at(i).y;
+            }
+            
+            if(lMaxY < lPolyCoords.at(i).y){
+                
+                lMaxY = lPolyCoords.at(i).y;
+            }
+            
+            if(lMinX.find(lPolyCoords.at(i).y) == lMinX.end()){
+                lMinX[lPolyCoords.at(i).y] = lPolyCoords.at(i);
+            } else {
+                if(lMinX[lPolyCoords.at(i).y].x > lPolyCoords.at(i).x){
+                    lMinX[lPolyCoords.at(i).y] = lPolyCoords.at(i);
+                }
+            }
+            
+            if(lMaxX.find(lPolyCoords.at(i).y) == lMaxX.end()){
+                lMaxX[lPolyCoords.at(i).y] = lPolyCoords.at(i);
+            } else {
+                if(lMaxX[lPolyCoords.at(i).y].x < lPolyCoords.at(i).x){
+                    lMaxX[lPolyCoords.at(i).y] = lPolyCoords.at(i);
+                }
+            }
+        }
+        
+        
+        for(int y = lMinY; y < lMaxY+1; y++){
+            draw_line(aMat,lMinX[y],lMaxX[y],aValue);
+        }
+        
+    }
+    
+    
+    template <class T, class U, class V>
+    void draw_filled_poly(MatT<T> &aMat, vector<PointT<U> > &aPoly, V aValue){
+        
+        //for(size_t i = 0; i < aPoly.size()-1; i++){
+            //std::cout << aMat.cols << " : " << aMat.rows << " | " << aPoly.at(i).x << " : " << aPoly.at(i).y << " | " << aPoly.at(i+1).x << " : " << aPoly.at(i+1).y << std::endl;
+        //    draw_line(aMat, aPoly.at(i), aPoly.at(i+1), aValue);
+            
+        //}
+        
+        //if(aPoly.front() != aPoly.back()){
+        //draw_line(aMat, aPoly.front(), aPoly.back(), aValue);
+        //}
+        
+        PointF lCentf = glch::centroid(aPoly);
+        Point lCent(lCentf.x,lCentf.y);
+        
+        for(int i = 0; i < aPoly.size()-1; i++){
+            draw_filled_triangle(aMat, aPoly.at(i), aPoly.at(i+1), lCent, aValue);
+            //draw_filled_triangle(aMat, aPoly.at(i), lCent, aPoly.at(i+1), aValue);
+            //draw_filled_triangle(aMat, aPoly.at(i+1), aPoly.at(i), lCent, aValue);
+            //draw_filled_triangle(aMat, aPoly.at(i+1), lCent, aPoly.at(i), aValue);
+            //draw_filled_triangle(aMat, lCent, aPoly.at(i), aPoly.at(i+1), aValue);
+            //draw_filled_triangle(aMat, lCent, aPoly.at(i+1), aPoly.at(i), aValue);
+
+                    
+        }
+
+        draw_filled_triangle(aMat, aPoly.front(), aPoly.back(), lCent, aValue);
+        //draw_filled_triangle(aMat, aPoly.front(), lCent, aPoly.back(), aValue);
+        //draw_filled_triangle(aMat, aPoly.back(), aPoly.front(), lCent, aValue);
+        //draw_filled_triangle(aMat, aPoly.back(), lCent, aPoly.front(), aValue);
+        //draw_filled_triangle(aMat, lCent, aPoly.front(), aPoly.back(), aValue);
+        //draw_filled_triangle(aMat, lCent, aPoly.back(), aPoly.front(), aValue);
+            
+        //for(size_t r = 0; r < aMat.rows; r++){
+        //    for(size_t c = 0; c < aMat.cols; c++){
+        //        Point lPt(c,r);
+        //        if(contains(aPoly,lPt)){
+        //            aMat.at(lPt) = aValue;
+        //        }
+        //    }
+        //}    
+            
     }
     
     template <class T, class U, class V>
@@ -677,12 +967,13 @@ namespace glch{
     template <class T, class U>
     void copy_type_to_mat(vector<char> argInput, MatT<T> &argOutput, int argStartPos){
         
-        int locCount = argStartPos;
-        int locStep = sizeof(U);
+        int k = argStartPos;
+        //int locCount = argStartPos;
+        //int locStep = sizeof(U);
         
-        for(size_t i = 0; i < argOutput.size(); i++){
-            argOutput.at(i) = *(U *)&argInput[locCount];;
-            locCount += locStep;    
+        for(size_t i = 0; i < argOutput.size(); i++, k+=sizeof(U)){
+            argOutput.at(i) = *(U *)&argInput[k];;
+            //locCount += locStep;    
         }
            
 
@@ -703,6 +994,130 @@ namespace glch{
         }
 
     }    
+    
+    template<class T>
+    double calc_avg_h(glch::MatT<T> &aData){
+
+        double lHValue;
+        double lH1 = 0;
+        for(int j = 0; j < aData.rows; j++){
+            std::vector<double> lDSignal = mat_row_to_vect(aData,j);
+            double lTemp = glch::calc_hurst(&(lDSignal.at(0)),aData.cols );  
+            //std::cout << "H1: " << lTemp << std::endl;
+            lH1 += lTemp;  
+        }
+
+        lH1 /= aData.rows;
+        double lH2 = 0;
+        for(int j = 0; j < aData.cols; j++){
+            std::vector<double> lDSignal = mat_col_to_vect(aData,j);
+            double lTemp = glch::calc_hurst(&(lDSignal.at(0)),aData.rows );
+            //std::cout << "H2: " << lTemp << std::endl;
+            lH2 += lTemp;  
+        }
+        lH2 /= aData.cols;
+
+        lHValue = sqrt(lH1*lH1+lH2*lH2);
+        return lHValue;
+        
+    }
+        
+    template<class T>
+    double calc_avg_bin_h(glch::MatT<T> &aData, int aBinSize){
+
+        double lHValue;
+        double lH1 = 0;
+        for(int j = 0; j < aData.rows; j++){
+            std::vector<double> lDSignal = mat_row_to_vect(aData,j);
+            double lTemp = glch::calc_bin_hurst(&(lDSignal.at(0)),aData.cols,aBinSize );  
+            //std::cout << "H1: " << lTemp << std::endl;
+            lH1 += lTemp;  
+        }
+
+        lH1 /= aData.rows;
+        double lH2 = 0;
+        for(int j = 0; j < aData.cols; j++){
+            std::vector<double> lDSignal = mat_col_to_vect(aData,j);
+            double lTemp = glch::calc_bin_hurst(&(lDSignal.at(0)),aData.rows,aBinSize );
+            //std::cout << "H2: " << lTemp << std::endl;
+            lH2 += lTemp;  
+        }
+        lH2 /= aData.cols;
+
+        lHValue = sqrt(lH1*lH1+lH2*lH2);
+        return lHValue;
+    }
+
+    template<class T>
+    double calc_linmod_bin_h(glch::MatT<T> &aData, int aBinSize){
+
+        CLinearModel lLinearModel;
+        std::vector<glch::PointF> lPoints;
+        
+        for(int j = 0; j < aData.rows; j++){
+            std::vector<double> lDSignal = mat_row_to_vect(aData,j);
+            glch::push_bin_hurst(&(lDSignal.at(0)),aData.cols,lPoints,aBinSize );  
+        }
+
+        for(int j = 0; j < aData.cols; j++){
+            std::vector<double> lDSignal = mat_col_to_vect(aData,j);
+            glch::push_bin_hurst(&(lDSignal.at(0)),aData.rows,lPoints,aBinSize );
+        }
+
+        calculate_least_squares_regression(lLinearModel, lPoints, lPoints.size(), 0, lPoints.size()-1);
+        return lLinearModel.vBetaHat;
+    }
+
+    
+    
+    template<class T>
+    double calc_mag_bin_h(glch::MatT<T> &aData, int aBinSize){
+
+        double lHValue;
+        double lH1 = 0;
+        std::vector<double> lDSignalR = mat_row_to_vect(aData,0);
+        lH1 = glch::calc_bin_hurst(&(lDSignalR.at(0)),aData.cols,aBinSize );  
+
+        double lH2 = 0;
+        std::vector<double> lDSignalC = mat_col_to_vect(aData,0);
+        lH2 = glch::calc_bin_hurst(&(lDSignalC.at(0)),aData.rows,aBinSize );
+
+        lHValue = sqrt(lH1*lH1+lH2*lH2);
+        return lHValue;
+    }
+    
+    template <class T>
+    std::vector<double> mat_to_vect(glch::MatT<T> &aData){
+        std::vector<double> lDSignal(aData.size());
+        for(int i = 0; i < aData.size(); i++){
+            lDSignal.at(i) = aData.at(i);
+        }    
+
+        return lDSignal;
+    }
+
+    template<class T>
+    std::vector<double> mat_row_to_vect(glch::MatT<T> &aData, int aRow){
+        std::vector<T> lSignal = aData.getr(aRow);
+        std::vector<double> lDSignal(lSignal.size());
+        for(int i = 0; i < aData.cols; i++){
+            lDSignal.at(i) = lSignal.at(i);
+        }
+
+        return lDSignal;
+    }
+
+    template<class T>
+    std::vector<double> mat_col_to_vect(glch::MatT<T> &aData, int aCol){
+            std::vector<T> lSignal = aData.getc(aCol);
+            std::vector<double> lDSignal(lSignal.size());
+
+            for(int i = 0; i < aData.rows; i++){
+                lDSignal.at(i) = lSignal.at(i);
+            }
+
+            return lDSignal;
+    }
     
     template<class T>
     void load_xsm(string locFile, MatT<T> &aImage){
@@ -751,22 +1166,28 @@ namespace glch{
         size_t lDepth = 0;
         
         load_file(locFile, &locData);
+        int lFileSize = locData.size();
         int lPGMSplit = 0;
 
+        int lSplitCount = 3;
         //Getting header data
-        while(lPGMSplit < 4){
+        while(lPGMSplit < lSplitCount){
 
             if(locData.at(locSplit) == 0x0A){
                 lPGMSplit ++;
             }
 
+            if(locData.at(locSplit) == '#'){
+                lSplitCount++;
+            }
+            
             locHeader += locData.at(locSplit);
             locSplit ++;
 
         }
 
         char lSplit[2] = {0x0A,0x00};
-        
+
         //Getting rid of comments and empty lines.
         locSplitHeader = glch::split_string(locHeader, lSplit );
         for(size_t i = 0; i < locSplitHeader.size(); i++){
@@ -780,23 +1201,27 @@ namespace glch{
                 i--;                
             }
         }
-      
+
         locImageDim = glch::split_string(locSplitHeader.at(1), " " );
         
         locWidth = string_to_type<int>(locImageDim.at(0));
         locHeight = string_to_type<int>(locImageDim.at(1));
         lDepth = string_to_type<int>(locSplitHeader.at(2))+1;
-
+        //int lRemainder = lFileSize-locSplit-locHeight*locWidth*log2(lDepth)/8;
+        //locSplit += lRemainder;
+        
+        //std::cout << locWidth << " : " << locHeight << " : " << log2(lDepth)/8 << " : " << lFileSize << " : " << lRemainder << std::endl;
+        
         aImage.resize(locHeight,locWidth);
 
         if(lDepth == (size_t)pow(2,8)){
             copy_type_to_mat<T,unsigned char>(locData,aImage,locSplit);
-        } else if (lDepth == (size_t)pow(2,16)){
+        } else if (lDepth == (size_t)pow(2,16) ){
             copy_type_to_mat<T,unsigned short>(locData,aImage,locSplit);
         } else if (lDepth == (size_t)pow(2,32)){
             copy_type_to_mat<T,unsigned int>(locData,aImage,locSplit);
         } else {
-            throw RuntimeErrorReport("Invalid image depth.");
+            throw RuntimeErrorReport("Invalid image depth: "+to_string(lDepth) );
         }        
         
     }    
@@ -947,6 +1372,11 @@ namespace glch{
         
     }    
     
+    
+    
+    void save_xsm_us(string argFileName, MatT<unsigned short> &argSrc);
+    void load_xsm_us(string locFile, MatT<unsigned short> &aImage);
+    
     template <class T>
     void save_xsm(string argFileName, MatT<T> &argSrc){
 
@@ -982,7 +1412,7 @@ namespace glch{
     }
 
     template <class T>
-    void save_pgm(string argFileName, MatT<T> &argSrc, string aHeaderComment = "Created with analysis2d library"){
+    void save_pgm(string argFileName, MatT<T> &argSrc, string aHeaderComment = "Created with glitch library"){
 
         vector<char> locSave;
         int locCount = 0;
@@ -1011,7 +1441,7 @@ namespace glch{
     }
 
     template <class T>
-    void save_ppm(string argFileName, std::vector<MatT<T> > &argSrc, string aHeaderComment = "Created with analysis2d library"){
+    void save_ppm(string argFileName, std::vector<MatT<T> > &argSrc, string aHeaderComment = "Created with glitch library"){
 
         vector<char> locSave;
         int locCount = 0;
@@ -1026,6 +1456,7 @@ namespace glch{
             locCount++;
         }
 
+        locCount--;
         locSave.at(locCount) = 0x0A;
         locCount++;
 
@@ -1060,9 +1491,9 @@ namespace glch{
     }
 
     template <class T, class U>
-    void scale_mat_values(MatT<T> &aSrc, MatT<U> &aDst, double aSrcMin, double aSrcMax, double aDstMin, double aDstMax){
+    void scale_mat_values(MatT<T> &aSrc, MatT<U> &aDst, double aSrcMin, double aSrcMax, double aDstMin, double aDstMax, bool aExcludeZeros = false){
         aDst.resize(aSrc.rows,aSrc.cols);
-        map_vector(aSrc.data,aDst.data,aSrcMin,aSrcMax,aDstMin,aDstMax);
+        map_vector(aSrc.data,aDst.data,aSrcMin,aSrcMax,aDstMin,aDstMax,aExcludeZeros);
     }
     
     template <class T, class U>
@@ -1108,7 +1539,144 @@ namespace glch{
         
     }
     
+    
+    
+    template <class T, class U>
+    void convert_matrix(MatT<T> &aSrc, MatT<U> &aDst){
+        aDst.resize(aSrc.rows, aSrc.cols);
+        glch::convert_vector(aSrc.data,aDst.data);
+        
+    }    
+    
+    template <class T>
+    void flip_matrix_h(MatT<T> &aSrc){
+        MatT<T> lSrc = aSrc;
+        flip_matrix_h(lSrc,aSrc);
+    }
+    
+    template <class T>
+    void flip_matrix_h(MatT<T> &aSrc, MatT<T> &aDst){
+        
+        aDst.resize(aSrc.rows, aSrc.cols);
+        
+        for(size_t r = 0; r < aSrc.rows; r++){
 
+            for(size_t c = 0; c < aSrc.cols/2; c++){
+                aDst.at(Point(c,r)) = aSrc.at(Point(aSrc.cols-c-1,r));
+                aDst.at(Point(aSrc.cols-c-1,r)) = aSrc.at(Point(c,r));
+            }
+
+        }
+        
+    }
+   
+    template <class T>
+    void flip_matrix_v(MatT<T> &aSrc){
+        MatT<T> lSrc = aSrc;
+        flip_matrix_v(lSrc,aSrc);
+    }    
+    
+    template <class T>
+    void flip_matrix_v(MatT<T> &aSrc, MatT<T> &aDst){
+        
+        aDst.resize(aSrc.rows, aSrc.cols);
+        
+        for(size_t c = 0; c < aSrc.cols; c++){
+            
+            for(size_t r = 0; r < aSrc.rows/2; r++){
+                aDst.at(Point(c,r)) = aSrc.at(Point(c,aSrc.rows-r-1));
+                aDst.at(Point(c,aSrc.rows-r-1)) = aSrc.at(Point(c,r));
+            }
+
+        }
+        
+    }
+    
+    template <class T>
+    void shift_matrix_h(MatT<T> &aSrc, int aCountX){
+        MatT<T> lSrc = aSrc;
+        shift_matrix_h(lSrc,aSrc,aCountX);
+    }
+    
+    template <class T>
+    void shift_matrix_h(MatT<T> &aSrc, MatT<T> &aDst, int aCountX){
+        
+        int lCountX = -1*modf(aCountX,aSrc.cols);
+        aDst.resize(aSrc.rows, aSrc.cols);
+        int k = 0;
+        
+        if(lCountX < 0){
+            lCountX += aSrc.cols;
+        }
+
+        if(lCountX > 0){
+            for(size_t r = 0; r < aSrc.rows; r++){
+                
+                for(size_t c = lCountX; c < aSrc.cols; c++, k++){
+                    aDst.at(Point(k,r)) = aSrc.at(Point(c,r));
+                }
+
+                for(int c = 0; c < lCountX; c++, k++){
+                    aDst.at(Point(k,r)) = aSrc.at(Point(c,r));
+                }
+                
+                k = 0;
+            }
+            
+        } else {   
+            aDst = aSrc;
+        }
+
+    }
+
+    template <class T>
+    void shift_matrix_v(MatT<T> &aSrc, int aCountY){
+        MatT<T> lSrc = aSrc;
+        shift_matrix_v(lSrc,aSrc,aCountY);
+    }    
+    
+    template <class T>
+    void shift_matrix_v(MatT<T> &aSrc, MatT<T> &aDst, int aCountY){
+        
+        int lCountY = -1*modf(aCountY,aSrc.rows);
+        aDst.resize(aSrc.rows, aSrc.cols);
+        int k = 0;
+        
+        if(lCountY < 0){
+            lCountY += aSrc.rows;
+        }
+
+        if(lCountY > 0){
+            for(size_t c = 0; c < aSrc.cols; c++){
+
+                for(size_t r = lCountY; r < aSrc.rows; r++, k++){
+                    aDst.at(Point(c,k)) = aSrc.at(Point(c,r));
+                }
+
+                for(int r = 0; r < lCountY; r++, k++){
+                    aDst.at(Point(c,k)) = aSrc.at(Point(c,r));
+                }
+                
+                k = 0;
+            }
+        } else {
+            aDst = aSrc;
+        }
+
+    }
+
+    template <class T>
+    void shift_matrix(MatT<T> &aSrc, int aCountX, int aCountY){
+        MatT<T> lTemp = aSrc;
+        shift_matrix(lTemp,aSrc,aCountX,aCountY);
+    }   
+    
+    template <class T>
+    void shift_matrix(MatT<T> &aSrc, MatT<T> &aDst, int aCountX, int aCountY){
+        shift_matrix_h(aSrc,aDst,aCountX);
+        MatT<T> lTemp = aDst;
+        shift_matrix_v(lTemp,aDst,aCountY);
+    }   
     
     /*-------------------------------------------------------------------------
         Perform a 2D FFT inplace given a complex 2D array
@@ -1119,62 +1687,157 @@ namespace glch{
      * http://paulbourke.net/miscellaneous/dft/
      * Cooley–Tukey FFT algorithm
      */
-    template<class T>
-    bool compute_fft_2d(std::vector<MatT<T> > &c, int dir){
+    template <class T>
+    void compute_fft_2d(std::vector< MatT<T> > &aSrc, int dir){
 
+//        MatT<T> lReal;
+//        MatT<T> lImag;
+//        std::vector< MatT<T> > lRet;
+        
         int m,twopm;
-        size_t lRows = c.at(0).rows;
-        size_t lCols = c.at(0).cols;
+        size_t lRows = aSrc.at(0).rows;
+        size_t lCols = aSrc.at(0).cols;
+//        aDst.resize(2);
+//        aDst.at(0).resize(lRows,lCols);
+//        aDst.at(1).resize(lRows,lCols);
+        
+        
+        
         /* Transform the rows */
         std::vector<double> real(lCols);
         std::vector<double> imag(lCols);
 
-        if (!power_of_two(lCols,m,twopm) || (size_t)twopm != lCols){
-            return(false);
+        GLCHCArray lComps;
+        lComps.resize(lCols);
+        //std:valarray<double> corpX(corps_tmp[i].data(), corps_tmp[i].size());
+        
+        if(!power_of_two(lCols,m,twopm)){
+            std::cout << lCols << " : " << m << " : " << twopm << std::endl;
+            std::cout << "Error... not power of 2...\n";
+            return;
         }
+                
+        //std::cout << power_of_two(lCols,m,twopm) << std::endl;
+        //std::cout << twopm << std::endl;
+        
+        //if (!power_of_two(lCols,m,twopm) || (size_t)twopm != lCols){
+        //    return lRet;
+        //}
 
         for (size_t j = 0; j < lRows; j++) {
 
             for (size_t i = 0; i < lCols; i++) {
-                real[i] = c.at(0).at(Point(i,j));
-                imag[i] = c.at(1).at(Point(i,j));
+                //lComps[i].real() = aSrc.at(0).at(Point(i,j));
+                //lComps[i].imag() = aSrc.at(0).at(Point(i,j));
+                lComps[i].real(aSrc.at(0).at(Point(i,j)));
+                lComps[i].imag(aSrc.at(0).at(Point(i,j)));
+                
+                //real[i] = aSrc.at(0).at(Point(i,j));
+                //imag[i] = aSrc.at(0).at(Point(i,j));
             }
 
-            FFT(dir,m,real,imag);
-
+            //FFT(dir,m,real,imag);
+            if(dir){
+                glch::fft(lComps);
+            } else {
+                glch::ifft(lComps);
+            }
+                    
             for (size_t i = 0; i < lCols; i++) {
-                c.at(0).at(Point(i,j)) = real[i];
-                c.at(1).at(Point(i,j)) = imag[i];
+                aSrc.at(0).at(Point(i,j)) = lComps[i].real();
+                aSrc.at(1).at(Point(i,j)) = lComps[i].imag();
+                
+                //aSrc.at(0).at(Point(i,j)) = real[i];
+                //aSrc.at(1).at(Point(i,j)) = imag[i];
             }
         }
 
         real.clear();
         imag.clear();
+        
         real.resize(lRows);
         imag.resize(lRows);
+        lComps.resize(lRows);
         /* Transform the columns */
 
-        if (!power_of_two(lRows,m,twopm) || (size_t)twopm != lRows){
-            return(false);
-        }
+        power_of_two(lRows,m,twopm);
+        //if (!power_of_two(lRows,m,twopm) || (size_t)twopm != lRows){
+        //    return lRet;
+        //}
 
         for (size_t i = 0; i < lCols; i++) {
-
+            
             for (size_t j = 0; j < lRows; j++) {
-                real[j] = c.at(0).at(Point(i,j));
-                imag[j] = c.at(1).at(Point(i,j));
+                lComps[j].real(aSrc.at(0).at(Point(i,j)));
+                lComps[j].imag(aSrc.at(0).at(Point(i,j)));
+                
+                //real[j] = aSrc.at(0).at(Point(i,j));
+                //imag[j] = aSrc.at(0).at(Point(i,j));
             }
 
-           FFT(dir,m,real,imag);
-
+           //FFT(dir,m,real,imag);
+            if(dir){
+                glch::fft(lComps);
+            } else {
+                glch::ifft(lComps);
+            }
+            
             for (size_t j=0; j < lRows; j++) {
-                c.at(0).at(Point(i,j)) = real[j];
-                c.at(1).at(Point(i,j)) = imag[j];
+                aSrc.at(0).at(Point(i,j)) = lComps[j].real();
+                aSrc.at(1).at(Point(i,j)) = lComps[j].imag();
+                
+                //aSrc.at(0).at(Point(i,j)) = real[j];
+                //aSrc.at(1).at(Point(i,j)) = imag[j];
             }
         }
 
-       return(true);
+//        lRet.push_back(lReal);
+//        lRet.push_back(lImag);
+//        
+//       return lRet;
     }
+
+    template<class T>
+    void compute_fft_2d_fwd(MatT<T> &aSrc, std::vector< MatT<double> > &aDst){
+        //std::cout << "fwd" << std::endl;
+
+        //std::vector< MatT<double> > lDst;
+        aDst.resize(2);
+        
+
+        //std::cout << "Test1204" << std::endl;
+        convert_matrix(aSrc,aDst.at(0));
+        aDst.at(1).resize(aSrc.rows,aSrc.cols);
+        //glch::convert_vector(aSrc.data,aDst.at(0).data);
+        
+        //std::cout << "Test1207" << std::endl;
+        compute_fft_2d(aDst,1);
+        //std::cout << "Test1209" << std::endl;
+        
+        
+
+        
+        //std::cout << "fwd_end" << std::endl;
+    }
+    
+    template<class T>
+    void compute_fft_2d_rev(std::vector< MatT<double> > &aSrc, MatT<T> &aDst){
+        //std::cout << "rev" << std::endl;
+        std::vector< MatT<double> > lDst(2);
+
+        lDst.at(0) = aSrc.at(0);
+        lDst.at(1) = aSrc.at(1);
+        
+        compute_fft_2d(lDst,0);
+        glch::convert_vector(lDst.at(0).data,aDst.data);
+        
+        
+        //flip_matrix_v(aDst);
+        //flip_matrix_h(aDst);
+        //shift_matrix(aDst,1,1);
+        
+        //std::cout << "rev_end" << std::endl;
+    }    
 
     /**
      * Merges two rows in a matrix into a new matrix (aDst)
@@ -1225,7 +1888,264 @@ namespace glch{
         return lRet;
     }
 
+    template <class T, class U>
+    MatT<T> convolve_fft(MatT<T> &aSrc, MatT<U> &aKernel){
+        MatT<T> aDst;
+        MatT<double> lKernel;
+        std::vector<MatT<double> > lFFT;
+        std::vector<MatT<double> > lKernelFFT;
+        
+        lKernel.resize(aKernel.rows,aKernel.cols);
+        glch::scale_mat_values(aKernel,lKernel,0,1);
+
+
+        glch::resize_mat_pad(lKernel,aSrc.cols,aSrc.rows);
+        glch::shift_matrix(lKernel,(aSrc.cols-aKernel.cols)/2.0,(aSrc.rows-aKernel.rows)/2.0);
+        aDst.resize(aSrc.rows, aSrc.cols);
+        
+        glch::compute_fft_2d_fwd(aSrc,lFFT);
+        glch::compute_fft_2d_fwd(lKernel,lKernelFFT);
+        
+        //corners_to_center(lFFTOrig.at(0),lFFTOrig.at(0));
+        //corners_to_center(lFFTOrig.at(1),lFFTOrig.at(1));
+        //glch::shift_matrix(lFFT.at(0),lFFT.at(0).cols/2,lFFT.at(0).rows/2);
+        //glch::shift_matrix(lFFT.at(1),lFFT.at(1).cols/2,lFFT.at(0).rows/2);
     
+        lFFT.at(0) = mat_mult(lFFT.at(0),lKernelFFT.at(0));
+        //lFFT.at(1) = mat_mult(lFFT.at(1),lKernelFFT.at(1));
+        //lFFT.at(1) = mat_mult(lFFT.at(1),lKernel);
+        
+        //corners_to_center(lFFTOrig.at(0),lFFTOrig.at(0));
+        //corners_to_center(lFFTOrig.at(1),lFFTOrig.at(1));
+        //glch::shift_matrix(lFFT.at(0),-lFFT.at(0).cols/2,-lFFT.at(0).rows/2);
+        //glch::shift_matrix(lFFT.at(1),-lFFT.at(1).cols/2,-lFFT.at(0).rows/2);
+        
+        glch::compute_fft_2d_rev(lFFT,aDst);
+        
+        return aDst;
+    }
+    
+    template <class T, class U>
+    MatT<T> convolve(MatT<T> &aSrc, MatT<U> &aKernel){
+        MatT<T> aDst;
+        aDst.resize(aSrc.rows, aSrc.cols);
+        
+        for(size_t r = 0; r < aSrc.rows; r++){
+            for(size_t c = 0; c < aSrc.cols; c++){
+                aDst.at(Point(c,r)) = convolve_one(r,c,aSrc,aKernel);
+            }
+        }
+        
+        
+        
+        double lMatSum = glch::sum(aKernel.data);
+        if(lMatSum != 0){
+            for(size_t i = 0; i < aDst.size(); i++){
+                aDst.at(i) = fabs(aDst.at(i)/lMatSum);
+            }
+        }
+        
+        
+        return aDst;
+    }
+    
+    template <class T, class U>
+    T convolve_one(int aRow, int aCol, MatT<T> &aSrc, MatT<U> &aKernel){
+    
+        T lRet = 0;
+        int lOffsetR = aKernel.rows/2;
+        int lOffsetC = aKernel.cols/2;
+        
+        for(size_t r = 0; r < aKernel.rows; r++){
+            for(size_t c = 0; c < aKernel.cols; c++){
+                glch::Point lPt1 = Point(aCol-lOffsetC+c,aRow-lOffsetR+r);
+                glch::Point lPt2 = Point(c,r);
+                
+                if( !(lPt1.x < 0 || lPt1.y < 0 || lPt1.x > aSrc.cols || lPt1.y > aSrc.rows) ){
+                    lRet += aSrc.at_no_wrap(Point(aCol-lOffsetC+c,aRow-lOffsetR+r))*aKernel.at(Point(c,r));
+                }
+            }
+            
+        }
+        
+        return lRet;
+    }    
+    
+    template <class T>
+    void gen_gaussian(int aWidth, int aHeight, MatT<T> &aDst, double A = 1, double a = .5, double b = 0, double c = .5){
+
+        aDst.resize(aHeight,aWidth);
+        
+        double x0 = aWidth/2;
+        double y0 = aHeight/2;
+            
+        for(int y = 0; y < aHeight; y++){
+            for(int x = 0; x < aWidth; x++){
+                aDst.at(Point(x,y)) = gauss(x,y,x0,y0,A,a,b,c);
+            }
+        }
+            
+//        double lSum = glch::sum_vector(aDst.data);
+//        
+//        for(int i = 0; i < aDst.size(); i++){
+//            aDst.at(i) /= lSum;
+//        }
+        
+    }
+
+    template <class T>
+    void gen_gaussian_dx(int aWidth, int aHeight, MatT<T> &aDst, double A = 1, double a = .5, double b = 0, double c = .5){
+
+        aDst.resize(aHeight,aWidth);
+        
+        double x0 = aWidth/2;
+        double y0 = aHeight/2;
+            
+        for(int y = 0; y < aHeight; y++){
+            for(int x = 0; x < aWidth; x++){
+                aDst.at(Point(x,y)) = gauss_dx(x,y,x0,y0,A,a,b,c);
+            }
+        }
+            
+//        double lSum = glch::sum_vector(aDst.data);
+//        
+//        
+//        for(int i = 0; i < aDst.size(); i++){
+//            aDst.at(i) /= lSum;
+//        }
+        
+    }    
+
+    template <class T>
+    void gen_gaussian_dy(int aWidth, int aHeight, MatT<T> &aDst, double A = 1, double a = .5, double b = 0, double c = .5){
+
+        aDst.resize(aHeight,aWidth);
+        
+        double x0 = aWidth/2;
+        double y0 = aHeight/2;
+            
+        for(int y = 0; y < aHeight; y++){
+            for(int x = 0; x < aWidth; x++){
+                aDst.at(Point(x,y)) = gauss_dy(x,y,x0,y0,A,a,b,c);
+            }
+        }
+            
+//        double lSum = glch::sum_vector(aDst.data);
+//        
+//        for(int i = 0; i < aDst.size(); i++){
+//            aDst.at(i) /= lSum;
+//        }
+        
+    }   
+    
+    template <class T>
+    void gen_gaussian_scaled(int aWidth, int aHeight, MatT<T> &aDst, double aA = 255){
+
+        aDst.resize(aHeight,aWidth);
+        
+        double x0 = aWidth/2;
+        double y0 = aHeight/2;
+            
+        for(int y = 0; y < aHeight; y++){
+            for(int x = 0; x < aWidth; x++){
+                aDst.at(Point(x,y)) = gauss(x,y,x0,y0,aA,5/(x0*x0),0,5/(y0*y0));
+            }
+        }
+        
+    }
+    
+    template <class T>
+    void gen_gaussian_scaled_dx(int aWidth, int aHeight, MatT<T> &aDst, double aA = 255){
+
+        aDst.resize(aHeight,aWidth);
+        
+        double x0 = aWidth/2;
+        double y0 = aHeight/2;
+            
+        for(int y = 0; y < aHeight; y++){
+            for(int x = 0; x < aWidth; x++){
+                aDst.at(Point(x,y)) = gauss_dx(x,y,x0,y0,aA,5/(x0*x0),0,5/(y0*y0));
+            }
+        }
+
+//        double lSum = glch::sum_vector(aDst.data);
+//        
+//        for(int i = 0; i < aDst.size(); i++){
+//            aDst.at(i) /= lSum;
+//        }        
+    }
+
+    template <class T>
+    void gen_gaussian_scaled_dy(int aWidth, int aHeight, MatT<T> &aDst, double aA = 255){
+
+        aDst.resize(aHeight,aWidth);
+        
+        double x0 = aWidth/2;
+        double y0 = aHeight/2;
+            
+        for(int y = 0; y < aHeight; y++){
+            for(int x = 0; x < aWidth; x++){
+                aDst.at(Point(x,y)) = gauss_dy(x,y,x0,y0,aA,5/(x0*x0),0,5/(y0*y0));
+            }
+        }
+
+//        double lSum = glch::sum_vector(aDst.data);
+//        
+//        for(int i = 0; i < aDst.size(); i++){
+//            aDst.at(i) /= lSum;
+//        }         
+    }
+    
+    template <class T>
+    void normalize_matrix(MatT<T>& aSrc, MatT<double>& aDst){
+        
+        double lSum = glch::sum_vector(aSrc.data);
+        aDst.resize(aSrc.rows,aSrc.cols);
+        
+        for(size_t i = 0; i < aDst.size(); i++){
+            aDst.at(i) = aSrc.at(i) / lSum;
+        }
+        
+    }
+    
+    
+    template <class T>
+    std::vector< MatT<T> > gen_mat_image(int aRows, int aCols, int aChannels){
+        std::vector< MatT<T> > lRet(aChannels);
+        
+        for(int i = 0; i < aChannels; i++){
+            lRet.at(i).resize(aRows,aCols);
+            lRet.at(i).zero();
+        }
+        
+        return lRet;
+    }
+
+    template <class T>
+    void set_mat_image(std::vector< MatT<T> >& aSrc, int aX, int aY, ScalarF aVal){
+        
+        for(size_t i = 0; i < aSrc.size(); i++){
+            aSrc.at(i).at(Point(aX,aY)) = aVal.val[i];
+        }
+        
+    }
+    
+    template <class T>
+    MatT<unsigned char> threshold_image(MatT<T> &aSrc, T aVal){
+        
+        MatT<unsigned char> lRet(aSrc.rows, aSrc.cols);
+        
+        
+        
+        for(int i = 0; i < aSrc.rows; i++){
+            for(int j = 0; j < aSrc.cols; j++){
+                lRet.at(Point(j,i)) = (aSrc.at(Point(j,i)) > aVal)*255;
+            }
+        }
+        
+        
+        return lRet;
+    }
     
     
 } //End om
