@@ -5,8 +5,8 @@
  * Created on February 5, 2016, 9:27 AM
  */
 
-#ifndef DEFINES_H
-#define	DEFINES_H
+#ifndef GLCH_DEFINES_H
+#define	GLCH_DEFINES_H
 
 
 namespace glch{
@@ -16,5 +16,5 @@ namespace glch{
     #endif
 
 }
-#endif	/* DEFINES_H */
+#endif	/* GLCH_DEFINES_H */
 
