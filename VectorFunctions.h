@@ -5,8 +5,8 @@
  * Created on July 7, 2015, 8:34 AM
  */
 
-#ifndef VECTORFUNCTIONS_H
-#define	VECTORFUNCTIONS_H
+#ifndef GLCH_VECTORFUNCTIONS_H
+#define	GLCH_VECTORFUNCTIONS_H
 
 #include <vector>
 #include <iostream>
@@ -21,6 +21,7 @@ namespace glch{
 #define GLCH_ENDPOINT_INCLUSIVE 0x03
 #define GLCH_ENDPOINT_EXCLUSIVE 0x00
     
+
     /**
      * Prints a vector of type T through cout.
      * @param aSrc Source to print.
@@ -48,6 +49,7 @@ namespace glch{
     template <class T>
     void print_vect_fn(std::vector<T> &aSrc, std::string aDelim = " "){
         for(size_t i = 0; i < aSrc.size(); i++){
+            //std::cout << "Printing... " << i << " : " << aSrc.size() << std::endl;
             aSrc.at(i).print(aDelim);
         }
     }
@@ -179,6 +181,20 @@ namespace glch{
 
     }    
     
+    template <class T>
+    std::vector<T> get_delta_vect(std::vector<T> aData){
+        std::vector<double> lRet;
+        lRet.resize(aData.size());
+        
+        lRet.at(0) = fabs(aData.front()-aData.back());
+        
+        for(size_t i = 1; i < lRet.size(); i++){
+            lRet.at(i) = fabs(aData.at(i)-aData.at(i-1));
+        }
+        
+        return lRet;
+    }
+    
     /**
      * Searches the vector for the value.  If the value is found then true is reported.
      * Otherwise, false is reported.
@@ -247,6 +263,42 @@ namespace glch{
 
         return lValue;
     }
+
+    /**
+     * Finds the maximum value in a vector of type T.
+     * @param aData vector to scan for the max.
+     * @return Maximum value from the vector.
+     */    
+    template <class T>
+    T max(std::vector<T> &aData, size_t aStart, size_t aEnd){
+        T lValue = aData.at(0);
+        for(size_t i = aStart; i < aEnd; i++){
+            if(lValue < aData.at(i)){
+                lValue = aData.at(i);
+            }
+        }
+
+        return lValue;
+    }
+
+    /**
+     * Finds the minimum value in a vector of type T.
+     * @param aData vector to scan for the min.
+     * @return Minimum value from the vector.
+     */
+    template <class T>
+    T min(std::vector<T> &aData, size_t aStart, size_t aEnd){
+        T lValue = aData.at(0);
+        
+        for(size_t i = aStart; i < aEnd; i++){
+            
+            if(lValue > aData.at(i)){
+                lValue = aData.at(i);
+            }
+        }
+
+        return lValue;
+    }
     
     /**
      * Maps a vector of data from one range into another range.
@@ -263,7 +315,7 @@ namespace glch{
         double lDstRange = aMax-aMin;
         aDst.resize(aSrc.size());
 
-        std::cout << lMin << " : " << lMax << std::endl;
+        //std::cout << lMin << " : " << lMax << std::endl;
         
         for(size_t i = 0; i < aSrc.size(); i++){
             
@@ -284,13 +336,17 @@ namespace glch{
      * @param aDstMax Max value to map into.
      */
     template <class T, class U>
-    void map_vector(std::vector<T> &aSrc, std::vector<U> &aDst, double aSrcMin, double aSrcMax, double aDstMin, double aDstMax){
+    void map_vector(std::vector<T> &aSrc, std::vector<U> &aDst, double aSrcMin, double aSrcMax, double aDstMin, double aDstMax, bool aExcludeZeros){
         double lSrcRange = aSrcMax-aSrcMin;
         double lDstRange = aDstMax-aDstMin;
         aDst.resize(aSrc.size());
         
         for(size_t i = 0; i < aSrc.size(); i++){
-            aDst.at(i) = map_point(aSrc.at(i),lDstRange,aDstMin,lSrcRange,aSrcMin,false);       
+            if(aExcludeZeros && aSrc.at(i)==0){
+                aDst.at(i) = 0;
+            } else {
+                aDst.at(i) = (U)map_point(aSrc.at(i),lDstRange,aDstMin,lSrcRange,aSrcMin,false);       
+            }
         }
         
     }
@@ -304,6 +360,19 @@ namespace glch{
         }
         
         return lRet;
+    }
+    
+    template <class T>
+    void unzip_pairs(std::vector<PointT<T> >& aSrc, std::vector<T>& aDstX, std::vector<T>& aDstY ){
+        
+        aDstX.resize(aSrc.size());
+        aDstY.resize(aSrc.size());
+        
+        for(size_t i = 0; i < aSrc.size(); i++){
+            aDstX.at(i) = aSrc.at(i).x;
+            aDstY.at(i) = aSrc.at(i).y;
+        }
+        
     }
     
     template <class T>
@@ -365,6 +434,18 @@ namespace glch{
         
         
     }
+
+    template <class T>
+    void cumulative_sum(std::vector<T> &aSrc, std::vector<T> &aDst){
+        aDst.resize(aSrc.size());
+        aDst.at(0) = aSrc.at(0);
+        
+        for(size_t i = 1; i < aSrc.size(); i++){
+            aDst.at(i) = aSrc.at(i)+aDst.at(i-1);
+        }
+        
+        
+    }
     
     template <class T>
     std::vector<T> range(T aStart, T aEnd, T aStep = 1, int aEndpointFlags = GLCH_ENDPOINT_INCLUSIVE){
@@ -378,9 +459,11 @@ namespace glch{
             aEnd ++;
         }        
         
+
         for(T i = aStart; i < aEnd; i += aStep){
             lRet.push_back(i);
         }
+
         
         return lRet;
     }
@@ -388,5 +471,5 @@ namespace glch{
     
 }
     
-#endif	/* VECTORFUNCTIONS_H */
+#endif	/* GLCH_VECTORFUNCTIONS_H */
 
