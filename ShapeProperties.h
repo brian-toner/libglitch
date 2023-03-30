@@ -5,8 +5,8 @@
  * Created on January 2, 2016, 2:30 PM
  */
 
-#ifndef SHAPEPROPERTIES_H
-#define	SHAPEPROPERTIES_H
+#ifndef GLCH_SHAPEPROPERTIES_H
+#define	GLCH_SHAPEPROPERTIES_H
 
 #include "PointT.h"
 #include "Moments.h"
@@ -22,6 +22,7 @@ namespace glch{
     class ShapeProperties {
     public:
         ShapeProperties(){}; 
+        
         
         ShapeProperties(std::vector< PointT<T> > &aPoly, size_t aNMoments = 5){
             initialize(aPoly,aNMoments);  
@@ -47,6 +48,52 @@ namespace glch{
                                                         vMinimalBoundingRect(orig.vMinimalBoundingRect){};
         virtual ~ShapeProperties(){};
 
+        static std::string header(){
+            glch::AString lRet;
+            
+            lRet << "Centroid_X";
+            lRet << "Centroid_Y";
+            lRet << "Area";
+            lRet << "Perimeter";
+            lRet << "Diameter";
+            lRet << "CvxArea";
+            lRet << "CvxPerimeter";
+            lRet << "DMin";
+            lRet << "DMax";
+            lRet << "Waviness";
+            lRet << "AspectRatio";
+            lRet << "FilamentRatio";
+            lRet << "CircularRatio";
+            lRet << "MCpt";
+            lRet << "MEct";
+            lRet << "Orientation";
+            
+            return lRet;
+        }
+        
+        std::string to_string(){
+            glch::AString lRet;
+            
+            lRet << vBoundingRect.centroid().x;
+            lRet << vBoundingRect.centroid().y;
+            lRet << vArea;
+            lRet << vPerimeter;
+            lRet << vDiameter;
+            lRet << vCvxArea;
+            lRet << vCvxPerimeter;
+            lRet << vDMin;
+            lRet << vDMax;
+            lRet << vWaviness;
+            lRet << vAspectRatio;
+            lRet << vFilamentRatio;
+            lRet << vCircularRatio;
+            lRet << vMCpt;
+            lRet << vMEct;
+            lRet << vOrientation;
+            
+            return lRet;
+        }
+        
         void initialize(std::vector< PointT<T> > &aPoly, size_t aNMoments = 5){
             moments(aPoly,aNMoments);
             vArea = area(aPoly);
@@ -93,7 +140,7 @@ namespace glch{
         RectF       vBoundingRect;
         
         std::vector< PointT<T> > vCvxHull;
-        std::vector< PointT<T> > vMinimalBoundingRect;
+        std::vector< PointF > vMinimalBoundingRect;
         
     private:
 
@@ -122,5 +169,5 @@ namespace glch{
     
 }
 
-#endif	/* SHAPEPROPERTIES_H */
+#endif	/* GLCH_SHAPEPROPERTIES_H */
 
