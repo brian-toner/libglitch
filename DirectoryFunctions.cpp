@@ -19,16 +19,17 @@ namespace glch{
     int rmdir(std::string aDirectory){
         return system(glch::AString("rm -rf %1").argr(aDirectory).c_str() );
     }
-
+    
     std::string get_current_path(){
         
-#if defined(WIN32) || defined(WIN64)
-        wchar_t lCWD[1024];
-        char* lCWDRet = (char*)_wgetcwd(lCWD,1024);
-#else
-        char lCWD[1024];
-        char* lCWDRet = getcwd(lCWD,1024);
-#endif
+        #if defined(WIN32) || defined(WIN64)
+            wchar_t lCWD[1024];
+            char* lCWDRet = (char*)_wgetcwd(lCWD,1024);
+        #else
+            char lCWD[1024];
+            char* lCWDRet = getcwd(lCWD,1024);
+        #endif
+
         std::string lRet = "";
         
         if(lCWDRet != NULL){
@@ -93,7 +94,7 @@ namespace glch{
      */
     void check_makedir(std::string argFolder, bool argHasFile){
 
-        AString locFolder;
+        std::string locFolder;
 
         if(argHasFile){
             locFolder = get_path(argFolder);
@@ -109,4 +110,21 @@ namespace glch{
 
     }
     
+    /**
+     * Returns the directory structure of a file path.  Program cuts off last forward or back slash.
+     * @param argFileName The full path and file.
+     * @return The path leading to the file.
+     */
+    std::string get_path(std::string argFileName){
+        long locCount = argFileName.size()-1;
+        std::string locReturn = "";
+
+        while(argFileName.c_str()[locCount] != '/' && argFileName.c_str()[locCount] != '\\'){
+            locCount --;
+        }
+
+        locReturn = argFileName.substr(0, locCount);
+
+        return locReturn;        
+    }
 }

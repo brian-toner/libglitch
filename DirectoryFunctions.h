@@ -5,19 +5,28 @@
  * Created on January 13, 2016, 1:03 PM
  */
 
-#ifndef DIRECTORYFUNCTIONS_H
-#define	DIRECTORYFUNCTIONS_H
+#ifndef GLCH_DIRECTORYFUNCTIONS_H
+#define	GLCH_DIRECTORYFUNCTIONS_H
 
 #include <iostream>
 #include <string>
 #include <cstdlib>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
+//#include "FileStrings.h"
 #include "AString.h"
 
 namespace glch{
     
+    /**
+     * Returns the directory structure of a file path.  Program cuts off last forward or back slash.
+     * @param argFileName The full path and file.
+     * @return The path leading to the file.
+     */
+    std::string get_path(std::string argFileName);
+
     /**
      * Uses system calls to create a directory structure.
      * @param aDirectory Directory to create.
@@ -60,5 +69,5 @@ namespace glch{
      */
     void check_makedir(std::string argFolder, bool argHasFile = false);
 }
-#endif	/* DIRECTORYFUNCTIONS_H */
+#endif	/* GLCH_DIRECTORYFUNCTIONS_H */
 
