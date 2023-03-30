@@ -5,8 +5,8 @@
  * Created on July 4, 2015, 10:07 PM
  */
 
-#ifndef LINEARMODEL_H
-#define	LINEARMODEL_H
+#ifndef GLCH_LINEARMODEL_H
+#define	GLCH_LINEARMODEL_H
 
 #include <string>
 #include <cstdlib>
@@ -24,6 +24,7 @@ namespace glch{
         double vSxx;            //Standard deviation x
         double vSyy;            //Standard deviation y
         double vRSquared;       //R^2 value
+        double vRVal;           //R value
         std::string vEquation;  //String value representing the linear equation.
 
         double vMinX;
@@ -68,6 +69,9 @@ namespace glch{
 
         void set_data(vector<PointF> &aData, double aMinX, double aMaxX);
         
+        void set_data(std::vector<double>& aXData, std::vector<double>& aYData, double aMinX, double aMaxX);
+        void set_data(std::vector<double>& aXData, std::vector<double>& aYData);
+        
         /**
          * Computes the least squares regression for a vector of points.
          * The line of regression is only calculated for the points whose x values
@@ -96,7 +100,26 @@ namespace glch{
          * @param argEnd - End iterator of points
          * @return Returns a structure containing the least squares data.
          */
-        void calculate_least_squares_regression(vector<PointF>::iterator argBegin, vector<PointF>::iterator argEnd);       
+        void calculate_least_squares_regression(std::vector<PointF>& aData, size_t aFirst, size_t aLast);
+
+        /**
+         * Calculates the line of best fit through a set of ordered pairs (argDataX, argDataY) using the least squares method.
+         * <br>
+         * Sxx = ∑(x^2|i=1 to n) - n (x-bar)^2
+         * <br>    
+         * Syy = ∑(y^2|i=1 to n) - n (y-bar)^2
+         * <br>
+         * B-hat = ∑(xy|i=1 to n) - (n x-bar y-bar)/Sxx
+         * <br>
+         * A-hat = y-bar - B-hat*x-bar
+         * <br>
+         * R^2 = (B-hat) √(Sxx/Syy)
+         * 
+         * @param argBegin - Begin iterator of points
+         * @param argEnd - End iterator of points
+         * @return Returns a structure containing the least squares data.
+         */
+        void calculate_least_squares_regression_dep(vector<PointF>::iterator argBegin, vector<PointF>::iterator argEnd);       
         
         private:
 
@@ -105,5 +128,5 @@ namespace glch{
 
 }
 
-#endif	/* LINEARMODEL_H */
+#endif	/* GLCH_LINEARMODEL_H */
 
