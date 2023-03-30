@@ -5,8 +5,8 @@
  * Created on April 25, 2016, 9:26 AM
  */
 
-#ifndef ASTRINGFUNCTIONS_H
-#define	ASTRINGFUNCTIONS_H
+#ifndef GLCH_ASTRINGFUNCTIONS_H
+#define	GLCH_ASTRINGFUNCTIONS_H
 
 #include "AString.h"
 #include "FileStrings.h"
@@ -22,7 +22,7 @@ namespace glch{
     glch::AString directory_parse(std::string aFileName, std::string aCommand);
     
     /**
-     * Parses the base file name  from a command string (foo-bar-blaw.txt e.g. f2-f0, into blaw-foo
+     * Parses the base file name  from a command string (/abc/def/foo-bar-blaw.txt e.g. %d1-%d2-%f2-%f0, into def-abc-blaw-foo
      * @param aFileName
      * @param aCommand
      * @param aDelim
@@ -32,5 +32,5 @@ namespace glch{
 
 }
     
-#endif	/* ASTRINGFUNCTIONS_H */
+#endif	/* GLCH_ASTRINGFUNCTIONS_H */
 

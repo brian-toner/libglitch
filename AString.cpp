@@ -5,6 +5,8 @@
  * Created on January 16, 2015, 2:38 PM
  */
 
+#include <vector>
+
 #include "AString.h"
 #include "VectorFunctions.h"
 
@@ -77,6 +79,7 @@ namespace glch{
 
         for(std::vector<size_t>::iterator it = lPos.begin(); it != lPos.end(); it++){
             if(arg_at(lRet,*it) == lAddress){
+                //cout << "Replacing: " << lAddStr << " : " << aInput << endl;
                 lRet.replace((*it), lAddStr.length(), aInput);
                 for(std::vector<size_t>::iterator itj = it+1; itj != lPos.end(); itj++){
                     (*itj) += aInput.length()-lAddStr.length();
@@ -546,7 +549,8 @@ namespace glch{
 
         return *this;
     }    
-   
+    
+    
     /**
      * Splits an AString into a list of AString.
      * @param aDelim the delimitation string used to determine the split locations.
@@ -640,6 +644,49 @@ namespace glch{
         return lRet;
     }
     
+//    size_t AString::find_ignore_tolkens_new(std::string aValue, size_t aIndex, std::vector<AString> aIgnoreTolkenStart, std::vector<AString> aIgnoreTolkenEnd){
+//        
+//        size_t lIgnoreCount = 0;
+//        size_t lNTolken = aIgnoreTolkenStart.size();
+//        std::vector<bool> lSameTolken(lNTolken);// = false;
+//        std::vector<bool> lIgnoreStart(lNTolken);// = false;
+//        
+//        for(size_t i = 0; i < lNTolken; i++){
+//            if(aIgnoreTolkenStart.at(i) == aIgnoreTolkenEnd.at(i) ){
+//                lSameTolken.at(i) = true;
+//            }
+//        }
+//        
+//        for(size_t i = aIndex; i < length(); i++){
+//
+//            if(lSameTolken && lIgnoreCount > 0){
+//                lIgnoreStart = true;
+//            } else {
+//                lIgnoreStart = false;
+//            }
+//
+//            if(!lIgnoreStart && substr(i,aIgnoreTolkenStart.length()).compare(aIgnoreTolkenStart) == 0){
+//                lIgnoreCount ++;
+//                i += aIgnoreTolkenStart.length();
+//            }
+//            
+//            if(substr(i,aIgnoreTolkenEnd.length()).compare(aIgnoreTolkenEnd) == 0){
+//                lIgnoreCount --;
+//                i += aIgnoreTolkenEnd.length();
+//            }            
+//            
+//            if(lIgnoreCount == 0){
+//                if(substr(i,aValue.length()).compare(aValue) == 0){
+//                    return i;
+//                }
+//            }
+//
+//        }
+//        
+//        return std::string::npos;
+//        
+//    }
+    
     size_t AString::find_ignore_tolkens(std::string aValue, size_t aIndex, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd){
         
         size_t lIgnoreCount = 0;
@@ -680,7 +727,6 @@ namespace glch{
         
     }
     
-    
     size_t AString::find_nth(std::string aValue, size_t aCount, size_t aPos, std::string aTolkenStart, std::string aTolkenEnd){
         
         size_type lIndex = aPos;
@@ -690,7 +736,7 @@ namespace glch{
         //std::cout << "Length: " << aValue.length() << " : " << aPos << std::endl;
         
         do{
-            lRet = find_ignore_tolkens(aValue,lIndex,aTolkenStart,aTolkenEnd);
+            lRet = 0;//find_ignore_tolkens(aValue,lIndex,aTolkenStart,aTolkenEnd);
             if(lRet == std::string::npos){
                 return std::string::npos;
             }
@@ -735,6 +781,74 @@ namespace glch{
     
     AString AString::csv(size_t aRow, size_t aCol, std::string aTextDelim, bool aStripTextDelim){
         AString lRet = table(aRow, aCol, "\n", ",", aTextDelim);
+        if(aStripTextDelim){
+            lRet.replace_all_strings(aTextDelim,"");
+        }
+        return lRet;
+    }
+
+    size_t AString::dict_size(){
+        return table_dim_count(0,AString("0,0").to_vector<size_t>(),AString(":;,").to_vector<std::string>(";"))-1;
+        
+    }
+    
+    size_t AString::dict_label_index(glch::AString aLabel, std::string aTextDelim, bool aStripTextDelim){
+        size_t lRet = GLCH_NOT_FOUND;
+        
+        for(size_t i = 0; lRet == GLCH_NOT_FOUND && i < dict_size(); i++){
+            if(aLabel == dict_label(i,aTextDelim,aStripTextDelim)){
+                lRet = i;
+            }
+        }
+        
+        return lRet;
+    }
+    
+    AString AString::dict_label(AString aElement, std::string aTextDelim, bool aStripTextDelim){
+        size_t lIndex = dict_label_index(aElement,aTextDelim,aStripTextDelim);
+        
+        if(lIndex != GLCH_NOT_FOUND){
+            return dict_value(lIndex,aTextDelim,aStripTextDelim);
+        }
+        
+        return "";
+        
+    }
+    
+    AString AString::dict_label(size_t aElement, std::string aTextDelim, bool aStripTextDelim){
+        AString lRet = table(aElement,0,",",":",aTextDelim);
+        if(aStripTextDelim){
+            lRet.replace_all_strings(aTextDelim,"");
+        }
+        return lRet;            
+    }
+    
+    AString AString::dict_value(AString aElement, std::string aTextDelim, bool aStripTextDelim){
+        size_t lIndex = dict_label_index(aElement,aTextDelim,aStripTextDelim);
+        
+        if(lIndex != GLCH_NOT_FOUND){
+            return dict_value(lIndex,aTextDelim,aStripTextDelim);
+        }
+        
+        return "";
+    }
+    
+    AString AString::dict_value(size_t aElement, std::string aTextDelim, bool aStripTextDelim){
+        AString lRet = table(aElement,1,",",":",aTextDelim);
+        if(aStripTextDelim){
+            lRet.replace_all_strings(aTextDelim,"");
+        }
+        return lRet;          
+    }
+    
+    
+    
+    AString& AString::dict_set(AString aValue, size_t aElement, std::string aTextDelim){
+        return table_replace(aValue, aElement, 1, ",", ":", aTextDelim);  
+    }
+    
+    AString AString::csv(size_t aCol, std::string aTextDelim, bool aStripTextDelim){
+        AString lRet = table(0, aCol, "\n", ",", aTextDelim);
         if(aStripTextDelim){
             lRet.replace_all_strings(aTextDelim,"");
         }
@@ -952,7 +1066,7 @@ namespace glch{
         
         while (lIndex != std::string::npos && lIndex < aEndPos) {
             
-            lIndex = find_ignore_tolkens(aDelim,lIndex,aTextDelim,aTextDelim);
+            lIndex = 0;//find_ignore_tolkens(aDelim,lIndex,aTextDelim,aTextDelim);
             if(lIndex != std::string::npos){
                 lIndex += aDelim.length();
             }
@@ -1115,6 +1229,15 @@ namespace glch{
     }    
     
     /**
+     * @brief contains Checks if a value is contained in an AString.
+     * @param aVal The value to search for.
+     * @return True if the value is in the string, false otherwise.
+     */
+    bool AString::contains(std::string aVal){
+        return find(aVal) != std::string::npos;
+    }
+
+    /**
      * Prints the contents of the AString.
      * @param aDelim The string used to terminate the string in the input.  Default newline.
      */    
@@ -1124,6 +1247,26 @@ namespace glch{
     
     
     
-    
+    AStringArray load_csv_file(std::string aFileName){
+        AString lCSV = load_text_file(aFileName);
+        
+        
+        
+        
+        std::vector<string> lRows = split_string(lCSV,"\n","\"","\"");
+        AStringArray lRet(lRows.size());
+        
+        for(size_t i = 0; i < lRows.size(); i++){
+            std::cout << i << std::endl;
+            std::vector<string> lCols = split_string(lRows.at(i),",","\"","\"");
+            lRet.at(i).resize(lCols.size());
+            for(size_t j = 0; j < lCols.size(); j++){
+                lRet.at(i).at(j) = lCols.at(j);
+            }
+            
+        }
+        
+        return lRet;
+    }
     
 }

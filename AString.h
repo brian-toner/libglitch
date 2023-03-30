@@ -5,8 +5,8 @@
  * Created on January 16, 2015, 2:38 PM
  */
 
-#ifndef ASTRING_H
-#define	ASTRING_H
+#ifndef GLCH_ASTRING_H
+#define	GLCH_ASTRING_H
 
 
 #include <iostream>
@@ -413,6 +413,16 @@ namespace glch{
             size_t find_nth(std::string aValue, size_t aCount, size_t aPos);
             size_t find_ignore_tolkens(std::string aValue, size_t aIndex, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd);
             
+            size_t dict_size();
+            AString dict_label(AString aElement, std::string aTextDelim = "'", bool aStripTextDelim = true);
+            AString dict_label(size_t aElement, std::string aTextDelim = "'", bool aStripTextDelim = true);
+            size_t dict_label_index(glch::AString aLabel, std::string aTextDelim = "'", bool aStripTextDelim = true);
+            AString dict_value(AString aElement, std::string aTextDelim = "'", bool aStripTextDelim = true);
+            AString dict_value(size_t aElement, std::string aTextDelim = "'", bool aStripTextDelim = true);
+            AString& dict_set(AString aValue, size_t aElement, std::string aTextDelim = "'");
+            
+            AString csv(size_t aCol, std::string aTextDelim = "\"", bool aStripTextDelim = false);
+            
             AString csv(size_t aPage, size_t aRow, size_t aCol, std::string aTextDelim = "\"");
             AString csvi(size_t aPage, size_t aRow, std::string aCol, std::string aTextDelim = "\"");
             AString& csv_replace(std::string aValue, size_t aPage, size_t aRow, size_t aCol, std::string aTextDelim = "\"");
@@ -426,7 +436,7 @@ namespace glch{
             AString csv(size_t aRow, size_t aCol, std::string aTextDelim = "\"", bool aStripTextDelim = false);
             AString& csv_replace(std::string aValue, size_t aRow, size_t aCol, std::string aTextDelim = "\"");
             size_t csv_row_count(std::string aTextDelim = "\"");
-            size_t csv_col_count(size_t aRow, std::string aTextDelim = "\"");
+            size_t csv_col_count(size_t aRow = 0, std::string aTextDelim = "\"");
             size_t csv_col_index(std::string aColName, std::string aTextDelim = "\"");
             size_t csv_row_index(std::string aRowName, std::string aTextDelim = "\"");
             
@@ -458,6 +468,9 @@ namespace glch{
             template<class T>
             AString& push_vector(std::vector<T> aValues);
             
+
+            bool contains(std::string aVal);
+
             /**
              * Prints the contents of the AString.
              * @param aDelim The string used to terminate the string in the input.  Default newline.
@@ -566,8 +579,13 @@ namespace glch{
     
     typedef std::vector<AString> AStringList;
     typedef std::vector<AStringList> AStringArray;
-
+    typedef std::vector<std::string> StringList;
+    typedef std::vector<StringList> StringArray;
+    
+    
+    AStringArray load_csv_file(std::string aFileName);
+    
 }
 
-#endif	/* ASTRING_H */
+#endif	/* GLCH_ASTRING_H */
 

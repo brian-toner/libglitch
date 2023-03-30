@@ -31,7 +31,7 @@ namespace glch{
         
         for(size_t i = 0; i < lSplitName.size(); i++){
             
-            AString lCommandStr = AString("%f%1").argr(i);
+            AString lCommandStr = AString("%f%1").argr(lSplitName.size()-i-1);
             size_t lCommandPos = lRet.find(lCommandStr);
             size_t lCommandLen = lCommandStr.length();
             
