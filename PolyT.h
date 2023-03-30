@@ -5,8 +5,8 @@
  * Created on December 31, 2015, 8:59 AM
  */
 
-#ifndef POLYGONT_H
-#define	POLYGONT_H
+#ifndef GLCH_POLYGONT_H
+#define	GLCH_POLYGONT_H
 
 
 #include <vector>
@@ -17,7 +17,7 @@
 #include "PointT.h"
 #include "RectT.h"
 #include "Moments.h"
-#include "ShapeProperties.h"
+//#include "ShapeProperties.h" Circular...
 #include "miscfunctions.h"
 #include "PairT.h"
 #include "PolygonFunctions.h"
@@ -30,7 +30,7 @@ namespace glch{
           
     public:
         PolyT(){};
-        PolyT(std::vector< PointT<T> > aPolyPoints){
+        PolyT(std::vector< PointT<T> >& aPolyPoints){
             set_polygon(aPolyPoints);
         };
 
@@ -75,7 +75,7 @@ namespace glch{
             
         }
         
-        void set_polygon(std::vector< PointT<T> > aPolyPoints){
+        void set_polygon(std::vector< PointT<T> >& aPolyPoints){
             vData = aPolyPoints;
             init_polygon();
         }
@@ -127,7 +127,7 @@ namespace glch{
             init_polygon();
         }
         
-        void charge_starting_element(size_t aNewStart);
+        void change_starting_element(size_t aNewStart);
         void subdivide_vertex(size_t aVertex, bool aForward = false);
         void subdivide_polygon();
         RectT<T> set_bounding_rect();
@@ -141,7 +141,11 @@ namespace glch{
         void simplify(double aDelta);
         
         double perimeter();
-        double area();
+        
+        double area(){
+            return 0;
+        }
+        
         PointT<T> centroid();
         double moment(size_t p, size_t q);
         double central_moment(size_t p, size_t q);
@@ -183,7 +187,7 @@ namespace glch{
      * @param aNewStart Polygon index which will become zero.
      */
     template<class T>
-    void PolyT<T>::charge_starting_element(size_t aNewStart){
+    void PolyT<T>::change_starting_element(size_t aNewStart){
         glch::change_starting_element(vData, aNewStart);   
         init_polygon();
         
@@ -389,5 +393,5 @@ cv::Point2d calc_centroid(std::vector<cv::Point2d> &aPolygon){
 
 }   
 
-#endif	/* POLYGONT_H */
+#endif	/* GLCH_POLYGONT_H */
 
