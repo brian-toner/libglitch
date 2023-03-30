@@ -1,0 +1,36 @@
+cv::Mat Analysis::getLargestPolygon(cv::Mat aImage){
+    
+    /// Create an image
+    Mat lSrc = Mat::zeros( Size( aImage.cols+2, aImage.rows+2 ), CV_8UC1 );
+    Mat lImageNew = lSrc(cv::Rect(1,1,aImage.cols,aImage.rows) );
+    Mat lDraw = lSrc.clone();
+    
+    aImage.copyTo(lImageNew);
+
+    /// Get the contours
+    std::vector< vector < cv::Point > > contours; 
+    vector<Vec4i> hierarchy;
+    findContours( lSrc, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
+
+    int lContour = 0;
+    double lMaxArea = contourArea( contours.front() );
+    
+    for(std::vector< vector < cv::Point > >::iterator it = contours.begin()+1; it != contours.end(); it++){
+        double lArea = contourArea( *it );
+        cout << lArea << endl;
+        if(lArea > lMaxArea){
+            lMaxArea = lArea;
+            lContour = (it - contours.begin() );
+            
+        }        
+    }
+
+    int lNPts[] = { (int)(contours.at(lContour).size()) };
+    const cv::Point* lPtPts[1] = { &contours.at(lContour).at(0) };
+
+    fillPoly(lDraw,lPtPts,lNPts,1,Scalar(255),8);
+    lImageNew = lDraw.clone();
+
+    return lImageNew(cv::Rect(1,1,aImage.cols,aImage.rows));
+
+}

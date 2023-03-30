@@ -39,6 +39,22 @@
                     <name>Release-Linux-Static</name>
                     <type>3</type>
                 </confElem>
+                <confElem>
+                    <name>Linux-Bin-Test</name>
+                    <type>1</type>
+                </confElem>
+                <confElem>
+                    <name>Release-Linux-Static-MPI</name>
+                    <type>3</type>
+                </confElem>
+                <confElem>
+                    <name>Release-Linux-Static-MPI-Remote</name>
+                    <type>3</type>
+                </confElem>
+                <confElem>
+                    <name>Release-Linux-Static-MPI-acg</name>
+                    <type>3</type>
+                </confElem>
             </confList>
             <formatting>
                 <project-formatting-style>false</project-formatting-style>

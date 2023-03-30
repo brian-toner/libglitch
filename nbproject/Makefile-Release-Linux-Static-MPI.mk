@@ -23,7 +23,7 @@ AS=as
 # Macros
 CND_PLATFORM=GNU-Linux
 CND_DLIB_EXT=so
-CND_CONF=Release-Linux-Static
+CND_CONF=Release-Linux-Static-MPI
 CND_DISTDIR=dist
 CND_BUILDDIR=build
 
@@ -102,132 +102,132 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libglitch.a: ${OBJECTFILES}
 ${OBJECTDIR}/AString.o: AString.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AString.o AString.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AString.o AString.cpp
 
 ${OBJECTDIR}/AStringFunctions.o: AStringFunctions.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AStringFunctions.o AStringFunctions.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AStringFunctions.o AStringFunctions.cpp
 
 ${OBJECTDIR}/ArgParser.o: ArgParser.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ArgParser.o ArgParser.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ArgParser.o ArgParser.cpp
 
 ${OBJECTDIR}/Boundary.o: Boundary.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Boundary.o Boundary.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Boundary.o Boundary.cpp
 
 ${OBJECTDIR}/Cluster.o: Cluster.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Cluster.o Cluster.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Cluster.o Cluster.cpp
 
 ${OBJECTDIR}/DirectoryFunctions.o: DirectoryFunctions.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DirectoryFunctions.o DirectoryFunctions.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DirectoryFunctions.o DirectoryFunctions.cpp
 
 ${OBJECTDIR}/FileLoad.o: FileLoad.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileLoad.o FileLoad.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileLoad.o FileLoad.cpp
 
 ${OBJECTDIR}/FileStrings.o: FileStrings.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileStrings.o FileStrings.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileStrings.o FileStrings.cpp
 
 ${OBJECTDIR}/Gene.o: Gene.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gene.o Gene.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gene.o Gene.cpp
 
 ${OBJECTDIR}/GeneBuilder.o: GeneBuilder.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneBuilder.o GeneBuilder.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneBuilder.o GeneBuilder.cpp
 
 ${OBJECTDIR}/GeneList.o: GeneList.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneList.o GeneList.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneList.o GeneList.cpp
 
 ${OBJECTDIR}/ImgClusters.o: ImgClusters.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ImgClusters.o ImgClusters.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ImgClusters.o ImgClusters.cpp
 
 ${OBJECTDIR}/LinearModel.o: LinearModel.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LinearModel.o LinearModel.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LinearModel.o LinearModel.cpp
 
 ${OBJECTDIR}/MatTFunctions.o: MatTFunctions.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MatTFunctions.o MatTFunctions.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MatTFunctions.o MatTFunctions.cpp
 
 ${OBJECTDIR}/NDArray.o: NDArray.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDArray.o NDArray.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDArray.o NDArray.cpp
 
 ${OBJECTDIR}/NDPoint.o: NDPoint.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDPoint.o NDPoint.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDPoint.o NDPoint.cpp
 
 ${OBJECTDIR}/Parser.o: Parser.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Parser.o Parser.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Parser.o Parser.cpp
 
 ${OBJECTDIR}/SRAL.o: SRAL.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SRAL.o SRAL.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SRAL.o SRAL.cpp
 
 ${OBJECTDIR}/StatsF.o: StatsF.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StatsF.o StatsF.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StatsF.o StatsF.cpp
 
 ${OBJECTDIR}/StringAddress.o: StringAddress.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StringAddress.o StringAddress.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StringAddress.o StringAddress.cpp
 
 ${OBJECTDIR}/TopNeighbor.o: TopNeighbor.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TopNeighbor.o TopNeighbor.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TopNeighbor.o TopNeighbor.cpp
 
 ${OBJECTDIR}/fft.o: fft.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/fft.o fft.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/fft.o fft.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
 
 ${OBJECTDIR}/miscfunctions.o: miscfunctions.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/miscfunctions.o miscfunctions.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/miscfunctions.o miscfunctions.cpp
 
 ${OBJECTDIR}/random.o: random.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/random.o random.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/random.o random.cpp
 
 ${OBJECTDIR}/stringconversion.o: stringconversion.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stringconversion.o stringconversion.cpp
+	$(COMPILE.cc) -O3 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stringconversion.o stringconversion.cpp
 
 # Subprojects
 .build-subprojects:
@@ -244,7 +244,7 @@ ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/validator.o ${OBJECTFILES:%.o=%_nomain
 ${TESTDIR}/tests/validator.o: tests/validator.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.cc) -O3 -Wall -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/validator.o tests/validator.cpp
+	$(COMPILE.cc) -O3 -I. -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/validator.o tests/validator.cpp
 
 
 ${OBJECTDIR}/AString_nomain.o: ${OBJECTDIR}/AString.o AString.cpp 
@@ -255,7 +255,7 @@ ${OBJECTDIR}/AString_nomain.o: ${OBJECTDIR}/AString.o AString.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AString_nomain.o AString.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AString_nomain.o AString.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/AString.o ${OBJECTDIR}/AString_nomain.o;\
 	fi
@@ -268,7 +268,7 @@ ${OBJECTDIR}/AStringFunctions_nomain.o: ${OBJECTDIR}/AStringFunctions.o AStringF
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AStringFunctions_nomain.o AStringFunctions.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/AStringFunctions_nomain.o AStringFunctions.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/AStringFunctions.o ${OBJECTDIR}/AStringFunctions_nomain.o;\
 	fi
@@ -281,7 +281,7 @@ ${OBJECTDIR}/ArgParser_nomain.o: ${OBJECTDIR}/ArgParser.o ArgParser.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ArgParser_nomain.o ArgParser.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ArgParser_nomain.o ArgParser.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/ArgParser.o ${OBJECTDIR}/ArgParser_nomain.o;\
 	fi
@@ -294,7 +294,7 @@ ${OBJECTDIR}/Boundary_nomain.o: ${OBJECTDIR}/Boundary.o Boundary.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Boundary_nomain.o Boundary.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Boundary_nomain.o Boundary.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Boundary.o ${OBJECTDIR}/Boundary_nomain.o;\
 	fi
@@ -307,7 +307,7 @@ ${OBJECTDIR}/Cluster_nomain.o: ${OBJECTDIR}/Cluster.o Cluster.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Cluster_nomain.o Cluster.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Cluster_nomain.o Cluster.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Cluster.o ${OBJECTDIR}/Cluster_nomain.o;\
 	fi
@@ -320,7 +320,7 @@ ${OBJECTDIR}/DirectoryFunctions_nomain.o: ${OBJECTDIR}/DirectoryFunctions.o Dire
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DirectoryFunctions_nomain.o DirectoryFunctions.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/DirectoryFunctions_nomain.o DirectoryFunctions.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/DirectoryFunctions.o ${OBJECTDIR}/DirectoryFunctions_nomain.o;\
 	fi
@@ -333,7 +333,7 @@ ${OBJECTDIR}/FileLoad_nomain.o: ${OBJECTDIR}/FileLoad.o FileLoad.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileLoad_nomain.o FileLoad.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileLoad_nomain.o FileLoad.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/FileLoad.o ${OBJECTDIR}/FileLoad_nomain.o;\
 	fi
@@ -346,7 +346,7 @@ ${OBJECTDIR}/FileStrings_nomain.o: ${OBJECTDIR}/FileStrings.o FileStrings.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileStrings_nomain.o FileStrings.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FileStrings_nomain.o FileStrings.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/FileStrings.o ${OBJECTDIR}/FileStrings_nomain.o;\
 	fi
@@ -359,7 +359,7 @@ ${OBJECTDIR}/Gene_nomain.o: ${OBJECTDIR}/Gene.o Gene.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gene_nomain.o Gene.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Gene_nomain.o Gene.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Gene.o ${OBJECTDIR}/Gene_nomain.o;\
 	fi
@@ -372,7 +372,7 @@ ${OBJECTDIR}/GeneBuilder_nomain.o: ${OBJECTDIR}/GeneBuilder.o GeneBuilder.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneBuilder_nomain.o GeneBuilder.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneBuilder_nomain.o GeneBuilder.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/GeneBuilder.o ${OBJECTDIR}/GeneBuilder_nomain.o;\
 	fi
@@ -385,7 +385,7 @@ ${OBJECTDIR}/GeneList_nomain.o: ${OBJECTDIR}/GeneList.o GeneList.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneList_nomain.o GeneList.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GeneList_nomain.o GeneList.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/GeneList.o ${OBJECTDIR}/GeneList_nomain.o;\
 	fi
@@ -398,7 +398,7 @@ ${OBJECTDIR}/ImgClusters_nomain.o: ${OBJECTDIR}/ImgClusters.o ImgClusters.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ImgClusters_nomain.o ImgClusters.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ImgClusters_nomain.o ImgClusters.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/ImgClusters.o ${OBJECTDIR}/ImgClusters_nomain.o;\
 	fi
@@ -411,7 +411,7 @@ ${OBJECTDIR}/LinearModel_nomain.o: ${OBJECTDIR}/LinearModel.o LinearModel.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LinearModel_nomain.o LinearModel.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/LinearModel_nomain.o LinearModel.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/LinearModel.o ${OBJECTDIR}/LinearModel_nomain.o;\
 	fi
@@ -424,7 +424,7 @@ ${OBJECTDIR}/MatTFunctions_nomain.o: ${OBJECTDIR}/MatTFunctions.o MatTFunctions.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MatTFunctions_nomain.o MatTFunctions.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MatTFunctions_nomain.o MatTFunctions.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/MatTFunctions.o ${OBJECTDIR}/MatTFunctions_nomain.o;\
 	fi
@@ -437,7 +437,7 @@ ${OBJECTDIR}/NDArray_nomain.o: ${OBJECTDIR}/NDArray.o NDArray.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDArray_nomain.o NDArray.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDArray_nomain.o NDArray.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/NDArray.o ${OBJECTDIR}/NDArray_nomain.o;\
 	fi
@@ -450,7 +450,7 @@ ${OBJECTDIR}/NDPoint_nomain.o: ${OBJECTDIR}/NDPoint.o NDPoint.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDPoint_nomain.o NDPoint.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/NDPoint_nomain.o NDPoint.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/NDPoint.o ${OBJECTDIR}/NDPoint_nomain.o;\
 	fi
@@ -463,7 +463,7 @@ ${OBJECTDIR}/Parser_nomain.o: ${OBJECTDIR}/Parser.o Parser.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Parser_nomain.o Parser.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Parser_nomain.o Parser.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/Parser.o ${OBJECTDIR}/Parser_nomain.o;\
 	fi
@@ -476,7 +476,7 @@ ${OBJECTDIR}/SRAL_nomain.o: ${OBJECTDIR}/SRAL.o SRAL.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SRAL_nomain.o SRAL.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SRAL_nomain.o SRAL.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/SRAL.o ${OBJECTDIR}/SRAL_nomain.o;\
 	fi
@@ -489,7 +489,7 @@ ${OBJECTDIR}/StatsF_nomain.o: ${OBJECTDIR}/StatsF.o StatsF.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StatsF_nomain.o StatsF.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StatsF_nomain.o StatsF.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/StatsF.o ${OBJECTDIR}/StatsF_nomain.o;\
 	fi
@@ -502,7 +502,7 @@ ${OBJECTDIR}/StringAddress_nomain.o: ${OBJECTDIR}/StringAddress.o StringAddress.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StringAddress_nomain.o StringAddress.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/StringAddress_nomain.o StringAddress.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/StringAddress.o ${OBJECTDIR}/StringAddress_nomain.o;\
 	fi
@@ -515,7 +515,7 @@ ${OBJECTDIR}/TopNeighbor_nomain.o: ${OBJECTDIR}/TopNeighbor.o TopNeighbor.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TopNeighbor_nomain.o TopNeighbor.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/TopNeighbor_nomain.o TopNeighbor.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/TopNeighbor.o ${OBJECTDIR}/TopNeighbor_nomain.o;\
 	fi
@@ -528,7 +528,7 @@ ${OBJECTDIR}/fft_nomain.o: ${OBJECTDIR}/fft.o fft.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/fft_nomain.o fft.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/fft_nomain.o fft.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/fft.o ${OBJECTDIR}/fft_nomain.o;\
 	fi
@@ -541,7 +541,7 @@ ${OBJECTDIR}/main_nomain.o: ${OBJECTDIR}/main.o main.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main_nomain.o main.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/main.o ${OBJECTDIR}/main_nomain.o;\
 	fi
@@ -554,7 +554,7 @@ ${OBJECTDIR}/miscfunctions_nomain.o: ${OBJECTDIR}/miscfunctions.o miscfunctions.
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/miscfunctions_nomain.o miscfunctions.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/miscfunctions_nomain.o miscfunctions.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/miscfunctions.o ${OBJECTDIR}/miscfunctions_nomain.o;\
 	fi
@@ -567,7 +567,7 @@ ${OBJECTDIR}/random_nomain.o: ${OBJECTDIR}/random.o random.cpp
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/random_nomain.o random.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/random_nomain.o random.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/random.o ${OBJECTDIR}/random_nomain.o;\
 	fi
@@ -580,7 +580,7 @@ ${OBJECTDIR}/stringconversion_nomain.o: ${OBJECTDIR}/stringconversion.o stringco
 	   (echo "$$NMOUTPUT" | ${GREP} 'T _main$$'); \
 	then  \
 	    ${RM} "$@.d";\
-	    $(COMPILE.cc) -O3 -Wall -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stringconversion_nomain.o stringconversion.cpp;\
+	    $(COMPILE.cc) -O3 -Dmain=__nomain -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stringconversion_nomain.o stringconversion.cpp;\
 	else  \
 	    ${CP} ${OBJECTDIR}/stringconversion.o ${OBJECTDIR}/stringconversion_nomain.o;\
 	fi

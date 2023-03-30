@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <data xmlns="http://www.netbeans.org/ns/make-project-private/1">
-        <activeConfTypeElem>3</activeConfTypeElem>
-        <activeConfIndexElem>6</activeConfIndexElem>
+        <activeConfTypeElem>1</activeConfTypeElem>
+        <activeConfIndexElem>0</activeConfIndexElem>
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
@@ -90,46 +90,242 @@
             <file>file:/home/brian/glados-git/libglitch/StatsF.cpp</file>
             <file>file:/home/brian/glados-git/libglitch/RectT.h</file>
         </group>
-        <group>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/MatTFunctions.h</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/miscfunctions.h</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/MatT.h</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/ShapeProperties.h</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/DirectoryFunctions.cpp</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/PolygonFunctions.h</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/miscfunctions.cpp</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/VectorFunctions.h</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/stringconversion.h</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/StringAddress.h</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/StringAddress.cpp</file>
-            <file>file:/C:/Users/Brian/Documents/bbsim/libglitch/AString.h</file>
-        </group>
         <group name="bbsim-update">
             <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/AString.h</file>
             <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/AString.cpp</file>
             <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/FileLoad.h</file>
             <file>file:/C:/Users/Brian/Documents/bbsim/bbsim-update/libglitch/FileLoad.cpp</file>
         </group>
-        <group name="mltrainerqt">
-            <file>file:/home/brian/glados-git/libglitch/MatTFunctions.h</file>
-        </group>
         <group name="bbsim">
-            <file>file:/home/brian/glados-git/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.h</file>
+            <file>file:/home/brian/glados-git/libglitch/random.h</file>
+            <file>file:/home/brian/glados-git/libglitch/random.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/stringconversion.cpp</file>
             <file>file:/home/brian/glados-git/libglitch/LinearModel.cpp</file>
-            <file>file:/home/brian/glados-git/libglitch/NDArray.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/miscfunctions.cpp</file>
             <file>file:/home/brian/glados-git/libglitch/main.cpp</file>
             <file>file:/home/brian/glados-git/libglitch/StatsF.h</file>
-            <file>file:/home/brian/glados-git/libglitch/MatTFunctions.h</file>
-            <file>file:/home/brian/glados-git/libglitch/stringconversion.cpp</file>
             <file>file:/home/brian/glados-git/libglitch/MatT.h</file>
             <file>file:/home/brian/glados-git/libglitch/PointT.h</file>
-            <file>file:/home/brian/glados-git/libglitch/random.h</file>
+            <file>file:/home/brian/glados-git/libglitch/MatTFunctions.h</file>
             <file>file:/home/brian/glados-git/libglitch/PairT.h</file>
             <file>file:/home/brian/glados-git/libglitch/VectorFunctions.h</file>
-            <file>file:/home/brian/glados-git/libglitch/stringconversion.h</file>
-            <file>file:/home/brian/glados-git/libglitch/miscfunctions.cpp</file>
-            <file>file:/home/brian/glados-git/libglitch/random.cpp</file>
+            <file>file:/home/brian/glados-git/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/glados-git/libglitch/NDArray.cpp</file>
             <file>file:/home/brian/glados-git/libglitch/StatsF.cpp</file>
+        </group>
+        <group name="mltrainerqt"/>
+        <group name="Default">
+            <file>file:/home/brian/git-work/libglitch/ArgParser.h</file>
+            <file>file:/home/brian/git-work/libglitch/FileLoad.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/SRAL.h</file>
+            <file>file:/home/brian/git-work/libglitch/random.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Moments.h</file>
+            <file>file:/home/brian/git-work/libglitch/PolygonFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/TopNeighbor.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/GeneBuilder.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.h</file>
+            <file>file:/home/brian/git-work/libglitch/libglitch.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.h</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.h</file>
+            <file>file:/home/brian/git-work/libglitch/StatsF.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PointT.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/main.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.h</file>
+            <file>file:/home/brian/git-work/libglitch/RectT.h</file>
+            <file>file:/home/brian/git-work/libglitch/defines.h</file>
+            <file>file:/home/brian/git-work/libglitch/NDArray.h</file>
+            <file>file:/home/brian/git-work/libglitch/GeneBuilder.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/random.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatT.h</file>
+            <file>file:/home/brian/git-work/libglitch/ArgParser.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/NDArray.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/LinearModel.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PolyT.h</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/SRAL.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/TopNeighbor.h</file>
+        </group>
+        <group name="IntroProgramming">
+            <file>file:/home/brian/git-work/libglitch/ArgParser.h</file>
+            <file>file:/home/brian/git-work/libglitch/FileLoad.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/SRAL.h</file>
+            <file>file:/home/brian/git-work/libglitch/random.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Moments.h</file>
+            <file>file:/home/brian/git-work/libglitch/PolygonFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/TopNeighbor.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/GeneBuilder.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.h</file>
+            <file>file:/home/brian/git-work/libglitch/libglitch.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.h</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.h</file>
+            <file>file:/home/brian/git-work/libglitch/StatsF.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PointT.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/main.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.h</file>
+            <file>file:/home/brian/git-work/libglitch/RectT.h</file>
+            <file>file:/home/brian/git-work/libglitch/defines.h</file>
+            <file>file:/home/brian/git-work/libglitch/NDArray.h</file>
+            <file>file:/home/brian/git-work/libglitch/GeneBuilder.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/random.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatT.h</file>
+            <file>file:/home/brian/git-work/libglitch/ArgParser.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/NDArray.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/LinearModel.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PolyT.h</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/SRAL.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/TopNeighbor.h</file>
+        </group>
+        <group name="Empty">
+            <file>file:/home/brian/git-work/libglitch/random.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Parser.h</file>
+            <file>file:/home/brian/git-work/libglitch/Parser.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/MatT.h</file>
+            <file>file:/home/brian/git-work/libglitch/FileLoad.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/random.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PolyT.h</file>
+            <file>file:/home/brian/git-work/libglitch/PairT.h</file>
+            <file>file:/home/brian/git-work/libglitch/PolygonFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/AString.h</file>
+            <file>file:/home/brian/git-work/libglitch/PointT.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/main.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/stringconversion.cpp</file>
+        </group>
+        <group name="Group 20181227-09:19:12">
+            <file>file:/home/brian/git-work/libglitch/main.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/ArgParser.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/tests/validator.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.h</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.h</file>
+            <file>file:/home/brian/git-work/libglitch/GeneBuilder.h</file>
+            <file>file:/home/brian/git-work/libglitch/ShapeProperties.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.h</file>
+            <file>file:/home/brian/git-work/libglitch/StatsF.h</file>
+            <file>file:/home/brian/git-work/libglitch/GeneList.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/random.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Gene.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/stringconversion.h</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/LinearModel.h</file>
+            <file>file:/home/brian/git-work/libglitch/libglitch.h</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/LinearModel.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Moments.h</file>
+            <file>file:/home/brian/git-work/libglitch/GeneBuilder.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/NDArray.h</file>
+            <file>file:/home/brian/git-work/libglitch/ArgParser.h</file>
+            <file>file:/home/brian/git-work/libglitch/GeneList.h</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PointT.h</file>
+            <file>file:/home/brian/git-work/libglitch/Parser.h</file>
+            <file>file:/home/brian/git-work/libglitch/random.h</file>
+            <file>file:/home/brian/git-work/libglitch/stringconversion.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/StatsF.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/FileLoad.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PolygonFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/RuntimeErrorReport.h</file>
+            <file>file:/home/brian/git-work/libglitch/Gene.h</file>
+            <file>file:/home/brian/git-work/libglitch/DirectoryFunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/AStringFunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/Parser.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/FileLoad.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.h</file>
+        </group>
+        <group name="Wtmm">
+            <file>file:/home/brian/git-work/libglitch/ArgParser.h</file>
+            <file>file:/home/brian/git-work/libglitch/FileLoad.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/ScalarT.h</file>
+            <file>file:/home/brian/git-work/libglitch/ShapeProperties.h</file>
+            <file>file:/home/brian/git-work/libglitch/Moments.h</file>
+            <file>file:/home/brian/git-work/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/PolygonFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.h</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.h</file>
+            <file>file:/home/brian/git-work/libglitch/PointT.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/main.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.h</file>
+            <file>file:/home/brian/git-work/libglitch/stringconversion.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/GeneBuilder.h</file>
+            <file>file:/home/brian/git-work/libglitch/Parser.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatT.h</file>
+            <file>file:/home/brian/git-work/libglitch/ArgParser.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PolyT.h</file>
+            <file>file:/home/brian/git-work/libglitch/fft.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/TemplateMath.h</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/tests/validator.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/fft.h</file>
+        </group>
+        <group name="TinyRisc">
+            <file>file:/home/brian/git-work/libglitch/ArgParser.h</file>
+            <file>file:/home/brian/git-work/libglitch/FileLoad.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/ScalarT.h</file>
+            <file>file:/home/brian/git-work/libglitch/ShapeProperties.h</file>
+            <file>file:/home/brian/git-work/libglitch/Moments.h</file>
+            <file>file:/home/brian/git-work/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/PolygonFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.h</file>
+            <file>file:/home/brian/git-work/libglitch/Cluster.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.h</file>
+            <file>file:/home/brian/git-work/libglitch/PointT.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/main.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.h</file>
+            <file>file:/home/brian/git-work/libglitch/stringconversion.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/GeneBuilder.h</file>
+            <file>file:/home/brian/git-work/libglitch/Parser.h</file>
+            <file>file:/home/brian/git-work/libglitch/MatT.h</file>
+            <file>file:/home/brian/git-work/libglitch/ArgParser.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/MatTFunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/PolyT.h</file>
+            <file>file:/home/brian/git-work/libglitch/fft.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/TemplateMath.h</file>
+            <file>file:/home/brian/git-work/libglitch/Boundary.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/miscfunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/ImgClusters.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/tests/validator.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/fft.h</file>
+        </group>
+        <group>
+            <file>file:/home/brian/git-work/libglitch/main.cpp</file>
+            <file>file:/home/brian/git-work/libglitch/inprogress.h</file>
+            <file>file:/home/brian/git-work/libglitch/VectorFunctions.h</file>
+            <file>file:/home/brian/git-work/libglitch/AString.h</file>
+            <file>file:/home/brian/git-work/libglitch/SRAL.cpp</file>
         </group>
     </open-files>
 </project-private>

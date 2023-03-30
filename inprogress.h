@@ -1,3 +1,6 @@
+#ifdef GLCH_INPROGRESS_DONOTACTIVATE
+#elif
+
 http://stackoverflow.com/questions/18100097/portable-way-to-check-if-directory-exists-windows-linux-c
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -47,3 +50,4 @@ void remove_dir(char *path)
 }
 
 
+#endif

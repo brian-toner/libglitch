@@ -10,3 +10,7 @@
 # ReleaseStatic configuration
 # Release-Linux configuration
 # Release-Linux-Static configuration
+# Linux-Bin-Test configuration
+# Release-Linux-Static-MPI configuration
+# Release-Linux-Static-MPI-Remote configuration
+# Release-Linux-Static-MPI-acg configuration

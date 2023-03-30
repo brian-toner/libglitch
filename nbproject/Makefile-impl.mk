@@ -31,7 +31,7 @@ DEFAULTCONF=Debug
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release-Windows Release-Windows-Static ReleaseLib ReleaseStatic Release-Linux Release-Linux-Static 
+ALLCONFS=Debug Release-Windows Release-Windows-Static ReleaseLib ReleaseStatic Release-Linux Release-Linux-Static Linux-Bin-Test Release-Linux-Static-MPI Release-Linux-Static-MPI-Remote Release-Linux-Static-MPI-acg 
 
 
 # build

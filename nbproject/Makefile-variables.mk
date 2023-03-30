@@ -62,6 +62,38 @@ CND_ARTIFACT_PATH_Release-Linux-Static=dist/Release-Linux-Static/GNU-Linux/libgl
 CND_PACKAGE_DIR_Release-Linux-Static=dist/Release-Linux-Static/GNU-Linux/package
 CND_PACKAGE_NAME_Release-Linux-Static=libglitch.tar
 CND_PACKAGE_PATH_Release-Linux-Static=dist/Release-Linux-Static/GNU-Linux/package/libglitch.tar
+# Linux-Bin-Test configuration
+CND_PLATFORM_Linux-Bin-Test=GNU-Linux
+CND_ARTIFACT_DIR_Linux-Bin-Test=dist/Linux-Bin-Test/GNU-Linux
+CND_ARTIFACT_NAME_Linux-Bin-Test=libglitch.so
+CND_ARTIFACT_PATH_Linux-Bin-Test=dist/Linux-Bin-Test/GNU-Linux/libglitch.so
+CND_PACKAGE_DIR_Linux-Bin-Test=dist/Linux-Bin-Test/GNU-Linux/package
+CND_PACKAGE_NAME_Linux-Bin-Test=libglitch.tar
+CND_PACKAGE_PATH_Linux-Bin-Test=dist/Linux-Bin-Test/GNU-Linux/package/libglitch.tar
+# Release-Linux-Static-MPI configuration
+CND_PLATFORM_Release-Linux-Static-MPI=GNU-Linux
+CND_ARTIFACT_DIR_Release-Linux-Static-MPI=dist/Release-Linux-Static-MPI/GNU-Linux
+CND_ARTIFACT_NAME_Release-Linux-Static-MPI=libglitch.a
+CND_ARTIFACT_PATH_Release-Linux-Static-MPI=dist/Release-Linux-Static-MPI/GNU-Linux/libglitch.a
+CND_PACKAGE_DIR_Release-Linux-Static-MPI=dist/Release-Linux-Static-MPI/GNU-Linux/package
+CND_PACKAGE_NAME_Release-Linux-Static-MPI=libglitch.tar
+CND_PACKAGE_PATH_Release-Linux-Static-MPI=dist/Release-Linux-Static-MPI/GNU-Linux/package/libglitch.tar
+# Release-Linux-Static-MPI-Remote configuration
+CND_PLATFORM_Release-Linux-Static-MPI-Remote=GNU-Linux
+CND_ARTIFACT_DIR_Release-Linux-Static-MPI-Remote=dist/Release-Linux-Static-MPI-Remote/GNU-Linux
+CND_ARTIFACT_NAME_Release-Linux-Static-MPI-Remote=libglitch.a
+CND_ARTIFACT_PATH_Release-Linux-Static-MPI-Remote=dist/Release-Linux-Static-MPI-Remote/GNU-Linux/libglitch.a
+CND_PACKAGE_DIR_Release-Linux-Static-MPI-Remote=dist/Release-Linux-Static-MPI-Remote/GNU-Linux/package
+CND_PACKAGE_NAME_Release-Linux-Static-MPI-Remote=libglitch.tar
+CND_PACKAGE_PATH_Release-Linux-Static-MPI-Remote=dist/Release-Linux-Static-MPI-Remote/GNU-Linux/package/libglitch.tar
+# Release-Linux-Static-MPI-acg configuration
+CND_PLATFORM_Release-Linux-Static-MPI-acg=Intel-Linux
+CND_ARTIFACT_DIR_Release-Linux-Static-MPI-acg=dist/Release-Linux-Static-MPI-acg/Intel-Linux
+CND_ARTIFACT_NAME_Release-Linux-Static-MPI-acg=libglitch.a
+CND_ARTIFACT_PATH_Release-Linux-Static-MPI-acg=dist/Release-Linux-Static-MPI-acg/Intel-Linux/libglitch.a
+CND_PACKAGE_DIR_Release-Linux-Static-MPI-acg=dist/Release-Linux-Static-MPI-acg/Intel-Linux/package
+CND_PACKAGE_NAME_Release-Linux-Static-MPI-acg=libglitch.tar
+CND_PACKAGE_PATH_Release-Linux-Static-MPI-acg=dist/Release-Linux-Static-MPI-acg/Intel-Linux/package/libglitch.tar
 #
 # include compiler specific variables
 #
