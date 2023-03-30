@@ -5,8 +5,8 @@
  * Created on January 31, 2012, 2:41 PM
  */
 
-#ifndef STRCONVERTNEW_H
-#define	STRCONVERTNEW_H
+#ifndef GLCH_STRCONVERTNEW_H
+#define	GLCH_STRCONVERTNEW_H
 
 #include <iostream>
 #include <sstream>      //std::istringstream
@@ -18,13 +18,15 @@
 #include <math.h>
 
 #include "FileLoad.h"
-#include "FileStrings.h"
+//#include "FileStrings.h"
 #include "RuntimeErrorReport.h"
 
 using namespace std;
 
 namespace glch{
 
+#define GLCH_NOT_FOUND (size_t)(-1)
+    
     typedef std::vector<std::string> StringList;
     typedef std::vector<char> CharList;
     
@@ -60,7 +62,18 @@ namespace glch{
         return lStream.str();
     }
 
-    
+    /**
+    * Converts a wide range of data containers values into a string value (int, double, float etc)
+    * using std::stringstream.  
+    * @param t Argument we are converting into a string.
+    * @return Returns a string value representing the input value.
+    */
+    template <class T>
+    inline std::string to_quote_string (const T& aInput){
+        std::stringstream lStream;
+        lStream << aInput;
+        return ("\"" + lStream.str() + "\"");
+    }    
 
     /**
      * Deep copies a buffer of characters into a std::string
@@ -81,7 +94,7 @@ namespace glch{
      * @return Location in the vector, otherwise (size_t)(-1)
      */
     size_t find_string_in_vect(vector<string> &aInput, string aStringToFind);
-
+    
     
     size_t find_ignore_tolkens(std::string aString, std::string aFindValue, size_t aPosition, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd);
     
@@ -113,7 +126,8 @@ namespace glch{
      */
     std::vector<std::string> split_string(std::string aInput, std::string aDelim);
 
-    
+    std::vector<std::string> split_string(std::string aInput, std::vector<std::string> aDelim);
+
     std::vector<std::string> split_string(std::string aInput, std::string aDelim, std::string aIgnoreTolkenStart, std::string aIgnoreTolkenEnd);    
     
     /**
@@ -265,5 +279,6 @@ namespace glch{
     
     
 }
-#endif	/* STRCONVERT_H */
+
+#endif	/* GLCH_STRCONVERT_H */
 

@@ -28,8 +28,7 @@ namespace glch{
 
         return lReturn;
     }
-
-
+    
     /**
      * Searches a vector of strings and reports back the index number of the vector 
      * where the string was located (exact match). If the string was not located in the vector then
@@ -47,7 +46,7 @@ namespace glch{
         }
 
         if(i == aInput.size()){
-            locReturn = (size_t)(-1);
+            locReturn = GLCH_NOT_FOUND;
         } else {
             locReturn = i;
         }
@@ -205,6 +204,94 @@ namespace glch{
         return lRet;
     }
 
+    std::vector<std::string> split_string(std::string aInput, std::vector<std::string> aDelim){
+
+        //cout << "===========================================================\n";
+        //cout << "===========================================================\n";
+        //cout << "===========================================================\n";
+        //cout << "Splitting: " << aInput << endl;
+
+        std::string lInput = aInput;
+
+
+        lInput.find(aDelim.at(0));
+
+        for(int i = 1; i < aDelim.size(); i++){
+            //cout << i << " : " << lInput << " : " << aDelim.at(i) << endl;
+            size_t lPos = lInput.find(aDelim.at(i));
+
+            while(lPos != std::string::npos){
+                lInput = lInput.replace(lPos,aDelim.at(i).size(),aDelim.at(0));
+                lPos = lInput.find(aDelim.at(i));
+            }
+
+        }
+
+        std::vector<std::string> lTemp = split_string(lInput,aDelim.at(0));
+        std::vector<std::string> lRet;
+
+        for(size_t i = 0; i < lTemp.size(); i++){
+            //cout << "|||" << lTemp.at(i) << "|||" << endl;
+            if(!lTemp.at(i).empty()){
+                //cout << "Pushing back: ";
+                //cout << "|||" << lTemp.at(i) << "|||" << endl;
+                lRet.push_back(lTemp.at(i));
+            }
+        }
+
+        return lRet;
+
+//        std::vector<std::string> lRet;
+//        bool lNoDelim = true;
+
+//        if(aInput.empty()){
+//            return lRet;
+//        }
+
+//        for(size_t i = 0; i < aDelim.size(); i++){
+//            cout << "Checking..." << i << " : " << aDelim.at(i) << endl;
+//            if(aInput.find(aDelim.at(i))!=std::string::npos){
+//                cout << "Contains... " << i << " : " << aDelim.at(i) << endl;
+//                lNoDelim = false;
+//            }
+//        }
+
+//        cout << "Done checking for delim... " << lNoDelim << endl;
+
+//        if(lNoDelim){
+//            cout << "No delims... pushing back...\n";
+//            lRet.push_back(aInput);
+//            return lRet;
+//        }
+
+//        //cout << "Scanning splits..." << endl;
+
+//        for(size_t i = 0; i < aDelim.size(); i++){
+//            //cout << "Splitting at: " << i << " : " << aDelim.at(i) << endl;
+//            std::vector<std::string> lTemp;
+
+//            if(aInput.find(aDelim.at(i))!=std::string::npos){
+//                lTemp = split_string(aInput,aDelim.at(i));
+//            }
+
+//            for(size_t j = 0; j < lTemp.size(); j++){
+
+//                if(!lTemp.at(j).empty()){
+//                    //cout << "Pushing back..." << j << " : " << lTemp.at(j) << endl;
+//                    lRet.push_back(lTemp.at(j));
+//                }
+//            }
+
+//        }
+
+
+
+//        //cout << "End Split...\n";
+
+//        return lRet;
+
+    }
+
     /**
      * Splits a string into a vector of strings at each delimitation point.
      * @param aInput Input string being split apart.
@@ -342,8 +429,9 @@ namespace glch{
      */
     bool is_number(string aInput){
         bool lNumber,lNegative,lDecimal,lBool;
-        string_number_length(aInput.c_str(), 0, aInput.size(),lNumber,lNegative,lDecimal,lBool);
-        return lNumber;        
+        int lLen = string_number_length(aInput.c_str(), 0, aInput.size(),lNumber,lNegative,lDecimal,lBool);
+        
+        return lNumber&&lLen==aInput.size();        
     }
     
     /**
@@ -353,8 +441,8 @@ namespace glch{
      */
     bool is_decimal(string aInput){
         bool lNumber,lNegative,lDecimal,lBool;
-        string_number_length(aInput.c_str(), 0, aInput.size(),lNumber,lNegative,lDecimal,lBool);
-        return lDecimal;
+        int lLen = string_number_length(aInput.c_str(), 0, aInput.size(),lNumber,lNegative,lDecimal,lBool);
+        return lDecimal&&lLen==aInput.size();
     }
 
     /**
@@ -444,11 +532,21 @@ namespace glch{
             lCompare = aInput[aPos+i];
 
             //Are we a negative number? Can only be negative at index 0.
-            if(i == 0 && lCompare == '-'){
-                lIsNegative = true;
-                lNumberSize ++;
-                lIsNumb = true;
-
+            if(lCompare == '-'){
+                
+                if(i==0){
+                    lIsNegative = true;
+                    lNumberSize ++;
+                    lIsNumb = true;
+                } else if(aInput[aPos+i-1]=='e'){
+                    lNumberSize ++;
+                    lIsNumb = true;
+                    lIsDecimal = true;
+                    lScientific = true;
+                    lPeriod = false;
+                }
+                
+                
             //Are we are in scientific notation.
             } else if(i != 0 && lCompare == 'e' && !lScientific){
                 lNumberSize ++;
