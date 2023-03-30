@@ -1,0 +1,72 @@
+<EXPR> <IDENT> <IDENT>
+<EXPR> <INT> <INT>
+<EXPR> <IDENT> <TERM>
+<EXPR> <INT> <TERM>
+<TERM> ;
+<IDENT> <IDENT> <IDENT>
+<IDENT> <IDENT> <INT>
+<IDENT> <IDENT> <TERM>
+<IDENT> a
+<IDENT> b
+<IDENT> c
+<IDENT> d
+<IDENT> e
+<IDENT> f
+<IDENT> g
+<IDENT> h
+<IDENT> i
+<IDENT> j
+<IDENT> k
+<IDENT> l
+<IDENT> m
+<IDENT> n
+<IDENT> o
+<IDENT> p
+<IDENT> q
+<IDENT> r
+<IDENT> s
+<IDENT> t
+<IDENT> u
+<IDENT> v
+<IDENT> w
+<IDENT> x
+<IDENT> y
+<IDENT> z
+<IDENT> A
+<IDENT> B
+<IDENT> C
+<IDENT> D
+<IDENT> E
+<IDENT> F
+<IDENT> G
+<IDENT> H
+<IDENT> I
+<IDENT> J
+<IDENT> K
+<IDENT> L
+<IDENT> M
+<IDENT> N
+<IDENT> O
+<IDENT> P
+<IDENT> Q
+<IDENT> R
+<IDENT> S
+<IDENT> T
+<IDENT> U
+<IDENT> V
+<IDENT> W
+<IDENT> X
+<IDENT> Y
+<IDENT> Z
+<INT> <INT> <INT>
+<INT> <INT> <TERM>
+<INT> 0
+<INT> 1
+<INT> 2
+<INT> 3
+<INT> 4
+<INT> 5
+<INT> 6
+<INT> 7
+<INT> 8
+<INT> 9

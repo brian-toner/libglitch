@@ -1,0 +1,662 @@
+<primary_expression> <IDENTIFIER>
+<primary_expression> <CONSTANT>
+<primary_expression> <STRING_LITERAL>
+<primary_expression> <LEFT> <expression-RIGHT>
+<expression-RIGHT> <expression> <RIGHT>
+
+<postfix_expression> <primary_expression>
+
+<postfix_expression> <postfix_expression> <LEFTB-expression-RIGHTB>
+<LEFTB-expression-RIGHTB> <LEFTB> <expression-RIGHTB>
+<expression-RIGHTB> <expression> <RIGHTB>
+
+<postfix_expression> <postfix_expression> <LEFT-RIGHT>
+<LEFT-RIGHT> <LEFT> <RIGHT>
+
+<postfix_expression> <postfix_expression> <LEFT-argument_expression_list-RIGHT>
+<LEFT-argument_expression_list-RIGHT> <LEFT> <argument_expression_list-RIGHT>
+<argument_expression_list-RIGHT> <argument_expression_list> <RIGHT>
+
+<postfix_expression> <postfix_expression> <DOT-IDENTIFIER>
+<DOT-IDENTIFIER> <DOT> <IDENTIFIER>
+
+<postfix_expression> <postfix_expression> <PTR_OP-IDENTIFIER>
+<PTR_OP-IDENTIFIER> <PTR_OP> <IDENTIFIER>
+
+<postfix_expression> <postfix_expression> <INC_OP>
+<postfix_expression> <postfix_expression> <DEC_OP>
+
+<argument_expression_list> <assignment_expression>
+
+<argument_expression_list> <argument_expression_list-COMMA-assignment_expression>
+<argument_expression_list-COMMA-assignment_expression> <argument_expression_list> <COMMA-assignment_expression>
+<COMMA-assignment_expression> <COMMA> <assignment_expression>
+
+<unary_expression> <postfox_expression>
+<unary_expression> <INC_OP> <unary_expression>
+<unary_expression> <DEC_OP> <unary_expression>
+<unary_expression> <unary_operator> <cast_expression>
+<unary_expression> <SIZEOF> <unary_expression>
+<unary_expression> <SIZEOF> <LEFT-type_name-RIGHT>
+<LEFT-type_name-RIGHT> <LEFT> <type_name-RIGHT>
+<type_name-RIGHT> <type_name> <RIGHT>
+
+<unary_operator> <AND>
+<unary_operator> <MUL>
+<unary_operator> <ADD>
+<unary_operator> <SUB>
+<unary_operator> <TILDE>
+<unary_operator> <NOT>
+
+<cast_expression> <unary_expression>
+<cast_expression> <LEFT-cast_expression-RIGHT>
+<LEFT-cast_expression-RIGHT> <LEFT> <cast_expression-RIGHT>
+<cast_expression-RIGHT> <cast_expression> <RIGHT>
+
+#<multiplicative_expression>
+<multiplicative_expression> <cast_expression>
+<multiplicative_expression> <multiplicative_expression-MUL-cast_expression>
+<multiplicative_expression-MUL-cast_expression> <multiplicative_expression> <MUL-cast_expression>
+<MUL-cast_expression> <MUL> <cast_expression>
+<multiplicative_expression> <multiplicative_expression-DIV-cast_expression>
+<multiplicative_expression-DIV-cast_expression> <multiplicative_expression> <DIV-cast_expression>
+<DIV-cast_expression> <DIV> <cast_expression>
+<multiplicative_expression> <multiplicative_expression-MOD-cast_expression>
+<multiplicative_expression-MOD-cast_expression> <multiplicative_expression> <MOD-cast_expression>
+<MOD-cast_expression> <MOD> <cast_expression>
+
+#<additive_expression>
+<additive_expression> <multiplicative_expression>
+<additive_expression> <additive_expression-ADD-multiplicative_expression>
+<additive_expression-ADD-multiplicative_expression> <additive_expression> <ADD-multiplicative_expression>
+<ADD-multiplicative_expression> <ADD> <multiplicative_expression>
+<additive_expression> <additive_expression-SUB-multiplicative_expression>
+<additive_expression-SUB-multiplicative_expression> <additive_expression> <SUB-multiplicative_expression>
+<SUB-multiplicative_expression> <SUB> <multiplicative_expression>
+
+#<shift_expression>
+<shift_expression> <additive_expression>
+<shift_expression> <shift_expression-LEFT_OP-additive_expression>
+<shift_expression-LEFT_OP-additive_expression> <shift_expression> <LEFT_OP-additive_expression>
+<LEFT_OP-additive_expression> <LEFT_OP> <additive_expression>
+<shift_expression> <shift_expression-RIGHT_OP-additive_expression>
+<shift_expression-RIGHT_OP-additive_expression> <shift_expression> <RIGHT_OP-additive_expression>
+<RIGHT_OP-additive_expression> <RIGHT_OP> <additive_expression>
+
+
+#<relational_expression>
+<relational_expression> <shift_expression>
+<relational_expression> <relational_expression-LT-shift_expression>
+<relational_expression-LT-shift_expression> <relational_expression> <LT-shift_expression>
+<LT-shift_expression> <LT> <shift_expression>
+<relational_expression> <relational_expression-GT-shift_expression>
+<relational_expression-GT-shift_expression> <relational_expression> <GT-shift_expression>
+<GT-shift_expression> <GT> <shift_expression>
+<relational_expression> <relational_expression-LE_OP-shift_expression>
+<relational_expression-LE_OP-shift_expression> <relational_expression> <LE_OP-shift_expression>
+<LE_OP-shift_expression> <LE_OP> <shift_expression>
+<relational_expression> <relational_expression-GE_OP-shift_expression>
+<relational_expression-GE_OP-shift_expression> <relational_expression> <GE_OP-shift_expression>
+<GE_OP-shift_expression> <GE_OP> <shift_expression>
+
+#<equality_expression>
+<equality_expression> <relational_expression>
+<equality_expression> <equality_expression-EQ_OP-relational_expression>
+<equality_expression> <equality_expression-NE_OP-relational_expression>
+
+#<and_expression>
+<and_expression> <equality_expression>
+<and_expression> <and_expression-AND-equality_expression>
+<and_expression-AND-equality_expression> <and_expression> <AND-equality_expression>
+<AND-equality_expression> <AND> <equality_expression>
+
+#<exclusive_or_expression>
+<exclusive_or_expression> <and_expression>
+<exclusive_or_expression> <exclusive_or_expression-XOR-and_expression>
+<exclusive_or_expression-XOR-and_expression> <exclusive_or_expression> <XOR-and_expression>
+<XOR-and_expression> <XOR> <and_expression>
+
+#<inclusive_or_expression>
+<inclusive_or_expression> <exclusive_or_expression>
+<inclusive_or_expression> <inclusive_or_expression-OR-exclusive_or_expression>
+<inclusive_or_expression-OR-exclusive_or_expression> <inclusive_or_expression> <OR-exclusive_or_expression>
+<OR-exclusive_or_expression> <OR> <exclusive_or_expression>
+
+#<logical_and_expression>
+<logical_and_expression> <inclusive_or_expression>
+<logical_and_expression> <logical_and_expression-AND_OP-inclusive_or_expression>
+<logical_and_expression-AND_OP-inclusive_or_expression> <logical_and_expression> <AND_OP-inclusive_or_expression>
+<AND_OP-inclusive_or_expression> <AND_OP> <inclusive_or_expression>
+
+#<logical_or_expression>
+<logical_or_expression> <logical_and_expression>
+<logical_or_expression> <logical_or_expression-OR_OP-logical_and_expression>
+<logical_or_expression-OR_OP-logical_and_expression> <logical_or_expression> <OR_OP-logical_and_expression>
+<OR_OP-logical_and_expression> <OR_OP> <logical_and_expression>
+
+#<conditional_expression>
+<conditional_expression> <logical_or_expression>
+<conditional_expression> <logical_or_expression-QM-expression-COLON-conditional_expression>
+<logical_or_expression-QM-expression-COLON-conditional_expression> <logical_or_expression> <QM-expression-COLON-conditional_expression>
+<QM-expression-COLON-conditional_expression> <QM> <expression-COLON-conditional_expression>
+<expression-COLON-conditional_expression> <expression> <COLON-conditional_expression>
+<COLON-conditional_expression> <COLON> <conditional_expression>
+
+#<assignment_expression>
+<assignment_expression> <conditional_expression>
+<assignment_expression> <unary_expression assignment_operator> <assignment_expression>
+
+#<assignment_operator>
+<assignment_operator> <EQUAL>
+<assignment_operator> <MUL_ASSIGN>
+<assignment_operator> <DIV_ASSIGN>
+<assignment_operator> <MOD_ASSIGN>
+<assignment_operator> <ADD_ASSIGN>
+<assignment_operator> <SUB_ASSIGN>
+<assignment_operator> <LEFT_ASSIGN>
+<assignment_operator> <RIGHT_ASSIGN>
+<assignment_operator> <AND_ASSIGN>
+<assignment_operator> <XOR_ASSIGN>
+<assignment_operator> <OR_ASSIGN>
+
+#<expression>
+<expression> <assignment_expression>
+<expression> <expression-COMMA-assignment_expression>
+
+#<constant_expression>
+<constant_expression> <conditional_expression>
+
+#<declaration>
+<declaration> <declaration_specifiers> <SEMICOLON>
+<declaration> <declaration_specifiers-init_declarator_list-SEMICOLON>
+<declaration_specifiers-init_declarator_list-SEMICOLON> <declaration_specifiers> <init_declarator_list-SEMICOLON>
+<init_declarator_list-SEMICOLON> <init_declarator_list> <SEMICOLON>
+
+#<declaration_specifiers>
+<declaration_specifiers> <storage_class_specifier>
+<declaration_specifiers> <storage_class_specifier-declaration_specifiers>
+<storage_class_specifier-declaration_specifiers> <storage_class_specifier> <declaration_specifiers>
+<declaration_specifiers> <type_specifier>
+<declaration_specifiers> <type_specifier-declaration_specifiers>
+<type_specifier-declaration_specifiers> <type_specifier> <declaration_specifiers>
+<declaration_specifiers> <type_qualifier>
+<declaration_specifiers> <type_qualifier-declaration_specifiers>
+<type_qualifier-declaration_specifiers> <type_qualifier> <declaration_specifiers>
+
+#<init_declarator_list>
+<init_declarator_list> <init_declarator>
+<init_declarator_list> <init_declarator_list-COMMA-init_declarator>
+<init_declarator_list-COMMA-init_declarator> <init_declarator_list> <COMMA-init_declarator>
+<COMMA-init_declarator> <COMMA> <init_declarator>
+
+#<init_declarator>
+<init_declarator> <declarator>
+<init_declarator> <declarator-EQ-initializer>
+<declarator-EQ-initializer> <declarator> <EQ-initializer>
+<EQ-initializer> <EQ> <initializer>
+
+#<storage_class_specifier>
+<storage_class_specifier> <TYPEDEF>
+<storage_class_specifier> <EXTERN>
+<storage_class_specifier> <STATIC>
+<storage_class_specifier> <AUTO>
+<storage_class_specifier> <REGISTER>
+
+#<type_specifier>
+<type_specifier> <VOID>
+<type_specifier> <CHAR>
+<type_specifier> <SHORT>
+<type_specifier> <INT>
+<type_specifier> <LONG>
+<type_specifier> <FLOAT>
+<type_specifier> <DOUBLE>
+<type_specifier> <SIGNED>
+<type_specifier> <UNSIGNED>
+<type_specifier> <struct_or_union_specifier>
+<type_specifier> <enum_specifier>
+<type_specifier> <type_name>
+
+#<struct_or_union_specifier>
+<struct_or_union_specifier> <struct_or_union-IDENTIFIER-LEFTS-struct_declaration_list-RIGHTS>
+<struct_or_union-IDENTIFIER-LEFTS-struct_declaration_list-RIGHTS> <struct_or_union> <IDENTIFIER-LEFTS-struct_declaration_list-RIGHTS>
+<IDENTIFIER-LEFTS-struct_declaration_list-RIGHTS> <IDENTIFIER> <LEFTS-struct_declaration_list-RIGHTS>
+<LEFTS-struct_declaration_list-RIGHTS> <LEFTS> <struct_declaration_list-RIGHTS>
+<struct_declaration_list-RIGHTS> <struct_declaration_list> <RIGHTS>
+<struct_or_union_specifier> <struct_or_union-LEFTS-struct_declaration_list-RIGHTS>
+<struct_or_union-LEFTS-struct_declaration_list-RIGHTS> <struct_or_union> <LEFTS-struct_declaration_list-RIGHTS>
+<LEFTS-struct_declaration_list-RIGHTS> <LEFTS> <struct_declaration_list-RIGHTS>
+<struct_declaration_list-RIGHTS> <struct_declaration_list> <RIGHTS>
+<struct_or_union_specifier> <struct_or_union-IDENTIFIER>
+<struct_or_union-IDENTIFIER> <struct_or_union> <IDENTIFIER>
+
+#<struct_or_union>
+<struct_or_union> <STRUCT>
+<struct_or_union> <UNION>
+
+#<struct_declaration_list>
+<struct_declaration_list> <struct_declaration>
+<struct_declaration_list> <struct_declaration_list-struct_declaration>
+<struct_declaration_list-struct_declaration> <struct_declaration_list> <struct_declaration>
+
+#<struct_declaration>
+<struct_declaration_list-struct_declaration> <specifier_qualifier_list-struct_declarator_list-SEMICOLON>
+<specifier_qualifier_list-struct_declarator_list-SEMICOLON> <specifier_qualifier_list> <struct_declarator_list-SEMICOLON>
+<struct_declarator_list-SEMICOLON> <struct_declarator_list> <SEMICOLON>
+
+specifier_qualifier_list
+	: type_specifier specifier_qualifier_list
+	| type_specifier
+	| type_qualifier specifier_qualifier_list
+	| type_qualifier
+	;
+
+struct_declarator_list
+	: struct_declarator
+	| struct_declarator_list ',' struct_declarator
+	;
+
+struct_declarator
+	: declarator
+	| ':' constant_expression
+	| declarator ':' constant_expression
+	;
+
+enum_specifier
+	: ENUM '{' enumerator_list '}'
+	| ENUM IDENTIFIER '{' enumerator_list '}'
+	| ENUM IDENTIFIER
+	;
+
+enumerator_list
+	: enumerator
+	| enumerator_list ',' enumerator
+	;
+
+enumerator
+	: IDENTIFIER
+	| IDENTIFIER '=' constant_expression
+	;
+
+type_qualifier
+	: CONST
+	| VOLATILE
+	;
+
+declarator
+	: pointer direct_declarator
+	| direct_declarator
+	;
+
+direct_declarator
+	: IDENTIFIER
+	| '(' declarator ')'
+	| direct_declarator '[' constant_expression ']'
+	| direct_declarator '[' ']'
+	| direct_declarator '(' parameter_type_list ')'
+	| direct_declarator '(' identifier_list ')'
+	| direct_declarator '(' ')'
+	;
+
+pointer
+	: '*'
+	| '*' type_qualifier_list
+	| '*' pointer
+	| '*' type_qualifier_list pointer
+	;
+
+type_qualifier_list
+	: type_qualifier
+	| type_qualifier_list type_qualifier
+	;
+
+
+parameter_type_list
+	: parameter_list
+	| parameter_list ',' ELLIPSIS
+	;
+
+parameter_list
+	: parameter_declaration
+	| parameter_list ',' parameter_declaration
+	;
+
+parameter_declaration
+	: declaration_specifiers declarator
+	| declaration_specifiers abstract_declarator
+	| declaration_specifiers
+	;
+
+identifier_list
+	: IDENTIFIER
+	| identifier_list ',' IDENTIFIER
+	;
+
+type_name
+	: specifier_qualifier_list
+	| specifier_qualifier_list abstract_declarator
+	;
+
+abstract_declarator
+	: pointer
+	| direct_abstract_declarator
+	| pointer direct_abstract_declarator
+	;
+
+direct_abstract_declarator
+	: '(' abstract_declarator ')'
+	| '[' ']'
+	| '[' constant_expression ']'
+	| direct_abstract_declarator '[' ']'
+	| direct_abstract_declarator '[' constant_expression ']'
+	| '(' ')'
+	| '(' parameter_type_list ')'
+	| direct_abstract_declarator '(' ')'
+	| direct_abstract_declarator '(' parameter_type_list ')'
+	;
+
+initializer
+	: assignment_expression
+	| '{' initializer_list '}'
+	| '{' initializer_list ',' '}'
+	;
+
+initializer_list
+	: initializer
+	| initializer_list ',' initializer
+	;
+
+statement
+	: labeled_statement
+	| compound_statement
+	| expression_statement
+	| selection_statement
+	| iteration_statement
+	| jump_statement
+	;
+
+labeled_statement
+	: IDENTIFIER ':' statement
+	| CASE constant_expression ':' statement
+	| DEFAULT ':' statement
+	;
+
+compound_statement
+	: '{' '}'
+	| '{' statement_list '}'
+	| '{' declaration_list '}'
+	| '{' declaration_list statement_list '}'
+	;
+
+declaration_list
+	: declaration
+	| declaration_list declaration
+	;
+
+statement_list
+	: statement
+	| statement_list statement
+	;
+
+expression_statement
+	: ';'
+	| expression ';'
+	;
+
+selection_statement
+	: IF '(' expression ')' statement
+	| IF '(' expression ')' statement ELSE statement
+	| SWITCH '(' expression ')' statement
+	;
+
+iteration_statement
+	: WHILE '(' expression ')' statement
+	| DO statement WHILE '(' expression ')' ';'
+	| FOR '(' expression_statement expression_statement ')' statement
+	| FOR '(' expression_statement expression_statement expression ')' statement
+	;
+
+jump_statement
+	: GOTO IDENTIFIER ';'
+	| CONTINUE ';'
+	| BREAK ';'
+	| RETURN ';'
+	| RETURN expression ';'
+	;
+
+translation_unit
+	: external_declaration
+	| translation_unit external_declaration
+	;
+
+external_declaration
+	: function_definition
+	| declaration
+	;
+
+function_definition
+	: declaration_specifiers declarator declaration_list compound_statement
+	| declaration_specifiers declarator compound_statement
+	| declarator declaration_list compound_statement
+	| declarator compound_statement
+	;
+
+
+<AND> &
+<OR> |
+<XOR> ^
+<MUL> *
+<ADD> +
+<SUB> -
+<DIV> /
+<MOD> %
+<TILDE> ~
+<NOT> !
+<LEFT> (
+<RIGHT> )
+<LEFTB> [
+<RIGHTB> ]
+<LEFTS> {
+<RIGHTS> }
+<QM> ?
+<COLON> :
+<SEMICOLON> ;
+<EQUAL> =
+<GT> >
+<LT> <
+<AND_OP> <AND> <AND>
+<OR_OP> <OR> <OR>
+
+<MUL_ASSIGN> *=
+<DIV_ASSIGN> /=
+<MOD_ASSIGN> %=
+<ADD_ASSIGN> +=
+<SUB_ASSIGN> -=
+<LEFT_ASSIGN> <<=
+<RIGHT_ASSIGN> >>= 
+<AND_ASSIGN> <AND> <EQUAL>
+<XOR_ASSIGN> <XOR> <EQUAL>
+<OR_ASSIGN> <OR> <EQUAL>
+
+<TYPEDEF> typedef
+<EXTERN> extern
+<STATIC> static
+<AUTO> auto
+<REGISTER> register
+
+<VOID> void
+<CHAR> char
+<SHORT> short
+<INT> int
+<LONG> long
+<FLOAT> float
+<DOUBLE> double
+<SIGNED> signed
+<UNSIGNED> unsigned
+
+
+
+	
+<ASSIGN> <ARRAY> <ASIGN>
+<ASSIGN> <IDENT> <ASIGN>
+<ASIGN> <LARROW> <TERNARY>
+<TERNARY> <TERNARY> <TERNEXPR>
+<TERNEXPR> <QM> <TERNOPTS>
+<TERNOPTS> <TERNARY> <COLONLOG>
+<COLONLOG> <COLON> <TERNARY>
+<LOGICAL> <LOGICAL> <LOGICOPERCOND>
+<LOGICOPERCOND> <LOGICOP> <CONDITIONAL>
+<LOGICOP> <AND>
+<LOGICOP> <OR>
+<CONDITIONAL> <CONDITIONAL> <CONDOPERATOREXPR>
+<CONDOPERATOREXPR> <CONDOP> <EXPR>
+<CONDOP> <EQUAL>
+<CONDOP> <GT>
+<CONDOP> <LT>
+<CONDOP> <EQ>
+<CONDOP> <GTE>
+<CONDOP> <LTE>
+<EXPR> <EXPR> <EXPROPTERM>
+<EXPROPTERM> <EXPROP> <TERM>
+<EXPROP> <ADD>
+<EXPROP> <SUB>
+<TERM> <TERM> <TERMOPEXPO>
+<TERMOPEXPO> <TERMOP> <EXPO>
+<TERMOP> <MUL>
+<TERMOP> <DIV>
+<TERMOP> <MOD>
+<EXPO> <EXPO> <EXPOOPFACT>
+<EXPOOPFACT> <EXPOOP> <FACT>
+<EXPOOP> <POW>
+<FACT> <LEFT> <BODY>
+<BODY> <TERNARY> <RIGHT>
+
+<RARROW> <SUB> <GT>
+<LARROW> <LT> <SUB>
+
+<ARRAY> <IDENT> <ARRAYINT>
+<ARRAYINT> <LEFTB> <ARRAYBODY>
+<ARRAYBODY> <IDENT> <RIGHTB>
+<ARRAYBODY> <DIGIT> <RIGHTB>
+<ARRAYBODY> <FLOAT> <RIGHTB>
+<ARRAYBODY> <LOGICAL> <RIGHTB>
+<IDENT> <IDENT> <IDENT>
+<IDENT> <IDENT> <DIGIT>
+<IDENT> <IDENT> <SYMBOL>
+<IDENT> a
+<IDENT> b
+<IDENT> c
+<IDENT> d
+<IDENT> e
+<IDENT> f
+<IDENT> g
+<IDENT> h
+<IDENT> i
+<IDENT> j
+<IDENT> k
+<IDENT> l
+<IDENT> m
+<IDENT> n
+<IDENT> o
+<IDENT> p
+<IDENT> q
+<IDENT> r
+<IDENT> s
+<IDENT> t
+<IDENT> u
+<IDENT> v
+<IDENT> w
+<IDENT> x
+<IDENT> y
+<IDENT> z
+<IDENT> A
+<IDENT> B
+<IDENT> C
+<IDENT> D
+<IDENT> E
+<IDENT> F
+<IDENT> G
+<IDENT> H
+<IDENT> I
+<IDENT> J
+<IDENT> K
+<IDENT> L
+<IDENT> M
+<IDENT> N
+<IDENT> O
+<IDENT> P
+<IDENT> Q
+<IDENT> R
+<IDENT> S
+<IDENT> T
+<IDENT> U
+<IDENT> V
+<IDENT> W
+<IDENT> X
+<IDENT> Y
+<IDENT> Z
+<SYMBOL> .
+<SYMBOL> _
+<SYMBOL> -
+<FLOAT> <SIGN> <DIGIT>
+<FLOAT> <SIGN> <DIGITEX>
+<FLOAT> <DOT> <DIGIT>
+<FLOAT> <DOT> <DIGITEX>
+<FLOAT> <DIGIT> <DIGIT>
+<FLOAT> <DIGIT> <DIGITEX>
+<FLOAT> <DIGIT> <DOT>
+<FLOAT> <DIGIT> <DOTDIG>
+<FLOAT> <DIGIT> <EXPONENT>
+<FLOAT> <SIGN> <DOTDIG>
+<FLOAT> <SIGN> <DIGDOT>
+<FLOAT> <DIGIT>
+<DOTDIG> <DOT> <DIGIT>
+<DOTDIG> <DOT> <DIGITEX>
+<DIGDOT> <DIGIT> <DOT>
+<DIGDOT> <DIGIT> <DOTDIG>
+<DIGITEX> <DIGIT> <EXPONENT>
+<DIGIT> <DIGIT> <DIGIT>
+<SIGNDIG> <SIGN> <DIGIT>
+<DIGIT> 0
+<DIGIT> 1
+<DIGIT> 2
+<DIGIT> 3
+<DIGIT> 4
+<DIGIT> 5
+<DIGIT> 6
+<DIGIT> 7
+<DIGIT> 8
+<DIGIT> 9
+<SIGN> -
+<SIGN> +
+<DOT> .
+<EXPONENT> <EXPSYM> <FLOATE>
+<EXPSYM> e
+<EXPSYM> E
+<FLOATE> <SIGN> <DIGIT>
+<FLOATE> <SIGN> <DIGITEX>
+<FLOATE> <DOT> <DIGIT>
+<FLOATE> <DOT> <DIGITEX>
+<FLOATE> <DIGIT> <DIGIT>
+<FLOATE> <DIGIT> <DIGITEX>
+<FLOATE> <DIGIT> <DOT>
+<FLOATE> <DIGIT> <DOTDIG>
+<FLOATE> <DIGIT> <EXPONENT>
+<FLOATE> <SIGN> <DOTDIG>
+<FLOATE> <SIGN> <DIGDOT>
+<FLOATE> <DIGIT>
+<ASSIGN> <TERNARY>
+<TERNARY> <LOGICAL>
+<LOGICAL> <CONDITIONAL>
+<CONDITIONAL> <EXPR>
+<EXPR> <TERM>
+<TERM> <EXPO>
+<EXPO> <FACT>
+<FACT> <IDENT>
+<FACT> <DIGIT>
+<FACT> <FLOAT>
+<FACT> <ARRAY>
+<FACT> <NOT> <IDENT>
+<FACT> <NOT> <DIGIT>
+<FACT> <NOT> <FLOAT>
+<FACT> <NOT> <TERNARY>
+<FACT> <NOT> <ARRAY>

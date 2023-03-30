@@ -1,0 +1,37 @@
+
+%%
+
+<STATEMENT>
+	: <EQUATION>
+	: <LEFTP> <EQUATION> <RIGHTP>
+	;
+	
+<EQUATION>
+	: <FLOAT>
+	| <FLOAT> <OPERATOR> <FLOAT>
+	| <EQUATION> <OPERATOR> <EQUATION>
+	;
+	
+<FLOAT>
+	: <DECIMAL>
+	| <DECIMAL> <E> <DECIMAL>
+	;
+
+<DECIMAL>
+	: <INTEGER>
+	| <INTEGER> <DOT> <INTEGER>
+	;
+
+<INTEGER>
+	: <DIGIT>
+	| <INTEGER> <DIGIT>
+	| <SIGN> <INTEGER>
+	;
+
+<E>	: E | e ;
+<DOT>	: . ;
+<SIGN>	: + | - ;
+<DIGIT> : 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 ;
+<OPERATOR> : + | - | * | / ;
+<LEFTP> : ( ;
+<RIGHTP> : ) ;
