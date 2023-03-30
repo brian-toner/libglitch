@@ -5,12 +5,14 @@
  * Created on July 4, 2015, 10:16 PM
  */
 
-#ifndef POINTT_H
-#define	POINTT_H
+#ifndef GLCH_POINTT_H
+#define	GLCH_POINTT_H
 
 #include <vector>
 #include <iostream>
 #include <math.h>
+
+//#include "stringconversion.h"
 
 namespace glch{
 
@@ -46,6 +48,14 @@ namespace glch{
          * @return distance between the two points.
          */
         double distance(PointT<T> aPt);
+        
+        /**
+         * Computes the taxicab distance between this point and another point.
+         * @param aPt The second point.
+         * @return The taxicab distance.
+         */
+        double taxicab(PointT<T> aPt);
+        
         double perpindicular_distance(PointT<T> aEndPt, PointT<T> aPt);
         
         bool operator==(PointT<T> aPt);
@@ -80,7 +90,7 @@ namespace glch{
         void print(std::string aDelim = "\n"){
             std::cout << "[" << x << "," << y << "]" << aDelim;
         }
-        
+
         double dot(PointT<T> aPt){
             return x*aPt.x+y*aPt.y;
         }
@@ -89,8 +99,25 @@ namespace glch{
             return x*aPt.y-y*aPt.x;
         }
         
+        
     };
 
+    
+    template <class T>
+    double PointT<T>::taxicab(PointT<T> aPt){
+        double lDY = fabs( (y - aPt.y) );
+        double lDX = fabs( (x - aPt.x) );
+        
+        if(lDY == 0){
+            lDX++;
+        }
+        
+        if(lDX == 0){
+            lDY++;
+        }
+        
+        return lDX+lDY;
+    }
 
     template <class T>
     double PointT<T>::distance(PointT<T> aPt){
@@ -205,5 +232,5 @@ namespace glch{
     
 }
 
-#endif	/* POINTT_H */
+#endif	/* GLCH_POINTT_H */
 
