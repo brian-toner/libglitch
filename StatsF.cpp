@@ -2,6 +2,434 @@
 
 namespace glch{
 
+    
+    /**
+     * Sums the values in an array.
+     * @param aData - Array to find the sum of.
+     * @param aDataSize - The number of elements in aData
+     * @return The sum of all the elements of the vector.
+     */
+    double sum_vector(double* aData,
+                      unsigned long aDataSize){
+
+        double lRet = 0;
+
+        for(unsigned long i = 0; i < aDataSize; i++){
+            lRet += aData[i];
+        }
+
+        return lRet;
+    }
+
+    /**
+     * Calculates the average of an ordered set of pairs.
+     * mu_x = (1/(f-l)) ∑((x_i) | i=f to l)
+     * mu_y = (1/(f-l)) ∑((y_i) | i=f to l)
+     * where x_i = aData.x, y_i = aData.y, f = aFirst, and l = aLast
+     *
+     * @param aData -Array of points.
+     * @param aFirst -First element to calculate the mean from
+     * @param aLast - Last element to calculate the mean to
+     * @return Returns a PointF that represents the mean of the x and y ordered pairs.
+     *         between the first and last elements.
+     */
+    struct CPointF calc_average_cpt(struct CPointF* aData, 
+                                  unsigned long aFirst, 
+                                  unsigned long aLast){
+
+        struct CPointF locAverage = {0,0};
+
+        long unsigned int lSize = aLast-aFirst+1;
+
+        for(unsigned long i = aFirst; i < aLast+1; i++){
+            locAverage.x += aData[i].x/(double)lSize;
+            locAverage.y += aData[i].y/(double)lSize;
+        }
+
+        return locAverage;
+    }
+
+    struct CPointF calc_average_cpt(std::vector<glch::PointF> &aData, 
+                                  unsigned long aFirst, 
+                                  unsigned long aLast){
+
+        struct CPointF locAverage = {0,0};
+
+        long unsigned int lSize = aLast-aFirst+1;
+
+        for(unsigned long i = aFirst; i < aLast+1; i++){
+            locAverage.x += aData[i].x/(double)lSize;
+            locAverage.y += aData[i].y/(double)lSize;
+        }
+
+        return locAverage;
+    }
+
+void calculate_least_squares_qregression(struct CQuadModel &aDst, 
+                                                 std::vector<glch::PointF> &aData, 
+                                                 unsigned long aDataSize, 
+                                                 unsigned long aFirst, 
+                                                 unsigned long aLast){
+
+    //Initialize the return argument
+    aDst.vRSquared = 0;
+    aDst.vRVal = 0;
+
+    unsigned long lSize = aLast-aFirst+1;
+    
+    aDst.vMeanX = 0;
+    aDst.vMeanXSq = 0;
+    aDst.vMeanY = 0;
+    
+    for(unsigned long i = aFirst; i < aLast+1; i++){
+        aDst.vMeanX   += aData.at(i).x;
+        aDst.vMeanXSq += aData.at(i).x*aData.at(i).x;
+        aDst.vMeanY   += aData.at(i).y;
+    }
+    
+    aDst.vMeanX = aDst.vMeanX/lSize;
+    aDst.vMeanXSq = aDst.vMeanXSq/lSize;
+    aDst.vMeanY = aDst.vMeanY/lSize;
+    
+    //Performing the linear model calculations
+    aDst.vSxx = 0;
+    aDst.vSxy = 0;
+    aDst.vSxxsq = 0;
+    aDst.vSxsqxsq = 0;
+    aDst.vSxsqy = 0;
+
+    for(unsigned long i = aFirst; i < aLast+1; i++){
+        aDst.vSxx += (aData[i].x-aDst.vMeanX)*(aData[i].x-aDst.vMeanX);
+        aDst.vSxy += (aData[i].x-aDst.vMeanX)*(aData[i].y-aDst.vMeanY);
+        aDst.vSxxsq += (aData[i].x-aDst.vMeanX)*(aData[i].x*aData[i].x-aDst.vMeanXSq);
+        aDst.vSxsqxsq += (aData[i].x*aData[i].x-aDst.vMeanXSq)*(aData[i].x*aData[i].x-aDst.vMeanXSq);
+        aDst.vSxsqy += (aData[i].x*aData[i].x-aDst.vMeanXSq)*(aData[i].y-aDst.vMeanY);
+
+    }
+
+    aDst.vBetaHat = (aDst.vSxy*aDst.vSxsqxsq - aDst.vSxsqy*aDst.vSxxsq )
+                    /(aDst.vSxx*aDst.vSxsqxsq - (aDst.vSxxsq)*(aDst.vSxxsq) );
+    aDst.vChiHat = (aDst.vSxsqy*aDst.vSxx - aDst.vSxy*aDst.vSxxsq)
+                   /(aDst.vSxx*aDst.vSxsqxsq - (aDst.vSxxsq)*(aDst.vSxxsq) );
+    aDst.vAlphaHat = aDst.vMeanY - (aDst.vBetaHat*aDst.vMeanX) - (aDst.vChiHat*aDst.vMeanXSq);
+
+
+    aDst.vMinX = aData[aFirst].x;
+    aDst.vMaxX = aData[aLast].x;
+
+}
+    
+void calculate_least_squares_regression(struct CLinearModel &aDst, 
+                                                 std::vector<glch::PointF> &aData, 
+                                                 unsigned long aDataSize, 
+                                                 unsigned long aFirst, 
+                                                 unsigned long aLast){
+
+    //Initialize the return argument
+    aDst.vSumXY = 0;
+    aDst.vSumXSquared = 0;
+    aDst.vSumYSquared = 0;
+    aDst.vBetaHat = 0;
+    aDst.vAlphaHat = 0;
+    aDst.vSxx = 0;
+    aDst.vSyy = 0;
+    aDst.vRSquared = 0;
+    aDst.vRVal = 0;
+
+    
+    //Performing the linear model calculations
+
+    unsigned long lSize = aLast-aFirst+1;
+    aDst.vMeanXY = calc_average_cpt(aData,aFirst, aLast);
+
+    for(unsigned long i = aFirst; i < aLast+1; i++){
+        aDst.vSumXY = aDst.vSumXY + ( aData[i].x * aData[i].y );
+        aDst.vSumXSquared = aDst.vSumXSquared + ( aData[i].x * aData[i].x );
+        aDst.vSumYSquared = aDst.vSumYSquared + ( aData[i].y * aData[i].y );
+
+    }
+
+    aDst.vBetaHat = (aDst.vSumXY - (lSize*aDst.vMeanXY.x*aDst.vMeanXY.y))
+                    /(aDst.vSumXSquared - (lSize*aDst.vMeanXY.x*aDst.vMeanXY.x));
+    aDst.vAlphaHat = aDst.vMeanXY.y - (aDst.vBetaHat*aDst.vMeanXY.x);
+    aDst.vSxx = aDst.vSumXSquared - (lSize*aDst.vMeanXY.x*aDst.vMeanXY.x);
+    aDst.vSyy = aDst.vSumYSquared - (lSize*aDst.vMeanXY.y*aDst.vMeanXY.y);
+    aDst.vRVal = aDst.vBetaHat*sqrt(aDst.vSxx/aDst.vSyy);
+    aDst.vRSquared = aDst.vRVal*aDst.vRVal;
+
+
+    aDst.vMinX = aData[aFirst].x;
+    aDst.vMaxX = aData[aLast].x;
+
+}
+
+void calculate_least_squares_regression(struct CLinearModel* aDst, 
+                                                 struct CPointF* aData, 
+                                                 unsigned long aDataSize, 
+                                                 unsigned long aFirst, 
+                                                 unsigned long aLast){
+
+    //Initialize the return argument
+    aDst->vSumXY = 0;
+    aDst->vSumXSquared = 0;
+    aDst->vSumYSquared = 0;
+    aDst->vBetaHat = 0;
+    aDst->vAlphaHat = 0;
+    aDst->vSxx = 0;
+    aDst->vSyy = 0;
+    aDst->vRSquared = 0;
+    aDst->vRVal = 0;
+
+    
+    //Performing the linear model calculations
+
+    unsigned long lSize = aLast-aFirst+1;
+    aDst->vMeanXY = calc_average_cpt(aData,aFirst, aLast);
+
+    for(unsigned long i = aFirst; i < aLast+1; i++){
+        aDst->vSumXY = aDst->vSumXY + ( aData[i].x * aData[i].y );
+        aDst->vSumXSquared = aDst->vSumXSquared + ( aData[i].x * aData[i].x );
+        aDst->vSumYSquared = aDst->vSumYSquared + ( aData[i].y * aData[i].y );
+
+    }
+
+    aDst->vBetaHat = (aDst->vSumXY - (lSize*aDst->vMeanXY.x*aDst->vMeanXY.y))
+                    /(aDst->vSumXSquared - (lSize*aDst->vMeanXY.x*aDst->vMeanXY.x));
+    aDst->vAlphaHat = aDst->vMeanXY.y - (aDst->vBetaHat*aDst->vMeanXY.x);
+    aDst->vSxx = aDst->vSumXSquared - (lSize*aDst->vMeanXY.x*aDst->vMeanXY.x);
+    aDst->vSyy = aDst->vSumYSquared - (lSize*aDst->vMeanXY.y*aDst->vMeanXY.y);
+    aDst->vRVal = aDst->vBetaHat*sqrt(aDst->vSxx/aDst->vSyy);
+    aDst->vRSquared = aDst->vRVal*aDst->vRVal;
+
+
+    aDst->vMinX = aData[aFirst].x;
+    aDst->vMaxX = aData[aLast].x;
+
+}
+
+double max_array(double *aData, long unsigned int aSize){
+    double lRet = aData[0];
+    for(int i = 1; i < aSize; i++){
+        if(lRet < aData[i]){
+            lRet = aData[i];
+        }
+    }
+    return lRet;
+}
+
+double min_array(double *aData, long unsigned int aSize){
+    double lRet = aData[0];
+    for(int i = 1; i < aSize; i++){
+        if(lRet > aData[i]){
+            lRet = aData[i];
+        }
+    }
+    return lRet;
+}
+
+double min_array_nz(double *aData, long unsigned int aSize){
+    double lRet = 1.79769e+308;
+    for(int i = 1; i < aSize; i++){
+        if( lRet > aData[i] && aData[i] > 0 ){
+            lRet = aData[i];
+        }
+    }
+    return lRet;
+}
+
+double calc_bin(double *aData, long unsigned int aSize){
+    
+    double lMean = calc_average(aData, aSize);
+    double lAdjMean[aSize];
+    double lCumulativeDeviate[aSize];
+    double lRange;
+    double lStandardDeviation = 0;
+    double lRet;
+    
+    for(long unsigned int i = 0; i < aSize; i++){
+        lAdjMean[i] = aData[i]-lMean;
+        lCumulativeDeviate[i] = sum_vector(lAdjMean,i+1);
+        lStandardDeviation += lAdjMean[i]*lAdjMean[i];
+        
+    }
+    
+    lStandardDeviation = sqrt(lStandardDeviation/(aSize-1) );
+    lRange = max_array(lCumulativeDeviate, aSize)-min_array(lCumulativeDeviate, aSize);
+    
+    if(lStandardDeviation){
+        lRet = lRange/lStandardDeviation;
+    } else {
+        lRet = 0;
+    }
+    
+    return lRet;
+      
+}
+
+
+double calc_avg_bin(double * aData, long unsigned int aSize, long unsigned int aBinSize){
+    
+    double lAvgRescaledRange = 0;
+    double lCt = (int)aSize/(int)aBinSize;
+    double lTemp;
+    long unsigned int lSize = (long unsigned int)lCt*aBinSize;
+    
+    for(long unsigned int i = 0; i < lCt; i++){
+        
+        lTemp = calc_bin(aData+(i*aBinSize), aBinSize);
+        //std::cout << i << " : " << lCt << " : " << lTemp << " : " << (i*aBinSize) << " : " << aBinSize << " : " << aSize << std::endl;
+        if(lTemp){
+            lAvgRescaledRange += lTemp;
+        }
+    }
+    if(lCt == 0){
+      //std::cout << "ASR: " << lAvgRescaledRange << " : " << lCt << std::endl;
+      return 0;
+    }
+    return lAvgRescaledRange/lCt;
+    
+}
+
+void push_bin_hurst(double *aData, long unsigned int aSize, std::vector<glch::PointF> &aDst, long unsigned int aDivisions){
+
+        CPointF lRegData[aDivisions];
+        int lCurrentSize = aSize;
+
+
+        for(long unsigned int i = 0; i < aDivisions; i++){
+            lRegData[i].x = log(lCurrentSize);
+            double lAvgBin = calc_avg_bin(aData, aSize, lCurrentSize);
+            if(lAvgBin){
+                lRegData[i].y = log(lAvgBin);
+                aDst.push_back(glch::PointF(lRegData[i].x,lRegData[i].y));
+            }
+
+            lCurrentSize /= 2;
+
+        }
+
+    }
+    
+    
+double calc_avg_bin_2d(double * aData, long unsigned int aSize, long unsigned int aBinSize){
+    
+    double lAvgRescaledRange = 0;
+    double lCt = 2*(aSize*aSize)/aBinSize;
+    double lTData[aBinSize];
+    
+    for(long unsigned int i = 0; i < aSize; i++){
+        for(long unsigned int j = 0; j < aSize-aBinSize+1; j+=aBinSize){
+            lAvgRescaledRange += calc_bin(aData+(i*aSize)+j, aBinSize);
+            
+            for(int k = 0; k < aBinSize; k++){
+                lTData[k] = *(aData+(j*aSize)+i+(k*aSize) );
+            }
+            lAvgRescaledRange += calc_bin(lTData, aBinSize);
+        }
+    }
+
+    
+    return lAvgRescaledRange/lCt;
+    
+}
+
+
+double calc_bin_hurst_2d(double *aData, long unsigned int aSize, long unsigned int aDivisions){
+
+    CLinearModel lLinearModel;
+    CPointF lRegData[aDivisions];
+    int lCurrentSize = aSize;
+    
+
+    for(long unsigned int i = 0; i < aDivisions; i++){
+        
+        lRegData[i].x = log(lCurrentSize*lCurrentSize);
+        lRegData[i].y = log(calc_avg_bin_2d(aData, aSize, lCurrentSize));   
+        
+        //std::cout << i << " | " << lRegData[i].x << " : " << lRegData[i].y << std::endl;
+        
+        lCurrentSize /= 2;
+        
+    }
+
+    calculate_least_squares_regression(&lLinearModel, lRegData, aDivisions, 0, aDivisions-1);
+    
+
+    return lLinearModel.vBetaHat;
+}
+
+double calc_bin_hurst(double *aData, long unsigned int aSize, long unsigned int aDivisions){
+
+    CLinearModel lLinearModel;
+    CPointF lRegData[aDivisions];
+    int lCurrentSize = aSize;
+    
+
+    for(long unsigned int i = 0; i < aDivisions; i++){
+        lRegData[i].x = log(lCurrentSize);
+        double lAvgBin = calc_avg_bin(aData, aSize, lCurrentSize);
+        if(lAvgBin){
+            lRegData[i].y = log(lAvgBin);   
+        }
+        
+        lCurrentSize /= 2;
+        
+    }
+
+    calculate_least_squares_regression(&lLinearModel, lRegData, aDivisions, 0, aDivisions-1);
+    
+
+    return lLinearModel.vBetaHat;
+}
+
+
+
+double calc_hurst(double *aData, long unsigned int aSize){
+    double lMean = calc_average(aData, aSize);
+    double lAdjMean[aSize];
+    double lCumulativeDeviate[aSize];
+    double lRange[aSize];
+    double lStandardDeviations[aSize];
+    double lRescaledRange[aSize];
+    CLinearModel lLinearModel;
+    CPointF lRegData[aSize];
+    
+    //std::cout << lMean << std::endl;
+    
+    for(long unsigned int i = 0; i < aSize; i++){
+        lAdjMean[i] = aData[i]-lMean;
+        lCumulativeDeviate[i] = sum_vector(lAdjMean,i+1);
+        lRange[i] = max_array(lCumulativeDeviate, i)-min_array(lCumulativeDeviate, i);
+        
+        for(long unsigned int j = 0; j < i; j++){
+            lStandardDeviations[i] += (lAdjMean[j]*lAdjMean[j]);
+        }
+        
+        lStandardDeviations[i] = sqrt(1.0/i * lStandardDeviations[i]);
+        if(lStandardDeviations[i]){
+            lRescaledRange[i] = lRange[i]/lStandardDeviations[i];
+        }
+
+        if(i && lRescaledRange[i] > 0){
+            lRegData[i].x = log(i);
+            lRegData[i].y = log(lRescaledRange[i]);
+        }
+        
+        //std::cout << i << " | Mean: " << lAdjMean[i] << " | SD: " << lStandardDeviations[i] << " | RR: " << lRescaledRange[i] << " | Rg: " << lRange[i]<< " | CD: " << lCumulativeDeviate[i] << std::endl;
+        
+        //std::cout << lRegData[i].x << " : " << lRegData[i].y << std::endl;
+    }
+    
+    calculate_least_squares_regression(&lLinearModel, lRegData, aSize, 0, aSize-1);
+    
+    return lLinearModel.vBetaHat;
+    
+    
+}
+    
+
+
+
 /**
  * Calculates the average by taking Sum of argData[i], from 0 to argSize and dividing
  * that sum by argSize. 
@@ -42,6 +470,33 @@ PointF calc_average_pt(vector<PointF>::iterator argBegin, vector<PointF>::iterat
     long unsigned int locSize = argEnd-argBegin;
     
     for(vector<PointF>::iterator it = argBegin; it != argEnd; it++){
+        std::cout << "calc avg:" << it->x << " : " << it->y << endl; 
+        locAverage.x += (*it).x/(double)locSize;
+        locAverage.y += (*it).y/(double)locSize;
+    }
+    
+    return locAverage;
+}
+
+/**
+ * Calculates the average of an ordered set of pairs.
+ * <br>
+ * mu = (1/n) ∑((x_i) | i=1 to n)
+ *
+ * @param argBegin -Begin of vector of points.
+ * @param argEnd -End of vector of points.
+ * @return Returns a PointF that represents the mean.
+ */
+PointF calc_average_pt(std::vector<PointF>& aData, size_t aFirst, size_t aLast){
+    PointF locAverage = PointF(0,0);
+    
+    vector<PointF>::iterator argBegin = aData.begin()+aFirst;
+    vector<PointF>::iterator argEnd = aData.begin()+aLast;
+    
+    long unsigned int locSize = argEnd-argBegin;
+    
+    for(vector<PointF>::iterator it = argBegin; it != argEnd; it++){
+        //std::cout << "calc avg:" << it->x << " : " << it->y << endl; 
         locAverage.x += (*it).x/(double)locSize;
         locAverage.y += (*it).y/(double)locSize;
     }

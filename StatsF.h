@@ -1,5 +1,5 @@
-#ifndef STATSF_H_INCLUDED
-#define STATSF_H_INCLUDED
+#ifndef GLCH_STATSF_H_INCLUDED
+#define GLCH_STATSF_H_INCLUDED
 
 using namespace std;
 
@@ -12,7 +12,91 @@ using namespace std;
 
 namespace glch{
 
+    /***
+    * This structure contains an (x,y) ordered pair.
+    */
+    struct CPointF{
+           double x;    //The x coordinate of the ordered pair.
+           double y;    //The y coordinate of the ordered pair.
+    };
 
+    /***
+     * This structure is used for containing the linear model data
+     */
+    struct CLinearModel{
+
+        double vBetaHat;        //Slope of the regression line.
+        double vAlphaHat;       //Y-Intercept
+        double vSxx;            //Standard deviation x
+        double vSyy;            //Standard deviation y
+        double vRSquared;       //R^2 value
+        double vRVal;           //R value
+
+        struct CPointF vMeanXY; //The mean of the x,y data.
+        double vSumXY;          //Sum xy
+        double vSumXSquared;    //Sum x^2
+        double vSumYSquared;    //Sum y^2
+
+        double vMinX;           //Min x range
+        double vMaxX;           //Max x range
+
+    };
+
+    struct CQuadModel{
+
+        double vBetaHat;        //Linear Term.
+        double vChiHat;         //Quadratic Term.
+        double vAlphaHat;       //Y-Intercept
+        double vSxx;            //Standard deviation x
+        double vSxy;            //Standard deviation x y
+        double vSxxsq;          //Standard deviation x x^2
+        double vSxsqxsq;        //Standard deviation x^2 x^2
+        double vSxsqy;          //Standard deviation x^2 y
+        double vRSquared;       //R^2 value
+        double vRVal;           //R value
+
+        double vMeanY;
+        double vMeanX;
+        double vMeanXSq;
+
+        double vSumXY;          //Sum xy
+        double vSumXSquared;    //Sum x^2
+        double vSumYSquared;    //Sum y^2
+
+        double vMinX;           //Min x range
+        double vMaxX;           //Max x range
+
+    };
+    
+    void calculate_least_squares_qregression(struct CQuadModel &aDst, 
+                                                 std::vector<glch::PointF> &aData, 
+                                                 unsigned long aDataSize, 
+                                                 unsigned long aFirst, 
+                                                 unsigned long aLast);
+    
+    void calculate_least_squares_regression(struct CLinearModel &aDst, 
+                                                 std::vector<glch::PointF> &aData, 
+                                                 unsigned long aDataSize, 
+                                                 unsigned long aFirst, 
+                                                 unsigned long aLast);
+    void calculate_least_squares_regression(struct CLinearModel* aDst, 
+                                                 struct CPointF* aData, 
+                                                 unsigned long aDataSize, 
+                                                 unsigned long aFirst, 
+                                                 unsigned long aLast);
+    
+    void push_bin_hurst(double *aData, long unsigned int aSize, std::vector<glch::PointF> &aDst, long unsigned int aDivisions);
+    double calc_hurst(double *aData, long unsigned int aSize);
+    double calc_bin_hurst(double *aData, long unsigned int aSize, long unsigned int aDivisions);
+    double calc_avg_bin(double * aData, long unsigned int aSize, long unsigned int aBinSize);
+    double calc_bin(double *aData, long unsigned int aSize);
+    double calc_bin_hurst_2d(double *aData, long unsigned int aSize, long unsigned int aDivisions);
+    double min_array(double *aData, long unsigned int aSize);
+    double min_array_nz(double *aData, long unsigned int aSize);
+    double max_array(double *aData, long unsigned int aSize);
+        struct CPointF calc_average_cpt(std::vector<glch::PointF> &aData, 
+                                  unsigned long aFirst, 
+                                  unsigned long aLast);
     /**
      * Calculates the average by taking Sum of argData[i], from 0 to argSize and dividing
      * that sum by argSize. 
@@ -134,6 +218,8 @@ namespace glch{
      */
     PointF calc_average_pt(vector<PointF>::iterator argBegin, vector<PointF>::iterator argEnd);
 
+    PointF calc_average_pt(std::vector<PointF>& aData, size_t aFirst, size_t aLast);
+    
     /**
      * CalcVariance(double, int) - Calculates the variance of a double array.  
      * This is accomplished by: Sum (x_i-mu)^2, from 0 to argSize, and dividing that sum by argSize.
@@ -251,4 +337,4 @@ namespace glch{
 
 }
 
-#endif // STATSF_H_INCLUDED
+#endif // GLCH_STATSF_H_INCLUDED
